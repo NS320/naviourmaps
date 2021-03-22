@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
+import getMyAppA from '../../utils/Api';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -22,14 +23,12 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
-export default function ResetPassword() {
+export default function TestApi() {
     const classes = useStyles();
+
     return (
     <div className={classes.paper}>
         むりんごwww<br/>
-        <Link href="./Login" variant="body2">
-            ログイン画面
-        </Link>
     </div>
     );
 }
