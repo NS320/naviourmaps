@@ -46,7 +46,6 @@ class TestApi extends React.Component {
     testMyAppAPost = async (appName, param) =>{
       console.log("testMyAppAPost parms");
       console.log(param);
-      // この下が違う
       await fetch('http://localhost:8000/' + appName + '/', param)
       .then((res)=>{
         console.log(res)
