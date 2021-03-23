@@ -9,9 +9,9 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
-
 from pathlib import Path
 import os
+from .database_info import DATABASES
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -26,7 +26,6 @@ SECRET_KEY = 'ofg*+pixq34(=&z+(9u+v2*9ufd*+&anr#6%p@gutwb&-7_8e!'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -76,15 +75,7 @@ WSGI_APPLICATION = 'nmproject.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'heroku_94e89d6dbc9a4ce',
-        'USER': 'b4b7490afd08b5',
-        'HOST': 'us-cdbr-east-03.cleardb.com',
-        'PASSWORD': '8b06b504',
-    }
-}
+
 
 
 # Password validation
@@ -124,3 +115,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+AUTH_USER_MODEL = 'mapapp.MyUser'
