@@ -79,10 +79,13 @@ WSGI_APPLICATION = 'nmproject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'heroku_94e89d6dbc9a4ce',
-        'USER': 'b4b7490afd08b5',
+        'NAME': 'heroku_2adba4e042f12c7',
+        'USER': 'bd45233c90d68b',
         'HOST': 'us-cdbr-east-03.cleardb.com',
-        'PASSWORD': '8b06b504',
+        'PASSWORD': '5b4c2fe4',
+        'OPTIONS':{
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",#要確認
+        },
     }
 }
 
@@ -124,3 +127,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+AUTH_USER_MODEL = 'mapapp.MyUser'
