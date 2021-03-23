@@ -1,7 +1,7 @@
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-// import restAPI from '../../utils/Api';
+import {getApi, postApi} from '../../utils/Api';
 
 class TestApi extends React.Component {
     constructor(props){
@@ -25,60 +25,26 @@ class TestApi extends React.Component {
       this.setState({sora_test: soratest});
     }
 
-    testMyAppAGet = async (appName) =>{
-      await fetch('http://localhost:8000/' + appName + '/')
-      .then((res)=>{
-        console.log(res)
-        return( res.json() );
-      })
-      .then((json)=>{
-        console.log(json);
-        this.setMessage(json["message"]);
-        this.setSoraTest(json["sora_test"]);
-        return json;
-      });
-    }
-
-    testGet = () => {
-      this.testMyAppAGet("myappA")
-    }
-
-    testMyAppAPost = async (appName, param) =>{
-      console.log("testMyAppAPost parms");
-      console.log(param);
-      await fetch('http://localhost:8000/' + appName + '/', param)
-      .then((res)=>{
-        console.log(res)
-        return( res.json() );
-      })
-      .then((json)=>{
-        console.log(json);
-        this.setNumber(json["sora_double"]);
-        return json;
-      });
-    }
-
-    testPost = () => {
-      const test = {message: this.state.message, num: this.state.number};
-      console.log(test);
-      const param  = {
-        method: "POST",
-        // リクエストボディ
-        headers: {
-          "Content-Type": "application/json; charset=utf-8"
-        },
-        body: JSON.stringify(test)
-      };
-      console.log("parms");
-      console.log(param);
-      this.testMyAppAPost("myappA", param);
-    }
-
     changeNum = (event) => {
       this.setState({number: event.target.value});
     };
 
-    componentDidMount = () => {
+    //これが共通をたたくやつだぁ
+    testGet = () =>{
+      getApi("myappA")
+      .then((return_json)=>{
+        this.setSoraTest(return_json["sora_test"]);
+      });
+    }
+
+    //これは共通をたたくやつだぁ
+    testPost = () => {
+      const test = {message: this.state.message, num: this.state.number};
+      
+      postApi("myappA", test)
+      .then((return_json)=>{
+        this.setNumber(return_json["sora_double"]);
+      });
     }
 
     render(){
