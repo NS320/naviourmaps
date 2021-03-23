@@ -32,7 +32,7 @@ def hello_world(request):
         return Response(
             {
                 "message": "Hello function base APIView GET!!",
-                "sora_test": "getのtest"
+                "sora_test": "getのtestだよ！！！"
             },
             status=status.HTTP_200_OK)
         # return Response({"message": "Hello function base APIView GET!!"},
