@@ -31,10 +31,10 @@
 export const getApi = async (appName) =>{
     return await fetch('http://localhost:8000/' + appName + '/')
     .then((res)=>{
-        console.log(res)
         return( res.json() );
     })
     .then((json) =>{
+        console.log(json)
         return json;
     });
 }
@@ -86,6 +86,7 @@ export const postApi = async (appName, jsonData) =>{
         return( res.json() );
     })
     .then((json)=>{
+        console.log(json)
         return json;
     });
 }
