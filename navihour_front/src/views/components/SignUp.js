@@ -114,7 +114,7 @@ class SignUp extends React.Component {
                   id={Email}
                   label="メールアドレス"
                   autoComplete={Email}
-                  onChange={this.changeName}
+                  onChange={this.changeMail}
                 />
               </Grid>
             ※パスワードの再発行時にのみメールアドレスを使用致します。
@@ -127,7 +127,7 @@ class SignUp extends React.Component {
                   type="password"
                   id={Password}
                   autoComplete={Password}
-                  onChange={this.changeName}
+                  onChange={this.changePassword}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -137,7 +137,7 @@ class SignUp extends React.Component {
                   label="プロフィール"
                   id={Biography}
                   autoComplete={Biography}
-                  onChange={this.changeName}
+                  onChange={this.changeBiography}
                 />
               </Grid>
             </Grid>
