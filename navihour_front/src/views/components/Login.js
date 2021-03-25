@@ -10,83 +10,97 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import {FreeMessage, UseStyles} from '../../utils/utils';
+import {User_Id, Name, Email, Password, Biography, Result, OK, Message} from '../../utils/utils';
+import {getApi, postApi} from '../../utils/Api';
 
-function FreeMessage() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-        nmProject ver1.0.0
-    </Typography>
-  );
-}
+class SignUp extends React.Component {
+  constructor(props){
+    super(props)
+    this.state = {
+      user_id: '',
+      name: '',
+      email: '', // Loginする際に使用
+      password: '', // Loginする際に使用
+      biography:'',
+      message:''
+    }
+  }
 
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}));
+  setMessage = (message) => {
+    this.setState({message: message});
+  }
 
-export default function Login() {
-  const classes = useStyles();
+  changeMail = (event) => {
+    this.setState({email: event.target.value});
+  };
 
+  changePassword = (event) => {
+    this.setState({password: event.target.value});
+  };
+
+  // ログイン処理
+  Login = () =>{
+    const json = {email: this.state.email,
+      password: this.state.password};
+
+    postApi("Login", json)
+    .then((return_json)=>{
+      if(return_json[{Result}] = {OK}){
+        this.props.history.push('/Home')
+      }
+      else{
+        this.setMessage(return_json[{Message}]);
+      }
+    });
+  }
+
+  render() {
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
+      <div className={UseStyles.paper}>
+        <Avatar className={UseStyles.avatar}>
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
           ログイン
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={UseStyles.form} noValidate>
           <TextField
             variant="outlined"
             margin="normal"
             required
             fullWidth
-            id="Mail"
+            id={Email}
             label="メールアドレス"
-            name="メールアドレス"
-            autoComplete="Mail"
+            autoComplete={Email}
             autoFocus
+            onChange={this.changeMail}
           />
           <TextField
             variant="outlined"
             margin="normal"
             required
             fullWidth
-            name="パスワード"
             label="パスワード"
             type="password"
-            id="password"
-            autoComplete="current-password"
+            id={Password}
+            autoComplete={Password}
+            onChange={this.changePassword}
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
             label="（仮置き）ログイン記憶のチェックボタン"
           />
+          <br/><font color="red">{this.state.message}</font>
           <Button
-            type="submit"
             fullWidth
             variant="contained"
             color="primary"
-            className={classes.submit}
+            className={UseStyles.submit}
+            onClick={this.Login}
           >
             ログイン
           </Button>
@@ -110,3 +124,5 @@ export default function Login() {
     </Container>
   );
 }
+}
+export default SignUp;
