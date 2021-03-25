@@ -8,125 +8,163 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import {FreeMessage, UseStyles} from '../../utils/utils';
+import {User_Id, Name, Email, Password, Biography, Result, OK, Message} from '../../utils/utils';
+import {getApi, postApi} from '../../utils/Api';
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+class SignUp extends React.Component {
+  constructor(props){
+    super(props)
+    this.state = {
+      user_id: '',
+      name: '',
+      email: '',
+      password: '',
+      biography:'',
+      message:''
+    }
+  }
 
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(3),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}));
+  setMessage = (message) => {
+    this.setState({message: message});
+  }
 
-export default function SignUp() {
-  const classes = useStyles();
+  changeUserId = (event) => {
+    this.setState({user_id: event.target.value});
+  };
 
-  return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          アカウントの新規作成
-        </Typography>
-        <form className={classes.form} noValidate>
-          <Grid container spacing={2}>
+  changeName = (event) => {
+    this.setState({name: event.target.value});
+  };
+
+  changeMail = (event) => {
+    this.setState({email: event.target.value});
+  };
+
+  changePassword = (event) => {
+    this.setState({password: event.target.value});
+  };
+
+  changeBiography = (event) => {
+    this.setState({biography: event.target.value});
+  };
+
+  // アカウント新規作成処理
+  SignUp = () =>{
+    const json = {user_id: this.state.message, 
+      name: this.state.number,
+      email: this.state.number,
+      password: this.state.number,
+      biography: this.state.number,};
+
+    postApi("SignUp", json)
+    .then((return_json)=>{
+      if(return_json[{Result}] = {OK}){
+        this.props.history.push('/SignUpSuccess')
+      }
+      else{
+        this.setMessage(return_json[{Message}]);
+      }
+    });
+  }
+
+  render() {
+    return (
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <div className={UseStyles.paper}>
+          <Avatar className={UseStyles.avatar}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            アカウントの新規作成
+          </Typography>
+          <form className={UseStyles.form} noValidate>
+            <Grid container spacing={2}>
             <Grid item xs={12}>
-              <TextField
-                autoComplete="Name"
-                name="名前"
-                variant="outlined"
-                required
-                fullWidth
-                id="Name"
-                label="名前"
-                autoFocus
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="Mail"
-                label="メールアドレス"
-                name="メールアドレス"
-                autoComplete="Mail"
-              />
-            </Grid>
+                <TextField
+                  autoComplete={User_Id}
+                  variant="outlined"
+                  required
+                  fullWidth
+                  id={User_Id}
+                  label="ユーザーID"
+                  autoFocus
+                  onChange={this.changeUserId}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  autoComplete={Name}
+                  variant="outlined"
+                  required
+                  fullWidth
+                  id={Name}
+                  label="名前"
+                  autoFocus
+                  onChange={this.changeName}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  variant="outlined"
+                  required
+                  fullWidth
+                  id={Email}
+                  label="メールアドレス"
+                  autoComplete={Email}
+                  onChange={this.changeMail}
+                />
+              </Grid>
             ※パスワードの再発行時にのみメールアドレスを使用致します。
             <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                name="パスワード"
-                label="パスワード"
-                type="password"
-                id="Password"
-                autoComplete="Password"
-              />
+                <TextField
+                  variant="outlined"
+                  required
+                  fullWidth
+                  label="パスワード"
+                  type="password"
+                  id={Password}
+                  autoComplete={Password}
+                  onChange={this.changePassword}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  variant="outlined"
+                  fullWidth
+                  label="プロフィール"
+                  id={Biography}
+                  autoComplete={Biography}
+                  onChange={this.changeBiography}
+                />
+              </Grid>
             </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                fullWidth
-                name="プロフィール"
-                label="プロフィール"
-                id="Bio"
-                autoComplete="Bio"
-              />
+            {this.state.Message}
+            <Button
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={UseStyles.submit}
+              onClick={this.SignUp}
+            >
+              登録
+            </Button>
+            <Grid container justify="flex-end">
+              <Grid item>
+                <Link href="./Login" variant="body2">
+                  ログイン画面
+                </Link>
+              </Grid>
             </Grid>
-          </Grid>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            登録
-          </Button>
-          <Grid container justify="flex-end">
-            <Grid item>
-              <Link href="./Login" variant="body2">
-                ログイン画面
-              </Link>
-            </Grid>
-          </Grid>
-        </form>
-      </div>
-      <Box mt={5}>
-        <Copyright />
-      </Box>
-    </Container>
-  );
+          </form>
+        </div>
+        <Box mt={5}>
+          {FreeMessage}
+        </Box>
+      </Container>
+    );
+  }
 }
+export default SignUp;
