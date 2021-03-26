@@ -45,13 +45,14 @@ class SignUp extends React.Component {
     const json = {email: this.state.email,
       password: this.state.password};
 
-    postApi("Login", json)
+      console.log(json);
+    postApi("login", json)
     .then((return_json)=>{
-      if(return_json[{Result}] = {OK}){
+      if(return_json["result"] == "OK"){
         this.props.history.push('/Home')
       }
       else{
-        this.setMessage(return_json[{Message}]);
+        this.setMessage(return_json["message"]);
       }
     });
   }
