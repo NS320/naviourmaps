@@ -41,6 +41,15 @@ INSTALLED_APPS = [
     'rest_framework',
 ]
 
+#rest_frameworkの設定
+'''
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+
+    ]
+}
+'''
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
