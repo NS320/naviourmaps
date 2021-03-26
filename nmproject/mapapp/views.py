@@ -37,9 +37,9 @@ class Login(APIView):
                         "user_id": login.values_list('user_id', flat=True).first(),
                         "biography": login.values_list('biography', flat=True).first(),
                         },status=status.HTTP_201_CREATED)            
-            return Response({"result": "NG","message":" Email or password is not found"})
+            return Response({"result": "NG","message":" Email or password is not found"},status=status.HTTP_400_BAD_REQUEST)
         except:
-            return Response({"result":"NG", "message":"requestにemailまたはpasswordが含まれていません"})
+            return Response({"result":"NG", "message":"Bad request"},status=status.HTTP_400_BAD_REQUEST)
         
 
 
