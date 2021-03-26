@@ -1,13 +1,10 @@
-'''
-負の遺産
-
 from django.http import JsonResponse
 from rest_framework.response import Response
 from rest_framework import status
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.parsers import JSONParser
-from .models import MyUser
+from ..models import MyUser
 from .serializers import LoginSerializer
 from django.contrib.auth.hashers import check_password
 
@@ -50,8 +47,9 @@ class Login(APIView):
 #class CreateUser(APIView):
 
 
+
         
-        
+        '''   
         myuser = MyUser.objects.all()
         request_email = request.data["email"]
         request_raw_password = request.data["password"]
@@ -63,4 +61,4 @@ class Login(APIView):
         #if not login.filter(email=request_email).exists():
         #    return Response({"message":"ダメです"})    
         return Response(serializer.data)
-'''
+        '''

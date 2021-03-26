@@ -20,6 +20,6 @@ from myappA import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('login/', include('mapapp.urls')),
+    path('mapapp/', include('mapapp.urls')),
     path('myappA/', include('myappA.urls')),
 ]
