@@ -52,19 +52,19 @@ class SignUp extends React.Component {
 
   // アカウント新規作成処理
   SignUp = () =>{
-    const json = {user_id: this.state.message, 
-      name: this.state.number,
-      email: this.state.number,
-      password: this.state.number,
-      biography: this.state.number,};
+    const json = {user_id: this.state.user_id,
+      name: this.state.name,
+      email: this.state.email,
+      password: this.state.password,
+      biography: this.state.biography};
 
     postApi("SignUp", json)
     .then((return_json)=>{
-      if(return_json[{Result}] = {OK}){
+      if(return_json[{Result}] == "OK"){
         this.props.history.push('/SignUpSuccess')
       }
       else{
-        this.setMessage(return_json[{Message}]);
+        this.setMessage(return_json["Message"]);
       }
     });
   }
@@ -141,7 +141,7 @@ class SignUp extends React.Component {
                 />
               </Grid>
             </Grid>
-            {this.state.Message}
+            <br/><font color="red">{this.state.message}</font>
             <Button
               fullWidth
               variant="contained"
