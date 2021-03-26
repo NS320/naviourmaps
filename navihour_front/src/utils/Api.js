@@ -29,7 +29,7 @@
  * ===================================================
  */
 export const getApi = async (appName) =>{
-    return await fetch('http://localhost:8000/' + appName + '/')
+    return await fetch('http://localhost:8000/mappapp' + appName)
     .then((res)=>{
         return( res.json() );
     })
@@ -81,7 +81,7 @@ export const postApi = async (appName, jsonData) =>{
         headers: {"Content-Type": "application/json; charset=utf-8"},
         body: JSON.stringify(jsonData)
     };
-    return await fetch('http://localhost:8000/' + appName + '/', param)
+    return await fetch('http://localhost:8000/mapapp/' + appName, param)
     .then((res)=>{
         return( res.json() );
     })
