@@ -60,11 +60,11 @@ class SignUp extends React.Component {
 
     postApi("SignUp", json)
     .then((return_json)=>{
-      if(return_json[{Result}] = {OK}){
+      if(return_json[{Result}] == "OK"){
         this.props.history.push('/SignUpSuccess')
       }
       else{
-        this.setMessage(return_json[{Message}]);
+        this.setMessage(return_json["Message"]);
       }
     });
   }
