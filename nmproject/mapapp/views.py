@@ -9,6 +9,8 @@ from .serializers import LoginSerializer
 from django.contrib.auth.hashers import check_password
 
 # Create your views here.
+class NoDataError(Exception):
+    pass
 
 class Login(APIView):
     
@@ -23,24 +25,27 @@ class Login(APIView):
         try:
             request_email = request.data["email"]#requestからemailの取り出し
             request_raw_password = request.data["password"]#requestからpasswordの取り出し
-
-            login = MyUser.objects.filter(email=request_email)#request_emailを含むレコードをMyUserデータベースから取り出し取り出し
+            
+            login = MyUser.objects.filter(email=request_email)#request_emailを含むレコードをMyUserデータベースから取り出し取り出し&
             serializer = LoginSerializer(login, many=True)#loginのクエリセットを辞書型に変換
-            
-            success_response_message = {"result":"OK"}
-            success_response_message.update(serializer.data)
-            
-            if login.filter(email=request_email).exists():#user_idの確認
-                if check_password(request_raw_password, login.values_list('password', flat=True).first()):#パスワードの確認
-                    return Response({
-                        "result": "OK",
-                        "user_id": login.values_list('user_id', flat=True).first(),
-                        "biography": login.values_list('biography', flat=True).first(),
-                        },status=status.HTTP_201_CREATED)            
+                        
+            if not login.filter(email=request_email).exists():#メールの確認
+                raise NoDataError()
+            if not check_password(request_raw_password, login.values_list('password', flat=True).first()):#パスワードの確認,flat=Trueで平文にする
+                raise NoDataError()
+
+            return Response({
+                "result": "OK",
+                "user_id": login.values_list('user_id', flat=True).first(),
+                "biography": login.values_list('biography', flat=True).first(),
+                },status=status.HTTP_201_CREATED)            
+        except NoDataError:
             return Response({"result": "NG","message":" Email or password is not found"},status=status.HTTP_400_BAD_REQUEST)
         except:
             return Response({"result":"NG", "message":"Bad request"},status=status.HTTP_400_BAD_REQUEST)
         
+#class CreateUser(APIView):
+
 
 
         
