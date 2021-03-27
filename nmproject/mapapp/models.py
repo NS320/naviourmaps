@@ -47,10 +47,8 @@ class MyUser(AbstractBaseUser):
     is_logon = models.BooleanField(default=False)
     created_time = models.DateTimeField(auto_now_add=True)
     updated_time = models.DateTimeField(auto_now=True)
-    #date_of_birth = models.DateField()
     is_active = models.BooleanField(default=True)#論理削除フラグ
     is_admin = models.BooleanField(default=False)
-
 
     objects = MyUserManager()
 
