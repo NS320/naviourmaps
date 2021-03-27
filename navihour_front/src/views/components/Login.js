@@ -14,17 +14,19 @@ import Container from '@material-ui/core/Container';
 import {FreeMessage, UseStyles} from '../../utils/utils';
 import {User_Id, Name, Email, Password, Biography, Result, OK, Message} from '../../utils/utils';
 import {getApi, postApi} from '../../utils/Api';
+import PropTypes from 'prop-types';
+import { withRouter } from 'react-router'
 
 class SignUp extends React.Component {
   constructor(props){
     super(props)
     this.state = {
-      user_id: '',
-      name: '',
-      email: '', // Loginする際に使用
-      password: '', // Loginする際に使用
-      biography:'',
-      message:''
+      user_id: PropTypes.string,
+      name: PropTypes.string,
+      email: PropTypes.string, // Loginする際に使用
+      password: PropTypes.string, // Loginする際に使用
+      biography: PropTypes.string,
+      message: PropTypes.string
     }
   }
 
@@ -45,11 +47,13 @@ class SignUp extends React.Component {
     const json = {email: this.state.email,
       password: this.state.password};
 
-      console.log(json);
     postApi("login", json)
     .then((return_json)=>{
       if(return_json["result"] == "OK"){
-        this.props.history.push('/Home')
+        this.props.App_SetUserId(return_json["user_id"]);
+        this.props.App_SetBiography(return_json["biography"]);
+        this.props.App_SetIsLogin(true);
+        this.props.history.push('/Home');
       }
       else{
         this.setMessage(return_json["message"]);
@@ -126,4 +130,4 @@ class SignUp extends React.Component {
   );
 }
 }
-export default SignUp;
+export default withRouter(SignUp);

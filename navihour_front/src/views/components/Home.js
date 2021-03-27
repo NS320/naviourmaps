@@ -8,6 +8,9 @@ class Home extends React.Component {
             return (
                 <div>
                     <Header />
+                    user_id：{this.props.App_UserId}<br/>
+                    biography：{this.props.App_Biography}<br/>
+                    isLogin：{this.props.App_IsLogin}
                     <Address />
                 </div>
             );
