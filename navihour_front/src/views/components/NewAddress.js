@@ -22,7 +22,12 @@ class NewAddress extends React.Component {
             address_name: '',
             is_favorite: false,
             is_private: true,
+            message: ''
         }
+    }
+
+    setMessage = (message) => {
+        this.setState({message: message});
     }
 
     setAddressName = (event) => {
@@ -57,6 +62,7 @@ class NewAddress extends React.Component {
                 }
                 else {
                     console.log(return_json["message"]);
+                    this.setMessage("※" + return_json["message"]);
                 }
             });
     }
@@ -116,6 +122,7 @@ class NewAddress extends React.Component {
                                 <HomeSharpIcon />Register
                             </Button>
                         </div>
+                        <br/><font color="red">{this.state.message}</font>
                     </form>
                 </div>
             </Container>
