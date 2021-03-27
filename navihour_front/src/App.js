@@ -9,6 +9,7 @@ import SignUp from './views/components/SignUp'; //作成したSignUp.jsを読み
 import ResetPassword from './views/components/ResetPassword'; //作成したResetPassword.jsを読み込んでいる
 import Home from './views/components/Home'; //作成したHome.jsを読み込んでいる
 import SignUpSuccess from './views/components/SignUpSuccess'; //作成したSignUpSuccess.jsを読み込んでいる
+import NewAddress from './views/components/NewAddress';
 
 class App extends React.Component {
   render(){
@@ -23,6 +24,7 @@ class App extends React.Component {
           <Route exact path="/" component={Test1} />
           <Route exact path="/Test2" component={Test2} />
           <Route exact path="/TestApi" component={TestApi} />
+          <Route exact path="/NewAddress" component={NewAddress} />
           <Route exact component={Login} /> /*存在しないURLの場合、Login画面に行く TODO ログインできる状態ならば、Homeに行く*/
         </Switch>
       </BrowserRouter>
