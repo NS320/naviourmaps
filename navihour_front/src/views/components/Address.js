@@ -14,8 +14,7 @@ import LockOpenIcon from '@material-ui/icons/LockOpen';
 import LockIcon from '@material-ui/icons/Lock';
 import Button from '@material-ui/core/Button';
 import {getApi } from '../../utils/Api';
-
-// https://material-ui.com/customization/palette/
+import "../../App.css";
 
 class Address extends React.Component {
     constructor(props) {
@@ -85,6 +84,7 @@ class Address extends React.Component {
         // const allAddressList = this.state.allAddressList;
         const allAddressList = this.allAddressList;
         return (
+        <div className="address-table">
             <TableContainer component={Paper}>
                 <Table aria-label="customized table">
                     <TableHead>
@@ -110,6 +110,7 @@ class Address extends React.Component {
                     </TableBody>
                 </Table>
             </TableContainer>
+        </ div>
         );
     }
 }
