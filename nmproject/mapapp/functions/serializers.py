@@ -1,19 +1,15 @@
 from rest_framework import serializers
-from ..models import MyUser
+from ..models import MyUser, Address
 
-class LoginSerializer(serializers.ModelSerializer):
-    class Meta:
-        fields = ( 
-            'user_id', 
-            'biography')
-        model = MyUser
-
-class CreateUserSerializer(serializers.ModelSerializer):
+class GetAllAddressSerializer(serializers.ModelSerializer):
     class Meta:
         fields=(
-            'user_id',
-            'name',
-            'email',
-            'password',
-            'biography')
-        model = MyUser
+            'address_id',
+            'address',
+            'address_name',
+            'is_favorite',
+            'is_private',
+            'address_created_time',
+            'address_updated_time'
+        )
+        model = Address

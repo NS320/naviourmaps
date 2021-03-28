@@ -78,7 +78,8 @@ class Address(models.Model):
     is_private = models.BooleanField(default=True)
     address_created_time = models.DateTimeField(auto_now_add=True)
     address_updated_time = models.DateTimeField(auto_now=True)
-    user = models.ForeignKey(MyUser, on_delete=models.CASCADE)#外部キーに関する設定
+    #外部キーに関する設定, db_columnとto_fieldによって親の主キー以外を外部キーに設定できる
+    user = models.ForeignKey(MyUser, db_column='user_id', to_field='user_id',on_delete=models.CASCADE)
 
 
     def __str__(self):
