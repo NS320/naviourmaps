@@ -36,12 +36,8 @@ class MyUserManager(BaseUserManager):
 
 
 class MyUser(AbstractBaseUser):
-    email = models.EmailField(
-        verbose_name='email address',   #管理画面でのモデルの名前の指定
-        max_length=255,
-        unique=True,
-    )
-    user_id = models.CharField(max_length=20, unique=False)
+    email = models.EmailField(max_length=255, unique=True,)
+    user_id = models.CharField(max_length=20, unique=True)
     name = models.CharField(max_length=20, unique=False)
     biography = models.TextField(max_length=100, blank=True, null=True)
     is_logon = models.BooleanField(default=False)
@@ -56,7 +52,7 @@ class MyUser(AbstractBaseUser):
     REQUIRED_FIELDS = []
 
     def __str__(self):
-        return self.email
+        return self.user_id
 
     def has_perm(self, perm, obj=None):
         "Does the user have a specific permission?"
@@ -73,3 +69,17 @@ class MyUser(AbstractBaseUser):
         "Is the user a member of staff?"
         # Simplest possible answer: All admins are staff
         return self.is_admin
+
+class Address(models.Model):
+    address_id = models.AutoField(primary_key=True)
+    address = models.CharField(max_length=50, unique = False)
+    address_name = models.CharField(max_length=20, blank = True, null = True, unique = False)
+    is_favorite = models.BooleanField(default=False)
+    is_private = models.BooleanField(default=True)
+    address_created_time = models.DateTimeField(auto_now_add=True)
+    address_updated_time = models.DateTimeField(auto_now=True)
+    user = models.ForeignKey(MyUser, on_delete=models.CASCADE)#外部キーに関する設定
+
+
+    def __str__(self):
+        return self.address
