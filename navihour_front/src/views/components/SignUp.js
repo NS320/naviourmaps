@@ -10,7 +10,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import {FreeMessage, UseStyles} from '../../utils/utils';
-import {User_Id, Name, Email, Password, Biography, Result} from '../../utils/utils';
+import {User_Id, Name, Email, Password, Biography} from '../../utils/utils';
 import {postApi} from '../../utils/Api';
 import PropTypes from 'prop-types';
 
@@ -59,13 +59,13 @@ class SignUp extends React.Component {
       password: this.state.password,
       biography: this.state.biography};
 
-    postApi("SignUp", json)
+    postApi("create_user", json)
     .then((return_json)=>{
-      if(return_json[{Result}] === "OK"){
+      if(return_json["result"] === "OK"){
         this.props.history.push('/SignUpSuccess')
       }
       else{
-        this.setMessage(return_json["Message"]);
+        this.setMessage(return_json["message"]);
       }
     });
   }

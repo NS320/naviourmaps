@@ -50,8 +50,16 @@ class App extends React.Component {
               App_Biography = {localStorage.getItem("biography")} // Home.jsで使用可能（this.props.App_Biography）
               App_IsLogin = {localStorage.getItem("isLogin")} // Home.jsで使用可能（this.props.App_IsLogin）
               />}/>
-          <Route exact path="/NewAddress" component={NewAddress} />
-          <Route exact component={Login} />
+          <Route exact path="/NewAddress" 
+              render={() => <NewAddress 
+              App_UserId = {localStorage.getItem("user_id")} // Home.jsで使用可能（this.props.App_UserId）
+              />}/>
+          <Route exact 
+            render={() => <Login 
+              App_SetUserId = {this.App_SetUserId} // Login.jsで使用可能（this.props.App_SetUserId）
+              App_SetBiography = {this.App_SetBiography} // Login.jsで使用可能（this.props.App_SetBiography）
+              App_SetIsLogin = {this.App_SetIsLogin} // Login.jsで使用可能（this.props.App_SetIsLogin）
+              />}/> 
         </Switch>
       </BrowserRouter>
     );
