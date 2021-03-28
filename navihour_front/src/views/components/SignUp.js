@@ -10,19 +10,20 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import {FreeMessage, UseStyles} from '../../utils/utils';
-import {User_Id, Name, Email, Password, Biography, Result, OK, Message} from '../../utils/utils';
-import {getApi, postApi} from '../../utils/Api';
+import {User_Id, Name, Email, Password, Biography, Result} from '../../utils/utils';
+import {postApi} from '../../utils/Api';
+import PropTypes from 'prop-types';
 
 class SignUp extends React.Component {
   constructor(props){
     super(props)
     this.state = {
-      user_id: '',
-      name: '',
-      email: '',
-      password: '',
-      biography:'',
-      message:''
+      user_id: PropTypes.string,
+      name: PropTypes.string,
+      email: PropTypes.string,
+      password: PropTypes.string,
+      biography: PropTypes.string,
+      message: PropTypes.string
     }
   }
 
@@ -60,7 +61,7 @@ class SignUp extends React.Component {
 
     postApi("SignUp", json)
     .then((return_json)=>{
-      if(return_json[{Result}] == "OK"){
+      if(return_json[{Result}] === "OK"){
         this.props.history.push('/SignUpSuccess')
       }
       else{

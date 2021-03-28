@@ -9,20 +9,21 @@ import HomeSharpIcon from '@material-ui/icons/HomeSharp';
 import StarRateIcon from '@material-ui/icons/StarRate';
 import LockIcon from '@material-ui/icons/Lock';
 import Switch from '@material-ui/core/Switch';
-import { postApi, getApi } from '../../utils/Api';
+import { postApi } from '../../utils/Api';
 import "../../App.css";
+import PropTypes from 'prop-types';
 
 class NewAddress extends React.Component {
     //ToDo user_id は 親コンポーネントから受け取った値を入れる。
     constructor(props) {
         super(props)
         this.state = {
-            user_id: '',
-            address: '',
-            address_name: '',
+            user_id: PropTypes.string,
+            address: PropTypes.string,
+            address_name: PropTypes.string,
             is_favorite: false,
             is_private: true,
-            message: ''
+            message: PropTypes.string
         }
     }
 
@@ -57,7 +58,7 @@ class NewAddress extends React.Component {
         console.log(json);
         postApi("Post_Address", json)
             .then((return_json) => {
-                if (return_json["result"] == "OK") {
+                if (return_json["result"] === "OK") {
                     this.props.history.push('/Address')
                 }
                 else {

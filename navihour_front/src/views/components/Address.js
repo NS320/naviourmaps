@@ -1,7 +1,6 @@
 // https://material-ui.com/components/tables/
 
 import React from 'react';
-import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -14,7 +13,7 @@ import StarBorderIcon from '@material-ui/icons/StarBorder';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import LockIcon from '@material-ui/icons/Lock';
 import Button from '@material-ui/core/Button';
-import { postApi, getApi } from '../../utils/Api';
+import {getApi } from '../../utils/Api';
 
 // https://material-ui.com/customization/palette/
 

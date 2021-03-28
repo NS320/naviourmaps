@@ -12,12 +12,12 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import {FreeMessage, UseStyles} from '../../utils/utils';
-import {User_Id, Name, Email, Password, Biography, Result, OK, Message} from '../../utils/utils';
-import {getApi, postApi} from '../../utils/Api';
+import {Email, Password} from '../../utils/utils';
+import {postApi} from '../../utils/Api';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router'
 
-class SignUp extends React.Component {
+class Login extends React.Component {
   constructor(props){
     super(props)
     this.state = {
@@ -49,7 +49,7 @@ class SignUp extends React.Component {
 
     postApi("login", json)
     .then((return_json)=>{
-      if(return_json["result"] == "OK"){
+      if(return_json["result"] === "OK"){
         this.props.App_SetUserId(return_json["user_id"]);
         this.props.App_SetBiography(return_json["biography"]);
         this.props.App_SetIsLogin(true);
@@ -130,4 +130,4 @@ class SignUp extends React.Component {
   );
 }
 }
-export default withRouter(SignUp);
+export default withRouter(Login);
