@@ -24,13 +24,7 @@ class GetAllAddress(APIView):
             if not request_user_id:
                 raise RequestDataEmptyError(Exception)
 
-            test = {
-                "result":"OK",
-                "message":"okdesu",
-                "all_address_list": serializer.data
-                }
-            print(all_address_list)
-        
+
             return Response({
                 "result":"OK",
                 "message":"Getting all address is success",
