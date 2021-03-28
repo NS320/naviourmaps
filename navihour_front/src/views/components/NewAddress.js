@@ -12,6 +12,7 @@ import Switch from '@material-ui/core/Switch';
 import { postApi } from '../../utils/Api';
 import "../../App.css";
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router'
 
 class NewAddress extends React.Component {
     //ToDo user_id は 親コンポーネントから受け取った値を入れる。
@@ -49,17 +50,17 @@ class NewAddress extends React.Component {
 
     registerNewAddress = () => {
         const json = {
-            user_id: this.state.user_id,
+            user_id: this.props.App_UserId,
             address: this.state.address,
             address_name: this.state.address_name,
             is_favorite: this.state.is_favorite,
             is_private: this.state.is_private,
         };
         console.log(json);
-        postApi("Post_Address", json)
+        postApi("post_address", json)
             .then((return_json) => {
                 if (return_json["result"] === "OK") {
-                    this.props.history.push('/Address')
+                    this.props.history.push('/Home')
                 }
                 else {
                     console.log(return_json["message"]);
@@ -130,4 +131,4 @@ class NewAddress extends React.Component {
         );
     }
 }
-export default NewAddress;
+export default withRouter(NewAddress);
