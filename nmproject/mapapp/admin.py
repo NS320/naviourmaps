@@ -5,7 +5,7 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.core.exceptions import ValidationError
 
-from mapapp.models import MyUser
+from mapapp.models import MyUser, Address
 
 
 class UserCreationForm(forms.ModelForm):
@@ -61,7 +61,7 @@ class UserAdmin(BaseUserAdmin):
     # The fields to be used in displaying the User model.
     # These override the definitions on the base UserAdmin
     # that reference specific fields on auth.User.
-    list_display = ('email', 'is_admin')
+    list_display = ('user_id', 'is_admin')
     list_filter = ('is_admin',)
     fieldsets = (#管理画面で既存ユーザーを確認する際の表示データ
         (None, {'fields': ('email', 'user_id', 'name', 'biography', 'password')}),
@@ -82,6 +82,7 @@ class UserAdmin(BaseUserAdmin):
 
 # Now register the new UserAdmin...
 admin.site.register(MyUser, UserAdmin)
+admin.site.register(Address)
 # ... and, since we're not using Django's built-in permissions,
 # unregister the Group model from admin.
 admin.site.unregister(Group)

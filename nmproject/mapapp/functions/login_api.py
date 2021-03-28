@@ -30,6 +30,8 @@ class Login(APIView):
 
             return Response({
                 "result": "OK",
+                "message": "Login success!",
+                "name": login.values_list('name', flat=True).first(),
                 "user_id": login.values_list('user_id', flat=True).first(),
                 "biography": login.values_list('biography', flat=True).first(),
                 },status=status.HTTP_201_CREATED)            
