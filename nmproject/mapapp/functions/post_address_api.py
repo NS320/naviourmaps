@@ -2,8 +2,6 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
 from ..models import MyUser, Address
-from django.contrib.auth.hashers import make_password
-
 
 class RequestDataEmptyError(Exception):
     pass
@@ -35,7 +33,7 @@ class PostAddress(APIView):
           
 
             new_address = Address.objects.create(
-                user = MyUser.objects.get(user_id = request_user_id),
+                user = MyUser.objects.get(user_id = request_user_id),#外部キーを使った参照
                 address = request_address,
                 address_name = request_address_name,
                 is_favorite = request_is_favorite,
@@ -50,7 +48,7 @@ class PostAddress(APIView):
 
 
         except RequestDataEmptyError:
-            return Response({"result": "NG", "message": "There is no requiredi tems"},status=status.HTTP_400_BAD_REQUEST)
+            return Response({"result": "NG", "message": "There is no requiredi items"},status=status.HTTP_400_BAD_REQUEST)
         except:
             return Response({"result":"NG", "message":"Bad request"},status=status.HTTP_400_BAD_REQUEST)
 
