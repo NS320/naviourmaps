@@ -21,7 +21,7 @@ class FavoriteAddress(APIView):
     def post(self, request, format=None):
         try:
             request_address_id = request.data["address_id"]
-            request_is_favorite = json_boolean_to_python(request.data["is_favorite"])
+            request_is_favorite = request.data["is_favorite"]
             my_address = Address.objects.filter(address_id=request_address_id)
            
             if not my_address.exists():

@@ -6,12 +6,6 @@ from ..models import MyUser, Address
 class RequestDataEmptyError(Exception):
     pass
 
-def json_boolean_to_python(json_boolean):
-    if json_boolean == "true":
-        return True
-    else:
-        return False
-
 
 class PostAddress(APIView):
 
@@ -23,10 +17,10 @@ class PostAddress(APIView):
             request_user_id = request.data["user_id"]
             request_address = request.data["address"]
             request_address_name = request.data["address_name"]
-            request_is_favorite = json_boolean_to_python(request.data["is_favorite"])
-            request_is_private = json_boolean_to_python(request.data["is_private"])
+            request_is_favorite = request.data["is_favorite"]
+            request_is_private = request.data["is_private"]
 
-
+            
             #いずれかのフィールドが空白の場合エラー
             if(not request_user_id)|(not request_address)|(not request_address_name):
                 raise RequestDataEmptyError(Exception)
