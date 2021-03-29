@@ -14,7 +14,7 @@ def json_boolean_to_python(json_boolean):
 class PutAddress(APIView):
 
 
-    def put(self, request, format=None):
+    def post(self, request, format=None):
 
         try:
             request_address_id = request.data["address_id"]
