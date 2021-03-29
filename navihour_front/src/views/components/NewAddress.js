@@ -5,6 +5,7 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import { UseStyles } from '../../utils/utils';
+import LoadingPage from '../../utils/LoadingPage';
 import HomeSharpIcon from '@material-ui/icons/HomeSharp';
 import StarRateIcon from '@material-ui/icons/StarRate';
 import LockIcon from '@material-ui/icons/Lock';
@@ -13,9 +14,10 @@ import { postApi } from '../../utils/Api';
 import "../../App.css";
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router'
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import { Link } from 'react-router-dom';
 
 class NewAddress extends React.Component {
-    //ToDo user_id は 親コンポーネントから受け取った値を入れる。
     constructor(props) {
         super(props)
         this.state = {
@@ -24,7 +26,8 @@ class NewAddress extends React.Component {
             address_name: PropTypes.string,
             is_favorite: false,
             is_private: true,
-            message: PropTypes.string
+            message: PropTypes.string,
+            is_loding: false,
         }
     }
 
@@ -48,7 +51,12 @@ class NewAddress extends React.Component {
         this.setState({ is_private: !this.state.is_private });
     };
 
+    changeIsLoading = () => {
+        this.setState({ is_loding: !this.state.is_loding });
+    };
+
     registerNewAddress = () => {
+        this.changeIsLoading();
         const json = {
             user_id: this.props.App_UserId,
             address: this.state.address,
@@ -60,18 +68,20 @@ class NewAddress extends React.Component {
         postApi("post_address", json)
             .then((return_json) => {
                 if (return_json["result"] === "OK") {
-                    this.props.history.push('/Home')
+                    this.props.history.push('/Home');
                 }
                 else {
                     console.log(return_json["message"]);
                     this.setMessage("※" + return_json["message"]);
                 }
+                this.changeIsLoading();
             });
     }
 
     render() {
         return (
             <Container component="main" maxWidth="xs">
+                {this.state.is_loding ? <LoadingPage /> : ""}
                 <CssBaseline />
                 <div className={UseStyles.paper}>
                     <Typography component="h1" variant="h5">
@@ -122,6 +132,16 @@ class NewAddress extends React.Component {
                                 onClick={this.registerNewAddress}
                             >
                                 <HomeSharpIcon />Register
+                            </Button>
+                            <Button
+                                color="default"
+                                component={Link}
+                                fullWidth
+                                to="/Home"
+                                className={UseStyles.submit}
+                                variant="contained"
+                            >
+                                Back <ArrowBackIcon />
                             </Button>
                         </div>
                         <br/><font color="red">{this.state.message}</font>
