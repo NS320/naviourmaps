@@ -79,10 +79,14 @@ class UserAdmin(BaseUserAdmin):
     ordering = ('email',)
     filter_horizontal = ()
 
+class AddressAdmin(admin.ModelAdmin):
+    list_display = ('address', 'user_id')#管理画面で表示したいリストの一覧
+    #list_display_links = ('address', 'user_id')
+
 
 # Now register the new UserAdmin...
 admin.site.register(MyUser, UserAdmin)
-admin.site.register(Address)
+admin.site.register(Address, AddressAdmin)
 # ... and, since we're not using Django's built-in permissions,
 # unregister the Group model from admin.
 admin.site.unregister(Group)
