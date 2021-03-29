@@ -1,5 +1,3 @@
-// https://material-ui.com/components/tables/
-
 import React from 'react';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -13,32 +11,33 @@ import StarBorderIcon from '@material-ui/icons/StarBorder';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import LockIcon from '@material-ui/icons/Lock';
 import Button from '@material-ui/core/Button';
-import {getApi } from '../../utils/Api';
+import PropTypes from 'prop-types';
+import { postApi } from '../../utils/Api';
+import LoadingPage from '../../utils/LoadingPage';
+import ReplayIcon from '@material-ui/icons/Replay';
+import LibraryAddIcon from '@material-ui/icons/LibraryAdd';
+import { Link } from 'react-router-dom';
 import "../../App.css";
 
 class Address extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+            user_id: PropTypes.string,
             allAddressList: [],
+            is_loding: true,
         }
     }
 
-    createData = (addressId, isFavorite, name, address, createdTime, isPrivate) => {
-        return { addressId, isFavorite, name, address, createdTime, isPrivate };
+    createData = (address_id, is_favorite, address_name, address, address_created_time, is_private) => {
+        return { address_id, is_favorite, address_name, address, address_created_time, is_private };
     }
 
-    // api 完成までのdummyu
-    allAddressList = [
-        this.createData(1, true, '近くのマクドナルド', '池尻大橋', '1994/06/09 18:00:40', true),
-        this.createData(2, true, 'みつおの家', '運河', '2000/06/09 18:00:40', false),
-        this.createData(3, false, '外尾思い出のトイレ', '二子玉川のトイレ', '2015/06/09 18:00:40', false),
-        this.createData(4, false, 'お気に入りの二郎', '神保町', '2017/06/09 18:00:40', true),
-        this.createData(5, true, 'お気に入りのフォーレストラン', 'ベトナム・ホーチミン', '2021/01/09 18:00:40', true),
-    ];
+    changeIsLoading = () => {
+        this.setState({ is_loding: !this.state.is_loding });
+    };
 
     setAddressList = (addressId, setKey, setValue) => {
-        // const allAddressList = this.state.allAddressList.slice();
         const allAddressList = this.allAddressList.slice();
 
         allAddressList.map((addressData) => {
@@ -49,12 +48,19 @@ class Address extends React.Component {
         this.setState({ allAddressList: allAddressList });
     }
 
-    //API完成後一番最初にたたく想定。
-    //DBから住所をすべて取ってきてstateに入れる。
     getAllAddress = () => {
-        getApi("Get_All_Address")
+        const json = {
+            user_id: this.props.App_UserId,
+        };
+        postApi("get_all_address", json)
         .then((return_json) => {
-            this.setState({ allAddressList: return_json["all_address_list"] });
+            const return_all_address = [];
+            return_json["all_address_list"].map((row)=>{
+                const data = this.createData(row.address_id, row.is_favorite, row.address_name, row.address, row.address_created_time, row.is_private);
+                return_all_address.push(data);
+            })
+            this.setState({ allAddressList: return_all_address });
+            this.changeIsLoading();
         });
     }
 
@@ -78,13 +84,23 @@ class Address extends React.Component {
         this.setAddressList(row.addressId, "isPrivate", !row.isPrivate);
     }
 
+    reload = () => {
+        this.changeIsLoading();
+        this.getAllAddress();
+    }
+
+    componentDidMount(){
+        this.getAllAddress();
+    }
+
     render() {
-        //テスト用
-        // this.setState({allAddressList: this.allAddressList});
-        // const allAddressList = this.state.allAddressList;
-        const allAddressList = this.allAddressList;
         return (
         <div className="address-table">
+            {this.state.is_loding ? <LoadingPage /> : ""}
+            <div className="button-left">
+                <Button  component={Link} to="/NewAddress" variant="contained" color="primary"><LibraryAddIcon />New Address</Button>
+                <Button onClick={() => { this.reload() }} variant="contained" style={{ color: "#004d40" }}><ReplayIcon />Reload</Button>
+            </div>
             <TableContainer component={Paper}>
                 <Table aria-label="customized table">
                     <TableHead>
@@ -97,19 +113,23 @@ class Address extends React.Component {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {allAddressList.map((row) => (
+                        {this.state.allAddressList.map((row) => (
                             <TableRow>
-                                <TableCell><Button onClick={() => { this.changeFavorite(row) }}>{row.isFavorite ? <StarRateIcon style={{ color: "#004d40" }} /> : <StarBorderIcon />}</Button></TableCell>
-                                <TableCell align="right">{row.name}</TableCell>
+                                <TableCell><Button onClick={() => { this.changeFavorite(row) }}>{row.is_favorite ? <StarRateIcon style={{ color: "#004d40" }} /> : <StarBorderIcon />}</Button></TableCell>
+                                <TableCell align="right">{row.address_name}</TableCell>
                                 <TableCell align="right">{row.address}</TableCell>
-                                <TableCell align="right">{row.createdTime}</TableCell>
-                                <TableCell><Button onClick={() => { this.changePrivate(row) }}>{row.isPrivate ? <LockIcon /> : <LockOpenIcon />}</Button></TableCell>
+                                <TableCell align="right">{row.address_created_time}</TableCell>
+                                <TableCell><Button onClick={() => { this.changePrivate(row) }}>{row.is_private ? <LockIcon /> : <LockOpenIcon />}</Button></TableCell>
                             </TableRow>
                         ))
                         }
                     </TableBody>
                 </Table>
             </TableContainer>
+            <div className="button-right">
+                <Button  component={Link} to="/NewAddress" variant="contained" color="primary"><LibraryAddIcon />New Address</Button>
+                <Button onClick={() => { this.reload() }} variant="contained" style={{ color: "#004d40" }}><ReplayIcon />Reload</Button>
+            </div>
         </ div>
         );
     }

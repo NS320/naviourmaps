@@ -51,8 +51,16 @@
 
 .button-right {
   padding-top: 10px;
-  padding-right: 75px;
+  padding-bottom: 10px;
+  padding-right: 30px;
   text-align: right;
+}
+
+.button-left {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 30px;
+  text-align: left;
 }
 
 .center-of-center {

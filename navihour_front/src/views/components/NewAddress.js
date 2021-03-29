@@ -69,13 +69,12 @@ class NewAddress extends React.Component {
             .then((return_json) => {
                 if (return_json["result"] === "OK") {
                     this.props.history.push('/Home');
-                    this.changeIsLoading();
                 }
                 else {
                     console.log(return_json["message"]);
                     this.setMessage("※" + return_json["message"]);
-                    this.changeIsLoading();
                 }
+                this.changeIsLoading();
             });
     }
 
