@@ -10,6 +10,7 @@ from .functions import (
     put_address_api,
     put_user_api,
     delete_address_api,
+    private_address_api
 )
 
 urlpatterns = [
@@ -20,5 +21,6 @@ urlpatterns = [
     path('favorite_address', favorite_address_api.FavoriteAddress.as_view()),
     path('put_address', put_address_api.PutAddress.as_view()),
     path('put_user', put_user_api.PutUser.as_view()),
-    path('delete_address', delete_address_api.DeleteAddress.as_view())
+    path('delete_address', delete_address_api.DeleteAddress.as_view()),
+    path('private_address', private_address_api.PrivateAddress.as_view()),
 ]
