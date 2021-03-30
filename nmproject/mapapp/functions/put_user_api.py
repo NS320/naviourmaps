@@ -13,14 +13,16 @@ class PutUser(APIView):
         try:
             request_user_id = request.data["user_id"]
             request_new_user_id = request.data["new_user_id"]
-            request_name = request.data["name"]
-            request_biography = request.data["biography"]
+            request_new_name = request.data["new_name"]
+            request_new_email = request.data["new_email"]
+            request_new_biography = request.data["new_biography"]
             my_user = MyUser.objects.get(user_id=request_user_id)#user_idが無い場合exceptのAddress.DoesNotExist
 
             
             my_user.user_id = request_new_user_id
-            my_user.name = request_name
-            my_user.biography  = request_biography
+            my_user.name = request_new_name
+            my_user.email = request_new_email
+            my_user.biography  = request_new_biography
             my_user.save()
 
 
