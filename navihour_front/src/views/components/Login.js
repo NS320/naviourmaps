@@ -15,6 +15,7 @@ import {FreeMessage, UseStyles} from '../../utils/utils';
 import {Email, Password} from '../../utils/utils';
 import {postApi} from '../../utils/Api';
 import PropTypes from 'prop-types';
+import LoadingPage from '../../utils/LoadingPage';
 import { withRouter } from 'react-router'
 
 class Login extends React.Component {
@@ -26,7 +27,8 @@ class Login extends React.Component {
       email: PropTypes.string, // Loginする際に使用
       password: PropTypes.string, // Loginする際に使用
       biography: PropTypes.string,
-      message: PropTypes.string
+      message: PropTypes.string,
+      is_loding: false,
     }
   }
 
@@ -44,6 +46,7 @@ class Login extends React.Component {
 
   // ログイン処理
   Login = () =>{
+    this.changeIsLoading();
     const json = {email: this.state.email,
       password: this.state.password};
 
@@ -58,12 +61,18 @@ class Login extends React.Component {
       else{
         this.setMessage(return_json["message"]);
       }
+      this.changeIsLoading();
     });
   }
+
+  changeIsLoading = () => {
+    this.setState({ is_loding: !this.state.is_loding });
+  };
 
   render() {
   return (
     <Container component="main" maxWidth="xs">
+      {this.state.is_loding ? <LoadingPage /> : ""}
       <CssBaseline />
       <div className={UseStyles.paper}>
         <Avatar className={UseStyles.avatar}>

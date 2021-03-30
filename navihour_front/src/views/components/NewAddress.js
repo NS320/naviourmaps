@@ -15,19 +15,20 @@ import "../../App.css";
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router'
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import { Link } from 'react-router-dom';
+import Dialog from '@material-ui/core/Dialog';
 
 class NewAddress extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            user_id: PropTypes.string,
+            user_id: this.props.user_id,
             address: PropTypes.string,
             address_name: PropTypes.string,
             is_favorite: false,
             is_private: true,
             message: PropTypes.string,
             is_loding: false,
+            isOpen: this.props.is_new_open,
         }
     }
 
@@ -58,7 +59,7 @@ class NewAddress extends React.Component {
     registerNewAddress = () => {
         this.changeIsLoading();
         const json = {
-            user_id: this.props.App_UserId,
+            user_id: this.state.user_id,
             address: this.state.address,
             address_name: this.state.address_name,
             is_favorite: this.state.is_favorite,
@@ -75,11 +76,13 @@ class NewAddress extends React.Component {
                     this.setMessage("※" + return_json["message"]);
                 }
                 this.changeIsLoading();
+                this.props.chanegeIsNewOpen();
             });
     }
 
     render() {
         return (
+        <Dialog aria-labelledby="simple-dialog-title" open={this.state.isOpen}>
             <Container component="main" maxWidth="xs">
                 {this.state.is_loding ? <LoadingPage /> : ""}
                 <CssBaseline />
@@ -135,7 +138,7 @@ class NewAddress extends React.Component {
                             </Button>
                             <Button
                                 color="default"
-                                component={Link}
+                                onClick={this.props.chanegeIsNewOpen}
                                 fullWidth
                                 to="/Home"
                                 className={UseStyles.submit}
@@ -148,6 +151,7 @@ class NewAddress extends React.Component {
                     </form>
                 </div>
             </Container>
+        </Dialog>
         );
     }
 }

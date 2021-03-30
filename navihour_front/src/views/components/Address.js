@@ -16,7 +16,9 @@ import { postApi } from '../../utils/Api';
 import LoadingPage from '../../utils/LoadingPage';
 import ReplayIcon from '@material-ui/icons/Replay';
 import LibraryAddIcon from '@material-ui/icons/LibraryAdd';
-import { Link } from 'react-router-dom';
+import EditAddress from './EditAddress';
+import NewAddress from './NewAddress';
+import EditIcon from '@material-ui/icons/Edit';
 import "../../App.css";
 
 class Address extends React.Component {
@@ -26,22 +28,23 @@ class Address extends React.Component {
             user_id: PropTypes.string,
             allAddressList: [],
             is_loding: true,
+            is_new_open: false
         }
     }
 
-    createData = (address_id, is_favorite, address_name, address, address_created_time, is_private) => {
-        return { address_id, is_favorite, address_name, address, address_created_time, is_private };
+    createData = (address_id, is_favorite, address_name, address, address_created_time, is_private, is_edit_open) => {
+        return { address_id, is_favorite, address_name, address, address_created_time, is_private, is_edit_open };
     }
 
     changeIsLoading = () => {
         this.setState({ is_loding: !this.state.is_loding });
     };
 
-    setAddressList = (addressId, setKey, setValue) => {
-        const allAddressList = this.allAddressList.slice();
+    setAddressList = (address_id, setKey, setValue) => {
+        const allAddressList = this.state.allAddressList.slice();
 
         allAddressList.map((addressData) => {
-            if (addressData.addressId === addressId){
+            if (addressData.address_id === address_id){
                 addressData[setKey] = setValue;
             }
         });
@@ -56,7 +59,7 @@ class Address extends React.Component {
         .then((return_json) => {
             const return_all_address = [];
             return_json["all_address_list"].map((row)=>{
-                const data = this.createData(row.address_id, row.is_favorite, row.address_name, row.address, row.address_created_time, row.is_private);
+                const data = this.createData(row.address_id, row.is_favorite, row.address_name, row.address, row.address_created_time, row.is_private, false);
                 return_all_address.push(data);
             })
             this.setState({ allAddressList: return_all_address });
@@ -65,23 +68,45 @@ class Address extends React.Component {
     }
 
     changeFavorite = (row) => {
-        // API完成後,コメントアウト解除
-        // const send_json = { addressId: row.addressId, isFavorite: row.isFavorite };
-        // postApi("Favarite_Address", send_json)
-        // .then((return_json) => {
-        //      //resultとmessageが返ってくる
-        // });
-        this.setAddressList(row.addressId, "isFavorite", !row.isFavorite);
+        this.changeIsLoading();
+        const send_json = { address_id: row.address_id, is_favorite: !row.is_favorite };
+        postApi("favorite_address", send_json)
+        .then((return_json) => {
+            if(return_json["result"] === "OK"){
+                this.setAddressList(row.address_id, "is_favorite", !row.is_favorite);
+            }else{
+                // ToDo
+            }
+            this.changeIsLoading();
+        });
     }
 
     changePrivate = (row) => {
-        // API完成後,コメントアウト解除
-        // const send_json = { addressId: row.addressId, isPrivate: row.isPrivate };
-        // postApi("Private_Address", send_json)
-        // .then((return_json) => {
-        //      //resultとmessageが返ってくる
-        // });
-        this.setAddressList(row.addressId, "isPrivate", !row.isPrivate);
+        this.changeIsLoading();
+        const send_json = { address_id: row.address_id, is_private: !row.is_private };
+        postApi("private_address", send_json)
+        .then((return_json) => {
+            if(return_json["result"] === "OK"){
+                this.setAddressList(row.address_id, "is_private", !row.is_private);
+            }else{
+                // ToDo
+            }
+            this.changeIsLoading();
+        });
+    }
+
+    chanegeIsEditOpen = (row) => {
+        this.setAddressList(row.address_id, "is_edit_open", !row.is_edit_open);
+        if(!row.is_edit_open){
+            this.reload();
+        }
+    }
+
+    chanegeIsNewOpen = () => {
+        if(this.state.is_new_open){
+            this.reload();
+        }
+        this.setState({ is_new_open: !this.state.is_new_open });
     }
 
     reload = () => {
@@ -98,7 +123,8 @@ class Address extends React.Component {
         <div className="address-table">
             {this.state.is_loding ? <LoadingPage /> : ""}
             <div className="button-left">
-                <Button  component={Link} to="/NewAddress" variant="contained" color="primary"><LibraryAddIcon />New Address</Button>
+                <Button  onClick={() => { this.chanegeIsNewOpen()}} variant="contained" color="primary"><LibraryAddIcon />New Address</Button>
+                {this.state.is_new_open ? <NewAddress user_id={this.props.App_UserId} is_new_open={this.state.is_new_open} chanegeIsNewOpen={() => { this.chanegeIsNewOpen() }}/>: ""}
                 <Button onClick={() => { this.reload() }} variant="contained" style={{ color: "#004d40" }}><ReplayIcon />Reload</Button>
             </div>
             <TableContainer component={Paper}>
@@ -114,12 +140,20 @@ class Address extends React.Component {
                     </TableHead>
                     <TableBody>
                         {this.state.allAddressList.map((row) => (
-                            <TableRow>
+                            <TableRow 
+                                hover
+                            >
                                 <TableCell><Button onClick={() => { this.changeFavorite(row) }}>{row.is_favorite ? <StarRateIcon style={{ color: "#004d40" }} /> : <StarBorderIcon />}</Button></TableCell>
                                 <TableCell align="right">{row.address_name}</TableCell>
                                 <TableCell align="right">{row.address}</TableCell>
                                 <TableCell align="right">{row.address_created_time}</TableCell>
                                 <TableCell><Button onClick={() => { this.changePrivate(row) }}>{row.is_private ? <LockIcon /> : <LockOpenIcon />}</Button></TableCell>
+                                <TableCell align="right">
+                                    <Button onClick={() => { this.chanegeIsEditOpen(row) }}>
+                                        <EditIcon style={{ color: "#004d40" }}/>
+                                    </Button>
+                                    {row.is_edit_open ? <EditAddress chanegeIsEditOpen={() => { this.chanegeIsEditOpen(row) }} row={row}/>: ""}
+                                </TableCell>
                             </TableRow>
                         ))
                         }
@@ -127,7 +161,8 @@ class Address extends React.Component {
                 </Table>
             </TableContainer>
             <div className="button-right">
-                <Button  component={Link} to="/NewAddress" variant="contained" color="primary"><LibraryAddIcon />New Address</Button>
+                <Button  onClick={() => { this.chanegeIsNewOpen()}} variant="contained" color="primary"><LibraryAddIcon />New Address</Button>
+                {this.state.is_new_open ? <NewAddress user_id={this.props.App_UserId} is_new_open={this.state.is_new_open} chanegeIsNewOpen={() => { this.chanegeIsNewOpen() }}/>: ""}
                 <Button onClick={() => { this.reload() }} variant="contained" style={{ color: "#004d40" }}><ReplayIcon />Reload</Button>
             </div>
         </ div>
