@@ -15,6 +15,7 @@ import PropTypes from 'prop-types';
 import { postApi } from '../../utils/Api';
 import LoadingPage from '../../utils/LoadingPage';
 import ReplayIcon from '@material-ui/icons/Replay';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import LibraryAddIcon from '@material-ui/icons/LibraryAdd';
 import EditAddress from './EditAddress';
 import NewAddress from './NewAddress';
@@ -95,6 +96,20 @@ class Address extends React.Component {
         });
     }
 
+    deleteAddress = (row) => {
+        this.changeIsLoading();
+        const send_json = { address_id: row.address_id };
+        postApi("delete_address", send_json)
+        .then((return_json) => {
+            if(return_json["result"] === "OK"){
+                this.getAllAddress();
+            }else{
+                // ToDo
+                this.changeIsLoading();
+            }
+        });
+    }
+
     chanegeIsEditOpen = (row) => {
         this.setAddressList(row.address_id, "is_edit_open", !row.is_edit_open);
         if(!row.is_edit_open){
@@ -136,6 +151,8 @@ class Address extends React.Component {
                             <TableCell align="right">Address</TableCell>
                             <TableCell align="right">Created Time</TableCell>
                             <TableCell align="right">Privete</TableCell>
+                            <TableCell align="right">Edit</TableCell>
+                            <TableCell align="right">Delete</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -147,13 +164,14 @@ class Address extends React.Component {
                                 <TableCell align="right">{row.address_name}</TableCell>
                                 <TableCell align="right">{row.address}</TableCell>
                                 <TableCell align="right">{row.address_created_time}</TableCell>
-                                <TableCell><Button onClick={() => { this.changePrivate(row) }}>{row.is_private ? <LockIcon /> : <LockOpenIcon />}</Button></TableCell>
+                                <TableCell align="right"><Button onClick={() => { this.changePrivate(row) }}>{row.is_private ? <LockIcon /> : <LockOpenIcon />}</Button></TableCell>
                                 <TableCell align="right">
                                     <Button onClick={() => { this.chanegeIsEditOpen(row) }}>
                                         <EditIcon style={{ color: "#004d40" }}/>
                                     </Button>
                                     {row.is_edit_open ? <EditAddress chanegeIsEditOpen={() => { this.chanegeIsEditOpen(row) }} row={row}/>: ""}
                                 </TableCell>
+                                <TableCell align="right"><Button onClick={() => { this.deleteAddress(row) }} className="delete-button"><DeleteForeverIcon/></Button></TableCell>
                             </TableRow>
                         ))
                         }
