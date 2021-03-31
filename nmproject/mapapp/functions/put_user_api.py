@@ -32,7 +32,8 @@ class PutUser(APIView):
             }, status=status.HTTP_200_OK)
 
 
-        except Address.DoesNotExist:#user_idが無い場合
+        except MyUser.DoesNotExist:#user_idが無い場合
             return Response({"result": "NG", "message": "user_id is not found"},status=status.HTTP_400_BAD_REQUEST)
-        except:
+        except Exception as e:
+            print(e)
             return Response({"result": "NG", "message": "Bad request"},status=status.HTTP_400_BAD_REQUEST)
