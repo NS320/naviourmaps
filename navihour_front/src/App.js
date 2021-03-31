@@ -5,6 +5,7 @@ import Login from './views/components/Login'; //作成したLogin.jsを読み込
 import SignUp from './views/components/SignUp'; //作成したSignUp.jsを読み込んでいる
 import ResetPassword from './views/components/ResetPassword'; //作成したResetPassword.jsを読み込んでいる
 import Home from './views/components/Home'; //作成したHome.jsを読み込んでいる
+import EditUser from './views/components/EditUser'; //作成したHome.jsを読み込んでいる
 import SignUpSuccess from './views/components/SignUpSuccess'; //作成したSignUpSuccess.jsを読み込んでいる
 import NewAddress from './views/components/NewAddress';
 
@@ -49,6 +50,10 @@ class App extends React.Component {
               App_UserId = {localStorage.getItem("user_id")} // Home.jsで使用可能（this.props.App_UserId）
               App_Biography = {localStorage.getItem("biography")} // Home.jsで使用可能（this.props.App_Biography）
               App_IsLogin = {localStorage.getItem("isLogin")} // Home.jsで使用可能（this.props.App_IsLogin）
+              />}/>
+          <Route exact path="/EditUser" 
+            render={() => <EditUser
+              App_UserId = {localStorage.getItem("user_id")}
               />}/>
           <Route exact path="/NewAddress" 
               render={() => <NewAddress 
