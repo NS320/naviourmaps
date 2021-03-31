@@ -46,7 +46,11 @@
 
 .address-table {
   margin: auto;
-  max-width: 1500px;
+  max-width: 1000px;
+}
+
+.margin-right{
+  margin-right: 10px;
 }
 
 .button-right {
