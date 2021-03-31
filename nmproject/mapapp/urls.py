@@ -11,7 +11,8 @@ from .functions import (
     put_user_api,
     delete_address_api,
     private_address_api,
-    reset_pass_api
+    reset_pass_api,
+    get_user_api
 )
 
 urlpatterns = [
@@ -24,5 +25,6 @@ urlpatterns = [
     path('put_user', put_user_api.PutUser.as_view()),
     path('delete_address', delete_address_api.DeleteAddress.as_view()),
     path('private_address', private_address_api.PrivateAddress.as_view()),
-    path('reset_pass', reset_pass_api.ResetPass.as_view())
+    path('reset_pass', reset_pass_api.ResetPass.as_view()),
+    path('get_user', get_user_api.GetUser.as_view())
 ]
