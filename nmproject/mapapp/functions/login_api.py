@@ -3,6 +3,7 @@ from rest_framework import status
 from rest_framework.views import APIView
 from ..models import MyUser 
 from django.contrib.auth.hashers import check_password
+from ..functions.util.decrypt import Crypt
 
 # Create your views here.
 class NoDataError(Exception):
@@ -13,8 +14,13 @@ class Login(APIView):
     def post(self, request, format=None):
         
         try:
-            request_email = request.data["email"]#requestからemailの取り出し
-            request_raw_password = request.data["password"]#requestからpasswordの取り出し
+            encrypt_email = request.data["email"]#requestからemailの取り出し
+            email = Crypt.decrypt(encrypt_email)#emailの複合化
+            request_email = email 
+
+            encrypt_password = request.data["password"]#requestからpasswordの取り出し
+            password = Crypt.decrypt(encrypt_password)#passwordの複合化
+            request_raw_password = password
             
             login = MyUser.objects.filter(email=request_email)#request_emailを含むレコードをMyUserデータベースから取り出し取り出し&
                         
@@ -37,7 +43,12 @@ class Login(APIView):
                 },status=status.HTTP_201_CREATED)            
         except NoDataError:
             return Response({"result": "NG","message":" Email or password is not found"},status=status.HTTP_400_BAD_REQUEST)
-        except:
+        except Exception as e:
+            print ('=== Error ===')
+            print ('type:' + str(type(e)))
+            print ('args:' + str(e.args))
+            #print ('message:' + str(e.message))
+            print ('e:' + str(e))
             return Response({"result":"NG", "message":"Bad request"},status=status.HTTP_400_BAD_REQUEST)
 
     
