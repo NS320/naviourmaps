@@ -52,7 +52,7 @@ class MyUser(AbstractBaseUser):
     REQUIRED_FIELDS = []
 
     def __str__(self):
-        return self.user_id
+        return self.user_id#子テーブルから見たときに参照されるカラム
 
     def has_perm(self, perm, obj=None):
         "Does the user have a specific permission?"
@@ -79,7 +79,7 @@ class Address(models.Model):
     address_created_time = models.DateTimeField(auto_now_add=True)
     address_updated_time = models.DateTimeField(auto_now=True)
     #外部キーに関する設定, db_columnとto_fieldによって親の主キー以外を外部キーに設定できる
-    user = models.ForeignKey(MyUser, db_column='user_id', to_field='user_id',on_delete=models.CASCADE)
+    myuser_foreign = models.ForeignKey(MyUser, on_delete=models.CASCADE)
 
 
     def __str__(self):
