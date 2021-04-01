@@ -13,6 +13,7 @@ import {FreeMessage, UseStyles} from '../../utils/utils';
 import {User_Id, Name, Email, Password, Biography} from '../../utils/utils';
 import {postApi} from '../../utils/Api';
 import PropTypes from 'prop-types';
+import {PublicEncrypt} from '../../utils/Crypt';
 
 class SignUp extends React.Component {
   constructor(props){
@@ -53,10 +54,13 @@ class SignUp extends React.Component {
 
   // アカウント新規作成処理
   SignUp = () =>{
+    var encryptPass = PublicEncrypt(this.state.password);
+    var encryptEmail = PublicEncrypt(this.state.email);
+
     const json = {user_id: this.state.user_id,
       name: this.state.name,
-      email: this.state.email,
-      password: this.state.password,
+      email: encryptEmail,
+      password: encryptPass,
       biography: this.state.biography};
 
     postApi("create_user", json)
