@@ -4,7 +4,6 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.core.exceptions import ValidationError
-
 from mapapp.models import MyUser, Address
 
 
@@ -80,8 +79,8 @@ class UserAdmin(BaseUserAdmin):
     filter_horizontal = ()
 
 class AddressAdmin(admin.ModelAdmin):
-    list_display = ('address', 'user_id')#管理画面で表示したいリストの一覧
-    #list_display_links = ('address', 'user_id')
+    list_display = ('address','myuser_foreign')#管理画面で表示したいリストの一覧
+    list_display_links = ('address',)
 
 
 # Now register the new UserAdmin...

@@ -6,8 +6,6 @@ from django.contrib.auth.hashers import make_password, check_password
 
 
 
-class RequestPasswordEmptyError(Exception):
-    pass
 class RequestNewPasswordDifferentError(Exception):
     pass
 class RequestNewPasswordShortError(Exception):
@@ -29,8 +27,6 @@ class ResetPass(APIView):
             request_new_password2 = request.data["new_password2"]
 
 
-            if not request_password:#パスワードが空の場合
-                raise RequestPasswordEmptyError()
             if request_new_password1 != request_new_password2:#新しいパスワード2つが一致しない
                 raise RequestNewPasswordDifferentError()
             if len(request_new_password1) < 8:#新しいパスワードが8文字より少ない場合
@@ -54,8 +50,6 @@ class ResetPass(APIView):
 
         except MyUser.DoesNotExist:#user_idが無い場合
             return Response({"result": "NG", "message": "user_id is not found"},status=status.HTTP_400_BAD_REQUEST)
-        except RequestPasswordEmptyError:
-            return Response({"result":"NG", "message":"There is no password"},status=status.HTTP_400_BAD_REQUEST)
         except RequestNewPasswordDifferentError:
             return Response({"result":"NG", "message":"new_password1 and new_password2 are not match"})
         except RequestNewPasswordShortError:

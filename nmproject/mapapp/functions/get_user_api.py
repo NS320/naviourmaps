@@ -13,9 +13,8 @@ class GetUser(APIView):
         
         try:
             request_user_id = request.data["user_id"]
-            myuser = MyUser.objects.get(user_id = request_user_id)#user_idが一致するレコードをすべて取得
+            myuser = MyUser.objects.get(user_id = request_user_id)#user_idが一致するインスタンス
             
-
 
             return Response({
                 "result":"OK",

@@ -21,13 +21,13 @@ class PostAddress(APIView):
             request_is_private = request.data["is_private"]
 
             
-            #いずれかのフィールドが空白の場合エラー
-            if(not request_user_id)|(not request_address)|(not request_address_name):
+            #addressかaddress_nameが空白の場合エラー
+            if(not request_address)|(not request_address_name):
                 raise RequestDataEmptyError(Exception)
           
 
             new_address = Address.objects.create(
-                user = MyUser.objects.get(user_id = request_user_id),#外部キーを使った参照
+                myuser_foreign = MyUser.objects.get(user_id = request_user_id),#外部キーを使った参照
                 address = request_address,
                 address_name = request_address_name,
                 is_favorite = request_is_favorite,
@@ -40,7 +40,8 @@ class PostAddress(APIView):
                 "message": "Adding address is success",
             },status=status.HTTP_201_CREATED)
 
-
+        except MyUser.DoesNotExist:#user_idが無い場合
+            return Response({"result": "NG", "message": "user_id is not found"},status=status.HTTP_400_BAD_REQUEST)
         except RequestDataEmptyError:
             return Response({"result": "NG", "message": "There is no requiredi items"},status=status.HTTP_400_BAD_REQUEST)
         except:
