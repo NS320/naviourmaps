@@ -16,6 +16,7 @@ import {Email, Password} from '../../utils/utils';
 import {postApi} from '../../utils/Api';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router'
+import {PublicEncrypt} from '../../utils/Crypt';
 
 class Login extends React.Component {
   constructor(props){
@@ -44,9 +45,11 @@ class Login extends React.Component {
 
   // ログイン処理
   Login = () =>{
-    const json = {email: this.state.email,
-      password: this.state.password};
+    var encryptPass = PublicEncrypt(this.state.password);
 
+    const json = {email: this.state.email,
+      password: encryptPass};
+      
     postApi("login", json)
     .then((return_json)=>{
       if(return_json["result"] === "OK"){
