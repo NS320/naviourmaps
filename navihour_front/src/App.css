@@ -45,8 +45,12 @@
 }
 
 .address-table {
-  padding-left: 50px;
-  padding-right: 50px;
+  margin: auto;
+  max-width: 1000px;
+}
+
+.margin-right{
+  margin-right: 10px;
 }
 
 .button-right {
@@ -79,4 +83,8 @@
   background-color: #808080; /* 背景色（ここではグレー）*/
   text-align: center;
   opacity: 0.7; /* 透過値*/
+}
+
+.delete-button:hover {
+  color: red;
 }
