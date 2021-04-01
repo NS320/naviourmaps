@@ -3,6 +3,7 @@ from rest_framework import status
 from rest_framework.views import APIView
 from ..models import MyUser
 from django.contrib.auth.hashers import make_password
+from ..functions.util.decrypt import Crypt
 
 
 class RequestDataEmptyError(Exception):
@@ -21,8 +22,15 @@ class CreateUser(APIView):
         try:
             request_user_id = request.data["user_id"]
             request_name = request.data["name"]
-            request_raw_password = request.data["password"]
-            request_email = request.data["email"]
+
+            encrypt_password = request.data["password"]#requestからpasswordの取り出し
+            password = Crypt.decrypt(encrypt_password)#passwordの複合化
+            request_raw_password = password
+
+            encrypt_email = request.data["email"]#requestからemailの取り出し
+            email = Crypt.decrypt(encrypt_email)#emailの複合化
+            request_email = email
+
             request_biography = request.data["biography"]
 
 
