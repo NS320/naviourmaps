@@ -27,4 +27,4 @@ class Crypt :
             print ('args:' + str(e.args))
             #print ('message:' + str(e.message))
             print ('e:' + str(e))
-            return null
+            return None
