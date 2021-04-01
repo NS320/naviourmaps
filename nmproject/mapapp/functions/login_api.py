@@ -14,7 +14,9 @@ class Login(APIView):
     def post(self, request, format=None):
         
         try:
-            request_email = request.data["email"]#requestからemailの取り出し  
+            encrypt_email = request.data["email"]#requestからemailの取り出し
+            email = Crypt.decrypt(encrypt_email)#emailの複合化
+            request_email = email 
 
             encrypt_password = request.data["password"]#requestからpasswordの取り出し
             password = Crypt.decrypt(encrypt_password)#passwordの複合化

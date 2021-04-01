@@ -46,8 +46,9 @@ class Login extends React.Component {
   // ログイン処理
   Login = () =>{
     var encryptPass = PublicEncrypt(this.state.password);
+    var encryptEmail = PublicEncrypt(this.state.email);
 
-    const json = {email: this.state.email,
+    const json = {email: encryptEmail,
       password: encryptPass};
       
     postApi("login", json)
