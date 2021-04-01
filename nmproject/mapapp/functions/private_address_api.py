@@ -5,7 +5,7 @@ from ..models import MyUser, Address
 
 
 
-class FavoriteAddress(APIView):
+class PrivateAddress(APIView):
 
 
     def post(self, request, format=None):
@@ -13,12 +13,12 @@ class FavoriteAddress(APIView):
 
         try:
             request_address_id = request.data["address_id"]
-            request_is_favorite = request.data["is_favorite"]
+            request_is_private = request.data["is_private"]
 
 
-            is_favorite_confirm = Address.objects.get(address_id=request_address_id)
-            is_favorite_confirm.is_favorite = request_is_favorite
-            is_favorite_confirm.save()
+            is_private_confirm = Address.objects.get(address_id=request_address_id)
+            is_private_confirm.is_private = request_is_private
+            is_private_confirm.save()
 
             return Response({
                 "result":"OK",

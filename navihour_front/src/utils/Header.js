@@ -4,6 +4,8 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import SettingsIcon from '@material-ui/icons/Settings';
+import "../App.css";
 
 class Header extends React.Component {
     render() {
@@ -15,7 +17,8 @@ class Header extends React.Component {
                                 Navi Hour
                             </Typography>
                             <div style={{ flexGrow: 1 }}></div>
-                            <Button component={Link} to="/TestApi" variant="contained" color="primary">Logout</Button>
+                            <Button className="margin-right" component={Link} to="/Login" variant="contained" color="primary">Logout</Button>
+                            <Button component={Link} to="/EditUser" variant="contained" style={{ color: "#004d40" }}><SettingsIcon/></Button>
                         </Toolbar>
                     </AppBar>
                 </div>
