@@ -13,28 +13,27 @@ class SignUpSuccess extends React.Component {   //HomeクラスにReact.Componen
 
     render() {                          //画面表示の為のrenderメソッドを定義する
         return (
-            <div className={UseStyles.paper}>
             <Container component="main" maxWidth="xs">
-                <center>
-                    <Typography component="h1" variant="h5">
-                        登録ありがとうございます
-                    </Typography>
-                    アカウント新規作成完了致しました。<br/>
-                    ログイン画面にてログインが可能となります。<br/>
-                    <Button 
-                    variant="contained"
-                    color="primary"
-                    onClick={this.changePage_ToLogin} 
-                    className={UseStyles.submit}>
-                    ログイン画面に戻る
-                    </Button>
-                    <Box mt={5}>
-          　　　　       {FreeMessage}
-        　　　　     </Box>
-        <marquee bgcolor="green" scrollamount="10" >みつお3郎ってマ？？？</marquee>
-               </center>
+                <div className={UseStyles.paper}>
+                    <center>
+                        <Typography component="h1" variant="h5">
+                            登録ありがとうございます
+                        </Typography>
+                        アカウント新規作成完了致しました。<br/>
+                        ログイン画面にてログインが可能となります。<br/>
+                        <Button 
+                        variant="contained"
+                        color="primary"
+                        onClick={this.changePage_ToLogin} 
+                        className={UseStyles.submit}>
+                        ログイン画面に戻る
+                        </Button>
+                    </center>
+               </div>
+               <Box mt={5}>
+                    <FreeMessage />
+        　　　　</Box>
             </Container>
-            </div>
         );
     }
 }
