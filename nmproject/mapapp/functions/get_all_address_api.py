@@ -5,9 +5,6 @@ from ..models import MyUser, Address
 from .serializers import GetAllAddressSerializer
 
 
-class RequestDataEmptyError(Exception):
-    pass
-
 
 class GetAllAddress(APIView):
 
@@ -17,12 +14,10 @@ class GetAllAddress(APIView):
         
         try:
             request_user_id = request.data["user_id"]
-            all_address_list = Address.objects.filter(user_id = request_user_id)#user_idが一致するレコードをすべて取得
+            myuser_int_id = MyUser.objects.get(user_id=request_user_id).id
+            all_address_list = Address.objects.filter(myuser_foreign = myuser_int_id)#user_idが一致するレコードをすべて取得
             serializer = GetAllAddressSerializer(all_address_list, many=True)
 
-
-            if not request_user_id:
-                raise RequestDataEmptyError(Exception)
 
 
             return Response({
@@ -31,8 +26,8 @@ class GetAllAddress(APIView):
                 "all_address_list": serializer.data
             }, status=status.HTTP_200_OK)
 
-
-        except RequestDataEmptyError:
-            return Response({"result": "NG", "message": "There is no requiredi items"},status=status.HTTP_400_BAD_REQUEST)
+        
+        except MyUser.DoesNotExist:#user_idが無い場合
+            return Response({"result": "NG", "message": "user_id is not found"},status=status.HTTP_400_BAD_REQUEST)
         except:
             return Response({"result":"NG", "message":"Bad request"},status=status.HTTP_400_BAD_REQUEST)
