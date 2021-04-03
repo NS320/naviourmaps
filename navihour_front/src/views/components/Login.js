@@ -18,17 +18,18 @@ import PropTypes from 'prop-types';
 import LoadingPage from '../../utils/LoadingPage';
 import { withRouter } from 'react-router'
 import {PublicEncrypt} from '../../utils/Crypt';
+import {Validation_ForPassword, Validation_ForEmail} from '../../utils/utils';
 
 class Login extends React.Component {
   constructor(props){
     super(props)
     this.state = {
-      user_id: PropTypes.string,
-      name: PropTypes.string,
-      email: PropTypes.string, // Loginする際に使用
-      password: PropTypes.string, // Loginする際に使用
-      biography: PropTypes.string,
-      message: PropTypes.string,
+      user_id: '',
+      name: '',
+      email: '', // Loginする際に使用
+      password: '', // Loginする際に使用
+      biography: '',
+      message: '',
       is_loding: false,
     }
   }
@@ -45,8 +46,41 @@ class Login extends React.Component {
     this.setState({password: event.target.value});
   };
 
+  isEmptyInputValue = () => {
+    if(!this.state.email){
+      this.setMessage("Please enter Email");
+      return true;
+    }
+    if(!this.state.password){
+      this.setMessage("Please enter Password");
+      return true;
+    }
+    return false;
+  }
+
+  checkInputValue(){
+    if(this.isEmptyInputValue()){
+      return false;
+    }
+    var appropriateEmail = Validation_ForEmail(this.state.email);
+    if(!appropriateEmail["isValid"]){
+      this.setMessage(appropriateEmail["message"])
+      return false;
+    }
+    var appropriatePassword = Validation_ForPassword(this.state.password);
+    if(!appropriatePassword["isValid"]){
+      this.setMessage(appropriatePassword["message"])
+      return false;
+    }
+    return true;
+  }
+
   // ログイン処理
   Login = () =>{
+    if(!this.checkInputValue()){
+      return;
+    }
+    
     this.changeIsLoading();
     var encryptEmail = PublicEncrypt(this.state.email);
     var encryptPass = PublicEncrypt(this.state.password);
