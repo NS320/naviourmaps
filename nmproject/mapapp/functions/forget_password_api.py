@@ -2,46 +2,50 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
 from ..models import MyUser 
-from django.contrib.auth.hashers import check_password
+from django.contrib.auth.hashers import make_password
 from ..functions.util.decrypt import Crypt
+from django.core.mail import send_mail
+import random, string
 
-# Create your views here.
-class PasswordIncorrectError(Exception):
-    pass
 
-class Login(APIView):
+
+def random_name(n):
+    return ''.join(random.choices(string.ascii_letters + string.digits, k=n))
+
+
+class ForgetPassword(APIView):
     
     def post(self, request, format=None):
         
         try:
             encrypt_email = request.data["email"]#requestからemailの取り出し
             email = Crypt.decrypt(encrypt_email)#emailの複合化
-            request_email = email 
+            request_email = email
+            myuser = MyUser.objects.get(email=request_email)#emailが一致するインスタンスの取り出し                      
 
-            encrypt_password = request.data["password"]#requestからpasswordの取り出し
-            password = Crypt.decrypt(encrypt_password)#passwordの複合化
-            request_raw_password = password
-            login = MyUser.objects.get(email=request_email)#emailが一致するインスタンスの取り出し                      
-            if not check_password(request_raw_password, login.password):#パスワードの確認
-                raise PasswordIncorrectError()
             
+            #パスワードの生成とハッシュ化
+            raw_password = random_name(8)
+            hash_password = make_password(raw_password)
+            myuser.password = hash_password
+            myuser.save()
 
-            login.is_logon = True
-            login.save()
+            send_mail(
+                '仮パスワードの発行',
+                'Navihourの仮パスワードを発行します:'+ raw_password,
+                'navihour@gmail.com',
+                [request_email],
+                fail_silently=False,
+            )
 
             return Response({
                 "result": "OK",
-                "message": "Login success!",
-                "name": login.name,
-                "user_id": login.user_id,
-                "biography": login.biography,
+                "message": "Password is send to your email",
                 },status=status.HTTP_201_CREATED)
         
         
         except MyUser.DoesNotExist:#見つからない場合
             return Response({"result": "NG", "message":"email is not found"},status=status.HTTP_400_BAD_REQUEST)            
-        except PasswordIncorrectError:
-            return Response({"result": "NG","message":"password is not found"},status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             print ('=== Error ===')
             print ('type:' + str(type(e)))
