@@ -81,17 +81,17 @@ export const EscapeHtml = (str) => {
 export const Validation_ForPassword = (password) => {
   var regex = new RegExp(/^\w{8,16}$/); // 8文字以上16文字以下の英数字
   if(!regex.test(password)){
-    return [false, "パスワードは8文字以上16文字以下の英数字で入力してください"];
+    return {isValid:false, message:"パスワードは8文字以上16文字以下の英数字で入力してください"};
   }
   var number = new RegExp(/[0-9]/); // 数字が1つでも含まれている
   if(!number.test(password)){
-    return [false, "パスワードは数字を少なくとも1文字含んでください"];
+    return {isValid:false, message:"パスワードは数字を少なくとも1文字含んでください"};
   }
   var alphabet = new RegExp(/[a-zA-Z]/); // 英字が1つでも含まれている
   if(!number.test(password)){
-    return [false, "パスワードは英字を少なくとも1文字含んでください"];
+    return {isValid:false, message:"パスワードは英字を少なくとも1文字含んでください"};
   }
-  return [true,null];
+  return {isValid:true, message:null};
 }
 
 /*
@@ -106,9 +106,9 @@ export const Validation_ForPassword = (password) => {
 export const Validation_ForEmail = (email) => {
   var regex = /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]{1,}\.[A-Za-z0-9]{1,}$/;
   if (!regex.test(email)) {
-    return [false, "メールアドレスの形式が間違っています"];
+    return {isValid:false, message:"メールアドレスの形式が間違っています"};
   }
-  return [true,null];
+  return {isValid:true, message:null};
 }
 
 /*
@@ -119,7 +119,7 @@ export const Validation_ForEmail = (email) => {
 export const Validation_ForUserId = (user_id) => {
   var regex = /[A-Za-z0-9_]{1,}/
   if (!regex.test(user_id)) {
-    return [false, "ユーザーIDは英数字と「_」以外使用できません"];
+    return {isValid:false, message:"ユーザーIDは英数字と「_」以外使用できません"};
   }
-  return [true,null];
+  return {isValid:true, message:null};
 }

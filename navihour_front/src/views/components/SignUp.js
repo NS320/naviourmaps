@@ -78,18 +78,18 @@ class SignUp extends React.Component {
       return false;
     }
     var appropriateUserId = Validation_ForUserId(this.state.user_id);
-    if(!appropriateUserId[0]){
-      this.setMessage(appropriateUserId[1])
+    if(!appropriateUserId["isValid"]){
+      this.setMessage(appropriateUserId["message"])
       return false;
     }
     var appropriateEmail = Validation_ForEmail(this.state.email);
-    if(!appropriateEmail[0]){
-      this.setMessage(appropriateEmail[1])
+    if(!appropriateEmail["isValid"]){
+      this.setMessage(appropriateEmail["message"])
       return false;
     }
     var appropriatePassword = Validation_ForPassword(this.state.password);
-    if(!appropriatePassword[0]){
-      this.setMessage(appropriatePassword[1])
+    if(!appropriatePassword["isValid"]){
+      this.setMessage(appropriatePassword["message"])
       return false;
     }
     return true;
