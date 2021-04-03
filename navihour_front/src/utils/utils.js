@@ -58,3 +58,68 @@ export const UseStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
   },
 }));
+
+/*
+* Htmlのエスケープ処理
+*/
+export const EscapeHtml = (str) => {
+  str = str.replace(/&/g, '&amp;');
+  str = str.replace(/</g, '&lt;');
+  str = str.replace(/>/g, '&gt;');
+  str = str.replace(/"/g, '&quot;');
+  str = str.replace(/'/g, '&#39;');
+  return str;
+}
+
+/* 
+* パスワードの入力値チェック
+* [入力値チェック基準]
+* 　・8文字以上16文字以下
+* 　・数字が1つでも含まれていること
+* 　・英字が1つでも含まれていること
+*/
+export const Validation_ForPassword = (password) => {
+  var regex = new RegExp(/^\w{8,16}$/); // 8文字以上16文字以下の英数字
+  if(!regex.test(password)){
+    return [false, "パスワードは8文字以上16文字以下の英数字で入力してください"];
+  }
+  var number = new RegExp(/[0-9]/); // 数字が1つでも含まれている
+  if(!number.test(password)){
+    return [false, "パスワードは数字を少なくとも1文字含んでください"];
+  }
+  var alphabet = new RegExp(/[a-zA-Z]/); // 英字が1つでも含まれている
+  if(!number.test(password)){
+    return [false, "パスワードは英字を少なくとも1文字含んでください"];
+  }
+  return [true,null];
+}
+
+/*
+* メールアドレスの入力値チェック
+* [入力値チェック基準]
+* 　・先頭の1文字：アルファベット小文字/大文字/数字を許可 ^[A-Za-z0-9]{1}
+* 　・2文字目以降から「@」まで：アルファベット小文字/大文字/数字/アンダースコア/ピリオド/ハイフンを許可 [A-Za-z0-9_.-]*
+* 　・「@」は連続しない：@{1}
+* 　・「@」以降からトップドメインまで：アルファベット小文字/大文字/数字/アンダースコア/ピリオド/ハイフンを許可 1文字以上 [A-Za-z0-9_.-]{1,}
+* 　・トップレベルドメイン：アルファベット小文字/大文字/数字を許可 1文字以上 \.[A-Za-z0-9]{1,}$
+*/
+export const Validation_ForEmail = (email) => {
+  var regex = /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]{1,}\.[A-Za-z0-9]{1,}$/;
+  if (!regex.test(email)) {
+    return [false, "メールアドレスの形式が間違っています"];
+  }
+  return [true,null];
+}
+
+/*
+* ユーザーIDの入力値チェック
+* [入力値チェック基準]
+* 　・アルファベット小文字/大文字/数字/アンダースコアを許可 1文字以上
+*/
+export const Validation_ForUserId = (user_id) => {
+  var regex = /[A-Za-z0-9_]{1,}/
+  if (!regex.test(user_id)) {
+    return [false, "ユーザーIDは英数字と「_」以外使用できません"];
+  }
+  return [true,null];
+}

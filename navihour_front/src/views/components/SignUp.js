@@ -14,17 +14,18 @@ import {User_Id, Name, Email, Password, Biography} from '../../utils/utils';
 import {postApi} from '../../utils/Api';
 import PropTypes from 'prop-types';
 import {PublicEncrypt} from '../../utils/Crypt';
+import {Validation_ForPassword, Validation_ForEmail, Validation_ForUserId} from '../../utils/utils';
 
 class SignUp extends React.Component {
   constructor(props){
     super(props)
     this.state = {
-      user_id: PropTypes.string,
-      name: PropTypes.string,
-      email: PropTypes.string,
-      password: PropTypes.string,
-      biography: PropTypes.string,
-      message: PropTypes.string
+      user_id: '',
+      name: '',
+      email: '',
+      password: '',
+      biography: '',
+      message: ''
     }
   }
 
@@ -52,8 +53,54 @@ class SignUp extends React.Component {
     this.setState({biography: event.target.value});
   };
 
+  isEmptyInputValue = () => {
+    if(!this.state.user_id){
+      this.setMessage("Please enter UserId");
+      return true;
+    }
+    if(!this.state.name){
+      this.setMessage("Please enter Name");
+      return true;
+    }
+    if(!this.state.email){
+      this.setMessage("Please enter Email");
+      return true;
+    }
+    if(!this.state.password){
+      this.setMessage("Please enter Password");
+      return true;
+    }
+    return false;
+  }
+
+  checkInputValue = () => {
+    if(this.isEmptyInputValue()){
+      return false;
+    }
+    var appropriateUserId = Validation_ForUserId(this.state.user_id);
+    if(!appropriateUserId[0]){
+      this.setMessage(appropriateUserId[1])
+      return false;
+    }
+    var appropriateEmail = Validation_ForEmail(this.state.email);
+    if(!appropriateEmail[0]){
+      this.setMessage(appropriateEmail[1])
+      return false;
+    }
+    var appropriatePassword = Validation_ForPassword(this.state.password);
+    if(!appropriatePassword[0]){
+      this.setMessage(appropriatePassword[1])
+      return false;
+    }
+    return true;
+  }
+
   // アカウント新規作成処理
   SignUp = () =>{
+    if(!this.checkInputValue()){
+      return;
+    }
+
     var encryptPass = PublicEncrypt(this.state.password);
     var encryptEmail = PublicEncrypt(this.state.email);
 
