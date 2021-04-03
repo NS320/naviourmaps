@@ -18,9 +18,9 @@ class ForgetPassword(APIView):
     def post(self, request, format=None):
         
         try:
-            request_email = request.data["email"]#requestからemailの取り出し
-            #email = Crypt.decrypt(encrypt_email)#emailの複合化
-            #request_email = email
+            encrypt_email = request.data["email"]#requestからemailの取り出し
+            email = Crypt.decrypt(encrypt_email)#emailの複合化
+            request_email = email
             myuser = MyUser.objects.get(email=request_email)#emailが一致するインスタンスの取り出し                      
 
             
