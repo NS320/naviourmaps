@@ -3,7 +3,7 @@ from rest_framework import status
 from rest_framework.views import APIView
 from ..models import MyUser
 from django.contrib.auth.hashers import make_password, check_password
-
+from ..functions.util.decrypt import Crypt
 
 
 class RequestNewPasswordDifferentError(Exception):
@@ -22,10 +22,12 @@ class ResetPass(APIView):
 
         try:
             request_user_id = request.data["user_id"]
-            request_password = request.data["password"]
-            request_new_password1 = request.data["new_password1"]
-            request_new_password2 = request.data["new_password2"]
-
+            encrypt_password = request.data["password"]
+            request_password = Crypt.decrypt(encrypt_password)#passwordの復号化
+            encrypt_new_password1 = request.data["new_password1"]
+            request_new_password1 = Crypt.decrypt(encrypt_new_password1)
+            encrypt_new_password2 = request.data["new_password2"]
+            request_new_password2 = Crypt.decrypt(encrypt_new_password2)
 
             if request_new_password1 != request_new_password2:#新しいパスワード2つが一致しない
                 raise RequestNewPasswordDifferentError()
