@@ -12,7 +12,6 @@ import Container from '@material-ui/core/Container';
 import {FreeMessage, UseStyles} from '../../utils/utils';
 import {User_Id, Name, Email, Password, Biography} from '../../utils/utils';
 import {postApi} from '../../utils/Api';
-import PropTypes from 'prop-types';
 import {PublicEncrypt} from '../../utils/Crypt';
 import {Validation_ForPassword, Validation_ForEmail, Validation_ForUserId} from '../../utils/utils';
 

@@ -14,7 +14,6 @@ import Container from '@material-ui/core/Container';
 import {FreeMessage, UseStyles} from '../../utils/utils';
 import {Email, Password} from '../../utils/utils';
 import {postApi} from '../../utils/Api';
-import PropTypes from 'prop-types';
 import LoadingPage from '../../utils/LoadingPage';
 import { withRouter } from 'react-router'
 import {PublicEncrypt} from '../../utils/Crypt';

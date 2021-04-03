@@ -8,6 +8,7 @@ import Home from './views/components/Home'; //作成したHome.jsを読み込ん
 import EditUser from './views/components/EditUser'; //作成したHome.jsを読み込んでいる
 import SignUpSuccess from './views/components/SignUpSuccess'; //作成したSignUpSuccess.jsを読み込んでいる
 import NewAddress from './views/components/NewAddress';
+import EditPassword from './views/components/EditPassword';
 
 class App extends React.Component {
   constructor(props){
@@ -53,6 +54,10 @@ class App extends React.Component {
               />}/>
           <Route exact path="/EditUser" 
             render={() => <EditUser
+              App_UserId = {localStorage.getItem("user_id")}
+              />}/>
+          <Route exact path="/EditPassword" 
+            render={() => <EditPassword
               App_UserId = {localStorage.getItem("user_id")}
               />}/>
           <Route exact path="/NewAddress" 

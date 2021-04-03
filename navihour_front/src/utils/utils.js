@@ -88,7 +88,7 @@ export const Validation_ForPassword = (password) => {
     return {isValid:false, message:"パスワードは数字を少なくとも1文字含んでください"};
   }
   var alphabet = new RegExp(/[a-zA-Z]/); // 英字が1つでも含まれている
-  if(!number.test(password)){
+  if(!alphabet.test(password)){
     return {isValid:false, message:"パスワードは英字を少なくとも1文字含んでください"};
   }
   return {isValid:true, message:null};
