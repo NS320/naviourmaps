@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 from pathlib import Path
 import os
 from .database_info import DATABASES
+from .api_keys import EMAIL_HOST_PASSWORD
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -130,8 +131,8 @@ AUTH_USER_MODEL = 'mapapp.MyUser'
 
 #SendGridのAPI設定
 #EMAIL_BACKEND = 'django.core.mail.backends.smpt.EmailBackend'
+
 EMAIL_HOST = 'smtp.sendgrid.net'
 EMAIL_HOST_USER = 'apikey'
-EMAIL_HOST_PASSWORD = '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'
 EMAIL_PORT = 587
 EMAIL_USER_TLS = True
