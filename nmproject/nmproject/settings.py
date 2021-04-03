@@ -127,3 +127,11 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 AUTH_USER_MODEL = 'mapapp.MyUser'
+
+#SendGridのAPI設定
+#EMAIL_BACKEND = 'django.core.mail.backends.smpt.EmailBackend'
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER = 'apikey'
+EMAIL_HOST_PASSWORD = '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'
+EMAIL_PORT = 587
+EMAIL_USER_TLS = True
