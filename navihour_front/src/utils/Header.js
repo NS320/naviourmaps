@@ -8,6 +8,10 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import "../App.css";
 
 class Header extends React.Component {
+    constructor(props){
+        super(props)
+    }
+    
     render() {
             return (
                 <div>
@@ -17,7 +21,16 @@ class Header extends React.Component {
                                 Navi Hour
                             </Typography>
                             <div style={{ flexGrow: 1 }}></div>
-                            <Button className="margin-right" component={Link} to="/Login" variant="contained" color="primary">Logout</Button>
+                            <Button 
+                                className="margin-right" 
+                                component={Link} 
+                                to="/Login" 
+                                variant="contained" 
+                                color="primary"
+                                onClick={() => {this.props.App_SetIsLogin(false)}}
+                            >
+                                Logout
+                            </Button>
                             <Button component={Link} to="/EditUser" variant="contained" style={{ color: "#004d40" }}><SettingsIcon/></Button>
                         </Toolbar>
                     </AppBar>

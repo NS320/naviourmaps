@@ -21,34 +21,14 @@ class EditUser extends React.Component {
         this.state = {
             user_id: this.props.App_UserId,
             new_user_id: this.props.App_UserId,
-            name: PropTypes.string,
-            email: PropTypes.string,
-            biography: PropTypes.string,
-            message: PropTypes.string,
-            is_loding: true
+            name: this.props.Name,
+            email: this.props.Email,
+            biography: this.props.Biography,
+            message: '',
+            is_loding: false
         }
     }
     
-    getUser = () => {
-        const json = {
-            user_id: this.props.App_UserId,
-        };
-        postApi("get_user", json)
-        .then((return_json) => {
-            if(return_json["result"] === "OK"){
-                this.setState({ 
-                    name: return_json["name"],
-                    email: return_json["email"],
-                    biography: return_json["biography"],
-                });
-            }else{
-                // ToDo NGになったときの処理を加える.下記は暫定対応でとりあえず赤文字を表示する.
-                this.setMessage(return_json["message"]);
-            }
-            this.changeIsLoading();
-        });
-    }
-
     setMessage = (message) => {
         this.setState({message: message});
     }
@@ -95,9 +75,6 @@ class EditUser extends React.Component {
             });
     }
     
-    componentDidMount(){
-        this.getUser();
-    }
 
     render() {
         return (
