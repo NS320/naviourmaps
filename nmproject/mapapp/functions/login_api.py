@@ -39,9 +39,9 @@ class Login(APIView):
         
         
         except MyUser.DoesNotExist:#見つからない場合
-            return Response({"result": "NG", "message": "user_id is not found"},status=status.HTTP_400_BAD_REQUEST)            
-        except NoDataError:
-            return Response({"result": "NG","message":" Email or password is not found"},status=status.HTTP_400_BAD_REQUEST)
+            return Response({"result": "NG", "message":"email is not found"},status=status.HTTP_400_BAD_REQUEST)            
+        except PasswordIncorrectError:
+            return Response({"result": "NG","message":"password is not found"},status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             print ('=== Error ===')
             print ('type:' + str(type(e)))

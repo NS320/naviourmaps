@@ -140,7 +140,12 @@ class EditUser extends React.Component {
                         >
                             更新
                         </Button>
-                        <Grid container justify="flex-end">
+                        <Grid container>
+                            <Grid item xs>
+                                <Link href="./EditPassword" variant="body2">
+                                    パスワードの変更はこちら
+                                </Link>
+                            </Grid>
                             <Grid item>
                                 <Link href="./Home" variant="body2">
                                     ホーム画面へ

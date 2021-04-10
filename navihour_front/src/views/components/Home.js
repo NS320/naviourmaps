@@ -1,5 +1,5 @@
 import React from 'react';
-import Header from '../../utils/Header';
+import Header from '../common/Header';
 import Address from './Address'
 import "../../App.css";
 

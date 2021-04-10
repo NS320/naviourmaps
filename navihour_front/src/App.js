@@ -10,6 +10,7 @@ import SignUpSuccess from './views/components/SignUpSuccess'; //作成したSign
 import NewAddress from './views/components/NewAddress';
 import { postApi } from './utils/Api';
 
+import EditPassword from './views/components/EditPassword';
 
 class App extends React.Component {
   constructor(props){
