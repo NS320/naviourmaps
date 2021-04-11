@@ -73,7 +73,12 @@ class App extends React.Component {
 
   // isLoginがString型で保存しているみたいなのでBool型に変更する。
   toBoolean = (bool) => {
-    return bool.toLowerCase() === "true";
+    if (bool === null){
+      return false
+    }
+    else {
+      return bool.toLowerCase() === "true";
+    }
   }
 
   componentDidMount(){
