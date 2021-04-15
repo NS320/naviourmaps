@@ -7,8 +7,20 @@ import Map from './maps/Map'
 class Home extends React.Component {
     constructor(props){
         super(props)
+        this.state = {
+            start_address: {          
+                address: "",  
+                lat: null,
+                lng: null
+            },
+            gaol_address: {   
+                address: "",           
+                lat: null,
+                lng: null
+            }
+        }
     }
-
+    
     render() {
             return (
                 <div>

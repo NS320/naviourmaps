@@ -4,25 +4,25 @@ class Map extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            address1: {          
+            start_address: {          
                 address: "",  
-                lat: "",
-                lng: ""
+                lat: null,
+                lng: null
             },
-            address2: {   
+            goal_address: {   
                 address: "",           
-                lat: "",
-                lng: ""
+                lat: null,
+                lng: null
             }
         }
     }
 
-    setAddress1 = (address1) => {
-        this.setState({address1: address1});
+    setStartAddress = (start_address) => {
+        this.setState({start_address: start_address});
     }
 
-    setAddress2 = (address2) => {
-        this.setState({address2: address2});
+    setGoalAddress = (goal_address) => {
+        this.setState({goal_address: goal_address});
     }
     
     googleMapRef = React.createRef()
@@ -81,11 +81,11 @@ class Map extends Component {
     }
 
     setAddress = (address, latlng) => {
-        if(!this.state.address1["address"]){
-            this.setAddress1({address: address, lat: latlng.lat(), lng: latlng.lng()});
+        if(!this.state.start_address["address"]){
+            this.setStartSddress({address: address, lat: latlng.lat(), lng: latlng.lng()});
         }
-        else if(!this.state.address2["address"]){
-            this.setAddress2({address: address, lat: latlng.lat(), lng: latlng.lng()});
+        else if(!this.state.goal_address["address"]){
+            this.setGoalAddress({address: address, lat: latlng.lat(), lng: latlng.lng()});
         }
         else{
             // Todo 仮置きのメッセージ
@@ -102,13 +102,13 @@ class Map extends Component {
                     style={{ width: '400px', height: '300px' }}
                 />
                 <div className="map_state">
-                    選択1：{this.state.address1["address"]} <br/>
-                    緯度：{this.state.address1["lat"]} <br/>
-                    経度：{this.state.address1["lng"]} <br/>
+                    選択1：{this.state.start_address["address"]} <br/>
+                    緯度：{this.state.start_address["lat"]} <br/>
+                    経度：{this.state.start_address["lng"]} <br/>
                     <br/>
-                    選択2：{this.state.address2["address"]} <br/>
-                    緯度：{this.state.address2["lat"]} <br/>
-                    経度：{this.state.address2["lng"]} <br/>
+                    選択2：{this.state.goal_address["address"]} <br/>
+                    緯度：{this.state.goal_address["lat"]} <br/>
+                    経度：{this.state.goal_address["lng"]} <br/>
                 </div>
             </div>
         )
