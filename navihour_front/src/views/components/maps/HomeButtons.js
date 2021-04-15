@@ -9,9 +9,9 @@ class HomeButtons extends Component {
         return (
             <div>
                 <button
-                    onClick={() => {this.props.setGoalAddress({address: "うわぁ、浪人だぁ", lat: 3, lng: 3})} }
+                    onClick={() => {this.props.setGoalAddress({address: "うわぁ、浪人だぁ", lat: 2, lng: 2})} }
                 >
-                    みつおが浪人するボタン(子が親(Home)に渡す)
+                    岸村が浪人するボタン(子が親(Home)に渡す)
                 </button>
             </div>
         )
