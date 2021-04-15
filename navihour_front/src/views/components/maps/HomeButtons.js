@@ -11,7 +11,7 @@ class HomeButtons extends Component {
                 <button
                     onClick={() => {this.props.setGoalAddress({address: "うわぁ、浪人だぁ", lat: 2, lng: 2})} }
                 >
-                    岸村が浪人するボタン(子が親(Home)に渡す)
+                    が浪人するボタン(子が親(Home)に渡す)
                 </button>
             </div>
         )
