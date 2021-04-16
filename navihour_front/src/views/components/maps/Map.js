@@ -1,13 +1,15 @@
 import React, { Component, createRef } from 'react'
 import googleApiJson from '../../../googleAPI.json';
+import CreateRoute from './map_functions/CreateRoute'
 
 class Map extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            route_exist:false,//ルート存在フラグ
         }
-        this.map = null;
-        this.directionsRenderer = null;
+        this.map = {};
+        this.directionsRenderer = {};
     }
     
     googleMapRef = React.createRef()
@@ -29,14 +31,21 @@ class Map extends Component {
 
     componentDidUpdate() {
         //StartAddressのaddressがnull場合ルートを消す処理
-        if(!this.props.StartAddress["address"]){
+        if((!this.props.StartAddress["address"]) && this.state.route_exist){
             this.directionsRenderer.setMap(null);
-            this.directionsRenderer = null;
+            this.directionsRenderer = {};
+            this.setRouteExist(false);
         }
         //StartAddressとGoalAddressのaddressが存在する場合ルートを引く処理
-        if(this.props.StartAddress["address"] && this.props.GoalAddress["address"]){
+        if(this.props.StartAddress["address"] && this.props.GoalAddress["address"] && (!this.state.route_exist)){
+            //CreateRoute(this.directionsRenderer, this.map, this.props.StartAddress, this.props.GoalAddress);
+            //console.log(this.directionsRenderer);
             this.createRoute();
         }
+    }
+
+    setRouteExist = (route_exist) => {
+        this.setState({route_exist: route_exist});
     }
 
     createGoogleMap = () => {
@@ -113,6 +122,7 @@ class Map extends Component {
                 // ルート検索の結果を地図上に描画
                 this.directionsRenderer.setDirections(result);
                 this.directionsRenderer.setMap(this.map);
+                this.setRouteExist(true);
             } else {
                 alert("ルートを取得できませんでした:" + status);
             }
