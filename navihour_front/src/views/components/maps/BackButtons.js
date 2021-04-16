@@ -9,7 +9,12 @@ class BackButtons extends Component {
         return (
             <div>
                 <button
-                    onClick={() => {this.props.setGoalAddress({address: "", lat: null, lng: null})} }
+                    onClick={
+                        () => {
+                            this.props.setStartAddress({address: "", lat: null, lng: null}) 
+                            this.props.setGoalAddress({address: "", lat: null, lng: null})
+                        } 
+                    }
                 >
                 </button>
             </div>
