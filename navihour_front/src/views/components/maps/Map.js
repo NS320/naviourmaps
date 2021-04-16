@@ -1,18 +1,19 @@
 import React, { Component, createRef } from 'react'
+import googleApiJson from '../../../googleAPI.json';
 
 class Map extends Component {
     constructor(props) {
         super(props)
         this.state = {
             start_address: {          
-                address: "",  
-                lat: null,
-                lng: null
+                address: this.props.StartAddress["address"],  
+                lat: this.props.StartAddress["lat"],
+                lng: this.props.StartAddress["lng"]
             },
             goal_address: {   
-                address: "",           
-                lat: null,
-                lng: null
+                address: this.props.GoalAddress["address"],           
+                lat: this.props.GoalAddress["lat"],
+                lng: this.props.GoalAddress["lng"]
             }
         }
     }
@@ -29,7 +30,11 @@ class Map extends Component {
 
     componentDidMount() {
         const googleMapScript = document.createElement('script')
-        googleMapScript.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDVsPgF1nvJegQKZIPaq1sYIgiG5KmdBNI&libraries=places"
+
+        var json = googleApiJson;
+        var key = json["googleAPI"];
+        googleMapScript.src = "https://maps.googleapis.com/maps/api/js?key=" + key + " &libraries=places"
+        
         window.document.body.appendChild(googleMapScript)
 
         googleMapScript.addEventListener('load', () => {
