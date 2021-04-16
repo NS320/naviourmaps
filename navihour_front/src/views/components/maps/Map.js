@@ -6,14 +6,14 @@ class Map extends Component {
         super(props)
         this.state = {
             start_address: {          
-                address: "",  
-                lat: null,
-                lng: null
+                address: this.props.StartAddress["address"],  
+                lat: this.props.StartAddress["lat"],
+                lng: this.props.StartAddress["lng"]
             },
             goal_address: {   
-                address: "",           
-                lat: null,
-                lng: null
+                address: this.props.GoalAddress["address"],           
+                lat: this.props.GoalAddress["lat"],
+                lng: this.props.GoalAddress["lng"]
             }
         }
     }
@@ -115,7 +115,6 @@ class Map extends Component {
                     緯度：{this.state.goal_address["lat"]} <br/>
                     経度：{this.state.goal_address["lng"]} <br/>
                 </div>
-                {this.props.GoalAddress["address"]}👈別の子供(HomeButton)が変更した値を表示
             </div>
         )
     }

@@ -3,9 +3,11 @@ import Header from '../common/Header';
 import "../../App.css";
 import Grid from '@material-ui/core/Grid';
 import Map from './maps/Map';
-import HomeButtons from './maps/HomeButtons';
+import BackButtons from './maps/BackButtons';
 
 class Home extends React.Component {
+    // ToDo
+    // ここに初期値をいれてください
     constructor(props){
         super(props)
         this.state = {
@@ -36,10 +38,13 @@ class Home extends React.Component {
                     <Header 
                         App_SetIsLogin = {this.props.App_SetIsLogin}
                     />
-                    <Map 
+                    <Map
+                        StartAddress = {this.state.start_address}
                         GoalAddress = {this.state.goal_address}
+                        setStartAddress = {this.setStartAddress.bind(this)}
+                        setGoalAddress = {this.setGoalAddress.bind(this)}
                     />
-                    <HomeButtons
+                    <BackButtons
                         StartAddress = {this.state.start_address}
                         GoalAddress = {this.state.goal_address}
                         setStartAddress = {this.setStartAddress.bind(this)}
