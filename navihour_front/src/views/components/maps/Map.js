@@ -4,18 +4,7 @@ import googleApiJson from '../../../googleAPI.json';
 class Map extends Component {
     constructor(props) {
         super(props)
-        this.state = {
-            start_address: {          
-                address: this.props.StartAddress["address"],  
-                lat: this.props.StartAddress["lat"],
-                lng: this.props.StartAddress["lng"]
-            },
-            goal_address: {   
-                address: this.props.GoalAddress["address"],           
-                lat: this.props.GoalAddress["lat"],
-                lng: this.props.GoalAddress["lng"]
-            }
-        }
+        this.state = {}
     }
 
     setStartAddress = (start_address) => {
@@ -86,11 +75,12 @@ class Map extends Component {
     }
 
     setAddress = (address, latlng) => {
-        if(!this.state.start_address["address"]){
-            this.setStartSddress({address: address, lat: latlng.lat(), lng: latlng.lng()});
+        console.log(this.props.StartAddress)
+        if(!this.props.StartAddress["address"]){
+            this.props.setStartAddress({address: address, lat: latlng.lat(), lng: latlng.lng()});
         }
-        else if(!this.state.goal_address["address"]){
-            this.setGoalAddress({address: address, lat: latlng.lat(), lng: latlng.lng()});
+        else if(!this.props.GoalAddress["address"]){
+            this.props.setGoalAddress({address: address, lat: latlng.lat(), lng: latlng.lng()});
         }
         else{
             // Todo 仮置きのメッセージ
@@ -107,13 +97,13 @@ class Map extends Component {
                     style={{ width: '400px', height: '300px' }}
                 />
                 <div className="map_state">
-                    選択1：{this.state.start_address["address"]} <br/>
-                    緯度：{this.state.start_address["lat"]} <br/>
-                    経度：{this.state.start_address["lng"]} <br/>
+                    選択1：{this.props.StartAddress["address"]} <br/>
+                    緯度：{this.props.StartAddress["lat"]} <br/>
+                    経度：{this.props.StartAddress["lng"]} <br/>
                     <br/>
-                    選択2：{this.state.goal_address["address"]} <br/>
-                    緯度：{this.state.goal_address["lat"]} <br/>
-                    経度：{this.state.goal_address["lng"]} <br/>
+                    選択2：{this.props.GoalAddress["address"]} <br/>
+                    緯度：{this.props.GoalAddress["lat"]} <br/>
+                    経度：{this.props.GoalAddress["lng"]} <br/>
                 </div>
             </div>
         )
