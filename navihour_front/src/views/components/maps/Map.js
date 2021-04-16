@@ -28,9 +28,14 @@ class Map extends Component {
     }
 
     componentDidUpdate() {
-        if(!this.props.StartAddress["address"]){//StartAddressのaddressがnullの場合ルートを消す処理
+        //StartAddressのaddressがnull場合ルートを消す処理
+        if(!this.props.StartAddress["address"]){
             this.directionsRenderer.setMap(null);
             this.directionsRenderer = null;
+        }
+        //StartAddressとGoalAddressのaddressが存在する場合ルートを引く処理
+        if(this.props.StartAddress["address"] && this.props.GoalAddress["address"]){
+            this.createRoute();
         }
     }
 
@@ -82,7 +87,6 @@ class Map extends Component {
         }
         else if(!this.props.GoalAddress["address"]){
             this.props.setGoalAddress({address: address, lat: latlng.lat(), lng: latlng.lng()});
-            this.createRoute();
         }
         else{
             // Todo 仮置きのメッセージ
