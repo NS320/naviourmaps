@@ -22,7 +22,8 @@ class Home extends React.Component {
                 address: "",           
                 lat: null,
                 lng: null
-            }
+            },
+            route_exist: false
         }
     }
 
@@ -34,6 +35,10 @@ class Home extends React.Component {
         this.setState({goal_address: goal_address});
     }
     
+    setRouteExist = (route_exist) => {
+        this.setState({route_exist: route_exist});
+    }
+
     render() {
             return (
                 <div>
@@ -45,6 +50,8 @@ class Home extends React.Component {
                         GoalAddress = {this.state.goal_address}
                         setStartAddress = {this.setStartAddress.bind(this)}
                         setGoalAddress = {this.setGoalAddress.bind(this)}
+                        RouteExist = {this.state.route_exist}
+                        setRouteExist = {this.setRouteExist.bind(this)}
                     />
                     <BackButtons
                         StartAddress = {this.state.start_address}

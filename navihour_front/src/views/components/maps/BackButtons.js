@@ -15,7 +15,7 @@ class BackButtons extends Component {
                             this.props.setGoalAddress({address: "", lat: null, lng: null})
                         } 
                     }
-                >
+                >戻る
                 </button>
             </div>
         )
