@@ -6,16 +6,6 @@ class Map extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            start_address: {          
-                address: this.props.StartAddress["address"],  
-                lat: this.props.StartAddress["lat"],
-                lng: this.props.StartAddress["lng"]
-            },
-            goal_address: {   
-                address: this.props.GoalAddress["address"],           
-                lat: this.props.GoalAddress["lat"],
-                lng: this.props.GoalAddress["lng"]
-            },
             route_exist: false,//ルート存在フラグ
         }
         this.map = {};
@@ -27,8 +17,8 @@ class Map extends Component {
     componentDidMount() {
         const googleMapScript = document.createElement('script')
 
-        var json = googleApiJson;
-        var key = json["googleAPI"];
+        const json = googleApiJson;
+        const key = json["googleAPI"];
         googleMapScript.src = "https://maps.googleapis.com/maps/api/js?key=" + key + " &libraries=places"
 
         window.document.body.appendChild(googleMapScript)
@@ -40,24 +30,26 @@ class Map extends Component {
     }
 
     componentDidUpdate() {
-        console.log(this.state.start_address)
-        console.log(this.props.StartAddress)
         //StartAddressのaddressがnull場合ルートを消す処理
-        if ((!this.state.start_address["address"]) && this.state.route_exist) {
+        if ((!this.props.StartAddress["address"]) && this.props.RouteExist) {
             this.directionsRenderer.setMap(null);
             this.directionsRenderer = {};
-            this.setRouteExist(false);
+            this.props.setRouteExist(false);
         }
         //StartAddressとGoalAddressのaddressが存在する場合ルートを引く処理
-        if (this.state.start_address["address"] && this.state.goal_address["address"] && (!this.state.route_exist)) {
+        if (this.props.StartAddress["address"] && this.props.GoalAddress["address"] && (!this.props.RouteExist)) {
             //CreateRoute(this.directionsRenderer, this.map, this.props.StartAddress, this.props.GoalAddress);//残骸
             //console.log(this.directionsRenderer);
             this.createRoute();
         }
     }
 
-    setRouteExist = (route_exist) => {
-        this.setState({ route_exist: route_exist });
+    setStartAddress = (start_address) => {
+        this.setState({ start_address: start_address});
+    }
+
+    setGoalAddress = (goal_address) => {
+        this.setState({ goal_address: goal_address});
     }
 
     createGoogleMap = () => {
@@ -84,14 +76,14 @@ class Map extends Component {
     }
 
     getAddress = (latlng) => {
-        var geocoder = new window.google.maps.Geocoder();
+        const geocoder = new window.google.maps.Geocoder();
 
         geocoder.geocode({
             latLng: latlng
         }, function (results, status) {
             if (status === window.google.maps.GeocoderStatus.OK) {
                 if (results[0].geometry) {
-                    var address = results[0].formatted_address.replace(/^日本(、|,)/, '');
+                    const address = results[0].formatted_address.replace(/^日本(、|,)/, '');
                     this.setAddress(address, latlng);
                 }
             } else {
@@ -103,10 +95,10 @@ class Map extends Component {
     }
 
     setAddress = (address, latlng) => {
-        if (!this.state.start_address["address"]) {
+        if (!this.props.StartAddress["address"]) {
             this.props.setStartAddress({ address: address, lat: latlng.lat(), lng: latlng.lng() });
         }
-        else if (!this.state.goal_address["address"]) {
+        else if (!this.props.GoalAddress["address"]) {
             this.props.setGoalAddress({ address: address, lat: latlng.lat(), lng: latlng.lng() });
         }
         else {
@@ -116,12 +108,12 @@ class Map extends Component {
     }
 
     createRoute = () => {
-        var startLatLng = new window.google.maps.LatLng(this.state.start_address["lat"], this.state.start_address["lng"]);
-        var goalLatLng = new window.google.maps.LatLng(this.state.goal_address["lat"], this.state.goal_address["lng"]);
-        var directionsService = new window.google.maps.DirectionsService();
+        const startLatLng = new window.google.maps.LatLng(this.props.StartAddress["lat"], this.props.StartAddress["lng"]);
+        const goalLatLng = new window.google.maps.LatLng(this.props.GoalAddress["lat"], this.props.GoalAddress["lng"]);
+        const directionsService = new window.google.maps.DirectionsService();
         this.directionsRenderer = new window.google.maps.DirectionsRenderer();
 
-        var request = {
+        const request = {
             origin: startLatLng, //スタート地点
             destination: goalLatLng, //ゴール地点
             travelMode: window.google.maps.DirectionsTravelMode.BICYCLING, //移動手段
@@ -134,7 +126,7 @@ class Map extends Component {
                 // ルート検索の結果を地図上に描画
                 this.directionsRenderer.setDirections(result);
                 this.directionsRenderer.setMap(this.map);
-                this.setRouteExist(true);
+                this.props.setRouteExist(true);
             } else {
                 alert("ルートを取得できませんでした:" + status);
             }
@@ -150,13 +142,13 @@ class Map extends Component {
                     style={{ width: '800px', height: '500px' }}
                 />
                 <div className="map_state">
-                    選択1：{this.state.start_address["address"]} <br />
-                    緯度：{this.state.start_address["lat"]} <br />
-                    経度：{this.state.start_address["lng"]} <br />
+                    選択1：{this.props.StartAddress["address"]} <br />
+                    緯度：{this.props.StartAddress["lat"]} <br />
+                    経度：{this.props.StartAddress["lng"]} <br />
                     <br />
-                    選択2：{this.state.goal_address["address"]} <br />
-                    緯度：{this.state.goal_address["lat"]} <br />
-                    経度：{this.state.goal_address["lng"]} <br />
+                    選択2：{this.props.GoalAddress["address"]} <br />
+                    緯度：{this.props.GoalAddress["lat"]} <br />
+                    経度：{this.props.GoalAddress["lng"]} <br />
                 </div>
             </div>
         )
