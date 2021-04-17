@@ -5,9 +5,7 @@ import CreateRoute from './map_functions/CreateRoute'
 class Map extends Component {
     constructor(props) {
         super(props)
-        this.state = {
-            route_exist: false,//ルート存在フラグ
-        }
+        this.state = {}
         this.map = {};
         this.directionsRenderer = {};
     }
