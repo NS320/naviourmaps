@@ -49,6 +49,10 @@
   max-width: 1000px;
 }
 
+.navigation-table {
+  max-width: 500px;
+}
+
 .margin-right{
   margin-right: 10px;
 }

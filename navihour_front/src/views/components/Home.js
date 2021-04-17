@@ -4,6 +4,8 @@ import "../../App.css";
 import Grid from '@material-ui/core/Grid';
 import Map from './maps/Map';
 import BackButtons from './maps/BackButtons';
+import MyNavigation from './maps/MyNavigation';
+import OtherNavigation from './maps/OtherNavigation';
 
 class Home extends React.Component {
     // ToDo
@@ -49,6 +51,15 @@ class Home extends React.Component {
                         GoalAddress = {this.state.goal_address}
                         setStartAddress = {this.setStartAddress.bind(this)}
                         setGoalAddress = {this.setGoalAddress.bind(this)}
+                    />
+                    {/* /ToDo App_UserId の渡し方とかも相談。stateで管理？ */}
+                    自分のルート(仮)
+                    <MyNavigation
+                        App_UserId = {this.props.App_UserId}
+                    />
+                    他人のルート(仮)
+                    <OtherNavigation
+                        App_UserId = {this.props.App_UserId}
                     />
                 </div>
             );
