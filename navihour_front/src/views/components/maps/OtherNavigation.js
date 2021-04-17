@@ -45,13 +45,13 @@ class OtherNavigation extends React.Component {
 
     getOtherNavigation = () => {
         const json = {
-            // user_id: this.props.App_UserId,
             user_id: this.state.user_id
         };
         postApi("get_all_address", json)
         .then((return_json) => {
             const return_my_navigation = [];
             return_json["all_address_list"].map((row)=>{
+                // サーバ側の実装が完了したらそれに合わせてコメントアウトを外す修正
                 const data = this.createData(row.address_id, row.is_favorite, row.address_name, row.address_created_time, row.is_private, false);
                 // const data = this.createData(row.navigation_id, row.is_favorite, row.navigation, row.navigation_created_time, row.is_private, row.is_edit_open, false);
                 return_my_navigation.push(data);
@@ -63,6 +63,7 @@ class OtherNavigation extends React.Component {
 
     changeFavorite = (row) => {
         this.changeIsLoading();
+        // サーバ側の実装が完了したらそれに合わせてコメントアウトを外す修正
         const send_json = { address_id: row.navigation_id, is_favorite: !row.is_favorite };
         // const send_json = { navigation_id: row.navigation_id, is_favorite: !row.is_favorite };
         postApi("favorite_address", send_json)
@@ -79,15 +80,17 @@ class OtherNavigation extends React.Component {
 
     changePrivate = (row) => {
         this.changeIsLoading();
+        // サーバ側の実装が完了したらそれに合わせてコメントアウトを外す修正
         const send_json = { address_id: row.navigation_id, is_private: !row.is_private };
         // const send_json = { navigation_id: row.navigation_id, is_private: !row.is_private };
         postApi("private_address", send_json)
         .then((return_json) => {
             if(return_json["result"] === "OK"){
-                // this.setNavigationList(row.address_id, "is_private", !row.is_private);
+                // サーバ側の実装が完了したらそれに合わせてコメントアウトを外す修正
                 this.setNavigationList(row.navigation_id, "is_private", !row.is_private);
+                // this.setNavigationList(row.address_id, "is_private", !row.is_private);
             }else{
-                // ToDo
+                // ToDo　サーバ側でエラーが出た時の処理を書く
             }
             this.changeIsLoading();
         });
@@ -101,7 +104,7 @@ class OtherNavigation extends React.Component {
             if(return_json["result"] === "OK"){
                 this.getOtherNavigation();
             }else{
-                // ToDo
+                // ToDo　サーバ側でエラーが出た時の処理を書く
                 this.changeIsLoading();
             }
         });
@@ -150,6 +153,7 @@ class OtherNavigation extends React.Component {
                                     <Button onClick={() => { this.chanegeIsEditOpen(row) }}>
                                         <EditIcon style={{ color: "#004d40" }}/>
                                     </Button>
+                                    {/* EditNavigatin　コンポーネントを作ったらコメントアウト解除 */}
                                     {/* {row.is_edit_open ? <EditNavigatin chanegeIsEditOpen={() => { this.chanegeIsEditOpen(row) }} row={row}/>: ""} */}
                                 </TableCell>
                                 <TableCell align="right"><Button onClick={() => { this.deleteNavigation(row) }} className="delete-button"><DeleteForeverIcon/></Button></TableCell>
