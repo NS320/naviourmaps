@@ -1,6 +1,7 @@
-import React, { Component, createRef } from 'react';
+import React, { Component } from 'react';
 import googleApiJson from '../../../googleAPI.json';
-import CreateRoute from './map_functions/CreateRoute'
+import {CreateRoute} from './map_functions/CreateRoute'
+import {CreateMarker, DeleteMarker} from './map_functions/Marker'
 
 class Map extends Component {
     constructor(props) {
@@ -8,6 +9,8 @@ class Map extends Component {
         this.state = {}
         this.map = {};
         this.directionsRenderer = {};
+        this.start_marker = null;
+        this.goal_marker = null;
     }
 
     googleMapRef = React.createRef()
@@ -28,6 +31,14 @@ class Map extends Component {
     }
 
     componentDidUpdate() {
+        // ピンの削除
+        if((!this.props.StartAddress["address"]) && this.start_marker){
+            this.start_marker = DeleteMarker(this.start_marker);
+        }
+        if((!this.props.GoalAddress["address"]) && this.goal_marker){
+            this.goal_marker = DeleteMarker(this.goal_marker);
+        }
+
         //StartAddressのaddressがnull場合ルートを消す処理
         if ((!this.props.StartAddress["address"]) && this.props.RouteExist) {
             this.directionsRenderer.setMap(null);
@@ -36,9 +47,8 @@ class Map extends Component {
         }
         //StartAddressとGoalAddressのaddressが存在する場合ルートを引く処理
         if (this.props.StartAddress["address"] && this.props.GoalAddress["address"] && (!this.props.RouteExist)) {
-            //CreateRoute(this.directionsRenderer, this.map, this.props.StartAddress, this.props.GoalAddress);//残骸
-            //console.log(this.directionsRenderer);
-            this.createRoute();
+            this.directionsRenderer = CreateRoute(this.map, this.props.StartAddress, this.props.GoalAddress);
+            this.props.setRouteExist(true);
         }
     }
 
@@ -93,42 +103,20 @@ class Map extends Component {
     }
 
     setAddress = (address, latlng) => {
+        var isStart = true;
         if (!this.props.StartAddress["address"]) {
+            this.start_marker = CreateMarker(this.map, address, latlng.lat(), latlng.lng(), isStart);
             this.props.setStartAddress({ address: address, lat: latlng.lat(), lng: latlng.lng() });
         }
         else if (!this.props.GoalAddress["address"]) {
+            isStart = false;
+            this.goal_marker = CreateMarker(this.map, address, latlng.lat(), latlng.lng(), isStart);
             this.props.setGoalAddress({ address: address, lat: latlng.lat(), lng: latlng.lng() });
         }
         else {
             // Todo 仮置きのメッセージ
             alert("3点以上の設定はできません。");
         }
-    }
-
-    createRoute = () => {
-        const startLatLng = new window.google.maps.LatLng(this.props.StartAddress["lat"], this.props.StartAddress["lng"]);
-        const goalLatLng = new window.google.maps.LatLng(this.props.GoalAddress["lat"], this.props.GoalAddress["lng"]);
-        const directionsService = new window.google.maps.DirectionsService();
-        this.directionsRenderer = new window.google.maps.DirectionsRenderer();
-
-        const request = {
-            origin: startLatLng, //スタート地点
-            destination: goalLatLng, //ゴール地点
-            travelMode: window.google.maps.DirectionsTravelMode.BICYCLING, //移動手段
-        };
-        directionsService.route(request, function (result, status) {
-            if (status == window.google.maps.DirectionsStatus.OK) {
-                this.directionsRenderer.setOptions({
-                    preserveViewport: false //ズーム率を変更してルート全体を表示する
-                });
-                // ルート検索の結果を地図上に描画
-                this.directionsRenderer.setDirections(result);
-                this.directionsRenderer.setMap(this.map);
-                this.props.setRouteExist(true);
-            } else {
-                alert("ルートを取得できませんでした:" + status);
-            }
-        }.bind(this));
     }
 
     render() {
