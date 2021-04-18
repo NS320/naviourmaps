@@ -4,7 +4,7 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.core.exceptions import ValidationError
-from mapapp.models import MyUser, Address
+from mapapp.models import MyUser, Address, Navigations
 
 
 class UserCreationForm(forms.ModelForm):
@@ -78,14 +78,21 @@ class UserAdmin(BaseUserAdmin):
     ordering = ('email',)
     filter_horizontal = ()
 
+
 class AddressAdmin(admin.ModelAdmin):
     list_display = ('address','myuser_foreign')#管理画面で表示したいリストの一覧
     list_display_links = ('address',)
 
 
+class NavigationsAdmin(admin.ModelAdmin):
+    list_display = ('navigation_name','myuser_foreign')
+    list_display_links = ('navigation_name',)
+
+
 # Now register the new UserAdmin...
 admin.site.register(MyUser, UserAdmin)
 admin.site.register(Address, AddressAdmin)
+admin.site.register(Navigations, NavigationsAdmin)
 # ... and, since we're not using Django's built-in permissions,
 # unregister the Group model from admin.
 admin.site.unregister(Group)
