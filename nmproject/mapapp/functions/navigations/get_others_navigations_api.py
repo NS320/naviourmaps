@@ -15,7 +15,7 @@ class GetOthersNavigations(APIView):
         try:
             request_user_id = request.data["user_id"]
             myuser_int_id = MyUser.objects.get(user_id=request_user_id).id
-            others_navigations_list = Navigations.objects.filter(is_private=False).exclude(myuser_foreign=myuser_int_id)#user_idが一致するレコードをすべて取得
+            others_navigations_list = Navigations.objects.filter(is_private=False).exclude(myuser_foreign=myuser_int_id)#filterで条件合致するレコードを取得し、excludeで条件合致するレコードを除外
             serializer = GetOthersNavigationsSerializer(others_navigations_list, many=True)
 
 
