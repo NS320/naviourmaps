@@ -81,6 +81,24 @@ class Address(models.Model):
     #外部キーに関する設定, db_columnとto_fieldによって親の主キー以外を外部キーに設定できる
     myuser_foreign = models.ForeignKey(MyUser, on_delete=models.CASCADE)
 
-
     def __str__(self):
         return self.address
+
+class Navigations(models.Model):
+    navigation_id = models.AutoField(primary_key=True)
+    navigation_name = models.CharField(max_length=20, unique = False)
+    start_address = models.CharField(max_length=44, unique = False)
+    start_lat = models.FloatField(unique = False)
+    start_lng = models.FloatField(unique = False)
+    goal_address = models.CharField(max_length=44, unique = False)
+    goal_lat = models.FloatField(unique = False)
+    goal_lng = models.FloatField(unique = False)
+    is_favorite = models.BooleanField(default=False)
+    is_private = models.BooleanField(default=True)
+    navigations_created_time = models.DateTimeField(auto_now_add=True)
+    navigations_updated_time = models.DateTimeField(auto_now=True)
+    #外部キーに関する設定, db_columnとto_fieldによって親の主キー以外を外部キーに設定できる
+    myuser_foreign = models.ForeignKey(MyUser, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.navigation_name
