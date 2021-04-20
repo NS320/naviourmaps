@@ -1,15 +1,13 @@
 import React from 'react';
 import Header from '../common/Header';
 import "../../App.css";
-import Grid from '@material-ui/core/Grid';
 import Map from './maps/Map';
 import BackButtons from './maps/BackButtons';
 import MyNavigation from './maps/MyNavigation';
 import OtherNavigation from './maps/OtherNavigation';
+import NavigationSaveButton from './maps/NavigationSaveButton';
 
 class Home extends React.Component {
-    // ToDo
-    // ここに初期値をいれてください
     constructor(props){
         super(props)
         this.state = {
@@ -25,6 +23,7 @@ class Home extends React.Component {
             },
             route_exist: false
         }
+        this.reloadRef = React.createRef();
     }
 
     setStartAddress = (start_address) => {
@@ -37,6 +36,11 @@ class Home extends React.Component {
     
     setRouteExist = (route_exist) => {
         this.setState({route_exist: route_exist});
+    }
+
+    reloadMyNavigation() {
+        // MyNavigatioonのメソッドを親から叩くための設定
+        this.reloadRef.current.reload(); // this.ref名.currentで実体にアクセス
     }
 
     render() {
@@ -53,6 +57,15 @@ class Home extends React.Component {
                         RouteExist = {this.state.route_exist}
                         setRouteExist = {this.setRouteExist.bind(this)}
                     />
+                    <NavigationSaveButton
+                        App_UserId = {this.props.App_UserId}
+                        // NavigationName = {this.state.start_address["address"].slice(0, 20)}
+                        StartAddress = {this.state.start_address}
+                        GoalAddress = {this.state.goal_address}
+                        setStartAddress = {this.setStartAddress.bind(this)}
+                        setGoalAddress = {this.setGoalAddress.bind(this)}
+                        reloadMyNavigation = {this.reloadMyNavigation.bind(this)}
+                    />
                     <BackButtons
                         StartAddress = {this.state.start_address}
                         GoalAddress = {this.state.goal_address}
@@ -62,11 +75,20 @@ class Home extends React.Component {
                     {/* /ToDo App_UserId の渡し方とかも相談。stateで管理？ */}
                     自分のルート(仮)
                     <MyNavigation
+                        ref = {this.reloadRef}
                         App_UserId = {this.props.App_UserId}
+                        setStartAddress = {this.setStartAddress.bind(this)}
+                        setGoalAddress = {this.setGoalAddress.bind(this)}
+                        setRouteExist = {this.setRouteExist.bind(this)}
+                        Map = {this.state.map}
                     />
                     他人のルート(仮)
                     <OtherNavigation
                         App_UserId = {this.props.App_UserId}
+                        setStartAddress = {this.setStartAddress.bind(this)}
+                        setGoalAddress = {this.setGoalAddress.bind(this)}
+                        setRouteExist = {this.setRouteExist.bind(this)}
+                        Map = {this.state.map}
                     />
                 </div>
             );
