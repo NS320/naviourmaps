@@ -11,9 +11,10 @@ class BackButtons extends Component {
                 <button
                     onClick={
                         () => {
-                            this.props.setStartAddress({address: "", lat: null, lng: null}) 
-                            this.props.setGoalAddress({address: "", lat: null, lng: null})
-                        } 
+                            this.props.setStartAddress({ address: "", lat: null, lng: null })
+                            this.props.setGoalAddress({ address: "", lat: null, lng: null })
+                            this.props.setRestaurants({ restaurants: []})
+                        }
                     }
                 >戻る
                 </button>
