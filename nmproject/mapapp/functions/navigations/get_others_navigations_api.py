@@ -23,7 +23,7 @@ class GetOthersNavigations(APIView):
             return Response({
                 "result":"OK",
                 "message":"Getting others navigations is success",
-                "my_navigations_list": serializer.data
+                "others_navigations_list": serializer.data
             }, status=status.HTTP_200_OK)
 
         

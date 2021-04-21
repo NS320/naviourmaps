@@ -10,10 +10,10 @@ import { postApi } from '../../../utils/Api';
 import LoadingPage from '../../../utils/LoadingPage';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import EditIcon from '@material-ui/icons/Edit';
+import {CreateRoute} from './map_functions/CreateRoute'
+import EditNavigation from './EditNavigation';
 import "../../../App.css";
 
-// ToDo
-// AddressをNavigationに直す。関数を作って貰ったら修正する。
 
 class MyNavigation extends React.Component {
     constructor(props) {
@@ -25,9 +25,10 @@ class MyNavigation extends React.Component {
         }
     }
 
-    createData = (navigation_id, is_favorite, navigation, navigation_created_time, is_private, is_edit_open) => {
-        return { navigation_id, is_favorite, navigation, navigation_created_time, is_private, is_edit_open };
+    createData = (navigation_id, is_favorite, navigation, navigation_created_time, is_private, start_address, start_lat, start_lng, goal_address, goal_lat, goal_lng, is_edit_open) => {
+        return { navigation_id, is_favorite, navigation, navigation_created_time, is_private, start_address, start_lat, start_lng, goal_address, goal_lat, goal_lng, is_edit_open };
     }
+
     changeIsLoading = () => {
         this.setState({ is_loding: !this.state.is_loding });
     };
@@ -47,13 +48,24 @@ class MyNavigation extends React.Component {
         const json = {
             user_id: this.state.user_id
         };
-        postApi("get_all_address", json)
+        postApi("get_my_navigations", json)
         .then((return_json) => {
             const return_my_navigation = [];
-            return_json["all_address_list"].map((row)=>{
-                // サーバ側の実装が完了したらそれに合わせてコメントアウトを外す修正
-                const data = this.createData(row.address_id, row.is_favorite, row.address_name, row.address_created_time, row.is_private, false);
-                // const data = this.createData(row.navigation_id, row.is_favorite, row.navigation, row.navigation_created_time, row.is_private, row.is_edit_open, false);
+            return_json["my_navigations_list"].map((row)=>{
+                const data = this.createData(
+                    row.navigation_id, 
+                    row.is_favorite, 
+                    row.navigation_name, 
+                    row.navigation_created_time, 
+                    row.is_private, 
+                    row.is_edit_open, 
+                    row.start_address,
+                    row.start_lat,
+                    row.start_lng,
+                    row.goal_address,
+                    row.goal_lat,
+                    row.goal_lng,
+                    false);
                 return_my_navigation.push(data);
             })
             this.setState({ myNavigationList: return_my_navigation });
@@ -63,15 +75,11 @@ class MyNavigation extends React.Component {
 
     changeFavorite = (row) => {
         this.changeIsLoading();
-        // サーバ側の実装が完了したらそれに合わせてコメントアウトを外す修正
-        const send_json = { address_id: row.navigation_id, is_favorite: !row.is_favorite };
-        // const send_json = { navigation_id: row.navigation_id, is_favorite: !row.is_favorite };
-        postApi("favorite_address", send_json)
+        const send_json = { navigation_id: row.navigation_id, is_favorite: !row.is_favorite };
+        postApi("favorite_navigation", send_json)
         .then((return_json) => {
             if(return_json["result"] === "OK"){
-                // サーバ側の実装が完了したらそれに合わせてコメントアウトを外す修正
                 this.setNavigationList(row.navigation_id, "is_favorite", !row.is_favorite);
-                // this.setNavigationList(row.navigation_id, "is_favorite", !row.is_favorite);
             }else{
                 // ToDo　サーバ側でエラーが出た時の処理を書く
             }
@@ -81,15 +89,11 @@ class MyNavigation extends React.Component {
 
     changePrivate = (row) => {
         this.changeIsLoading();
-        // サーバ側の実装が完了したらそれに合わせてコメントアウトを外す修正
-        const send_json = { address_id: row.navigation_id, is_private: !row.is_private };
-        // const send_json = { navigation_id: row.navigation_id, is_private: !row.is_private };
-        postApi("private_address", send_json)
+        const send_json = { navigation_id: row.navigation_id, is_private: !row.is_private };
+        postApi("private_navigation", send_json)
         .then((return_json) => {
             if(return_json["result"] === "OK"){
-                // サーバ側の実装が完了したらそれに合わせてコメントアウトを外す修正
                 this.setNavigationList(row.navigation_id, "is_private", !row.is_private);
-                // this.setNavigationList(row.address_id, "is_private", !row.is_private);
             }else{
                 // ToDo　サーバ側でエラーが出た時の処理を書く
             }
@@ -100,7 +104,7 @@ class MyNavigation extends React.Component {
     deleteNavigation = (row) => {
         this.changeIsLoading();
         const send_json = { navigation_id: row.navigation_id };
-        postApi("delete_address", send_json)
+        postApi("delete_navigation", send_json)
         .then((return_json) => {
             if(return_json["result"] === "OK"){
                 this.getMyNavigation();
@@ -111,8 +115,8 @@ class MyNavigation extends React.Component {
         });
     }
 
-    chanegeIsEditOpen = (row) => {
-        this.setNavigationList(row.address_id, "is_edit_open", !row.is_edit_open);
+    changeIsEditOpen = (row) => {
+        this.setNavigationList(row.navigation_id, "is_edit_open", !row.is_edit_open);
         if(!row.is_edit_open){
             this.reload();
         }
@@ -144,18 +148,29 @@ class MyNavigation extends React.Component {
                     </TableHead>
                     <TableBody>
                         {this.state.myNavigationList.map((row) => (
-                            <TableRow 
-                                hover
-                            >
+                            <TableRow hover>
                                 <TableCell><Button onClick={() => { this.changeFavorite(row) }}>{row.is_favorite ? <StarRateIcon style={{ color: "#004d40" }} /> : <StarBorderIcon />}</Button></TableCell>
-                                <TableCell align="right">{row.navigation}</TableCell>
+                                <TableCell align="right">
+                                    <Button onClick={
+                                        () => { 
+                                            this.props.setStartAddress({address: row.start_address, lat: row.start_lat, lng: row.start_lng}) 
+                                            this.props.setGoalAddress({address: row.goal_address, lat: row.goal_lat, lng: row.goal_lng})
+                                            // みつおがHomeにMapを持たせたらコメントアウトを解除。選択時にルートを引くようになる想定。
+                                            // CreateRoute(this.props.Map, this.props.StartAddress, this.props.GoalAddress)
+                                            // this.props.setRouteExist(true)
+                                            }
+                                        }
+                                    >
+                                        {row.navigation}
+                                    </Button>
+                                </TableCell>
                                 <TableCell align="right"><Button onClick={() => { this.changePrivate(row) }}>{row.is_private ? <LockIcon /> : <LockOpenIcon />}</Button></TableCell>
                                 <TableCell align="right">
-                                    <Button onClick={() => { this.chanegeIsEditOpen(row) }}>
+                                    <Button onClick={() => { this.changeIsEditOpen(row) }}>
                                         <EditIcon style={{ color: "#004d40" }}/>
                                     </Button>
-                                    {/* EditNavigatin　コンポーネントを作ったらコメントアウト解除
-                                    {/* {row.is_edit_open ? <EditNavigatin chanegeIsEditOpen={() => { this.chanegeIsEditOpen(row) }} row={row}/>: ""} */}
+                                    {/* サーバ側の更新メソッドが作られたらコメントアウト */}
+                                    {/* {row.is_edit_open ? <EditNavigation changeIsEditOpen={() => { this.changeIsEditOpen(row) }} row={row}/>: ""}  */}
                                 </TableCell>
                                 <TableCell align="right"><Button onClick={() => { this.deleteNavigation(row) }} className="delete-button"><DeleteForeverIcon/></Button></TableCell>
                             </TableRow>
