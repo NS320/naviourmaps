@@ -1,5 +1,7 @@
 import { Component } from 'react';
 import "../../../App.css";
+import { CreateRestaurantMarker } from './map_functions/Marker'
+
 
 class ArroundRestaurant extends Component {
     constructor(props) {
@@ -42,16 +44,8 @@ class ArroundRestaurant extends Component {
         }.bind(this));
     }
 
-    createRestaurantMarker = (map, position) => {
-        if (this.restaurant_marker) {
-            this.restaurant_marker.setMap(null);
-        }
-        this.restaurant_marker = new window.google.maps.Marker({
-            position: position,
-            map: map,
-            optimized: false,
-            animation: window.google.maps.Animation.DROP
-        });
+    createRestaurantMarker = (position) => {
+        this.restaurant_marker = CreateRestaurantMarker(this.props.Map, position, this.restaurant_marker);
     }
 
     render() {
@@ -62,7 +56,7 @@ class ArroundRestaurant extends Component {
                     this.props.Restaurants.map(item =>
                         <li className="ramen-list">
                             <button
-                                onClick={() => this.createRestaurantMarker(this.props.Map, item.geometry.location)}
+                                onClick={() => this.createRestaurantMarker(item.geometry.location)}
                             >[ラーメン屋表示ボタン]</button> {item.name}
                         </li>
                     )
