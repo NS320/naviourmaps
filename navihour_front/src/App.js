@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Login from './views/components/Login'; //作成したLogin.jsを読み込んでいる
 import SignUp from './views/components/SignUp'; //作成したSignUp.jsを読み込んでいる
 import ResetPassword from './views/components/ResetPassword'; //作成したResetPassword.jsを読み込んでいる
+import ResetPasswordSuccess from './views/components/ResetPasswordSuccess'; //作成したResetPassword.jsを読み込んでいる
 import Home from './views/components/Home'; //作成したHome.jsを読み込んでいる
 import EditUser from './views/components/EditUser'; //作成したHome.jsを読み込んでいる
 import SignUpSuccess from './views/components/SignUpSuccess'; //作成したSignUpSuccess.jsを読み込んでいる
@@ -98,6 +99,7 @@ class App extends React.Component {
           <Route exact path="/SignUp" component={SignUp} />
           <Route exact path="/SignUpSuccess" component={SignUpSuccess} />
           <Route exact path="/ResetPassword" component={ResetPassword} />
+          <Route exact path="/ResetPasswordSuccess" component={ResetPasswordSuccess} />
           <Route exact path="/Home" 
             render={() => {
               return(this.toBoolean(localStorage.getItem("isLogin")) ?
