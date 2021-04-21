@@ -121,6 +121,16 @@ class App extends React.Component {
                   this.returnLogin()
                 )
               }}/>
+          <Route exact path="/EditPassword" 
+            render={() => {
+                return(this.toBoolean(localStorage.getItem("isLogin")) ?
+                  <EditPassword
+                  App_UserId = {localStorage.getItem("user_id")}
+                  />
+                  :
+                  this.returnLogin()
+                )
+              }}/>
           <Route exact path="/NewAddress" 
               render={() => {
                 return(this.toBoolean(localStorage.getItem("isLogin")) ?
