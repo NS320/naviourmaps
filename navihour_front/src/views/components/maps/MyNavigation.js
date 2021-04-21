@@ -115,7 +115,7 @@ class MyNavigation extends React.Component {
         });
     }
 
-    chanegeIsEditOpen = (row) => {
+    changeIsEditOpen = (row) => {
         this.setNavigationList(row.navigation_id, "is_edit_open", !row.is_edit_open);
         if(!row.is_edit_open){
             this.reload();
@@ -166,11 +166,11 @@ class MyNavigation extends React.Component {
                                 </TableCell>
                                 <TableCell align="right"><Button onClick={() => { this.changePrivate(row) }}>{row.is_private ? <LockIcon /> : <LockOpenIcon />}</Button></TableCell>
                                 <TableCell align="right">
-                                    <Button onClick={() => { this.chanegeIsEditOpen(row) }}>
+                                    <Button onClick={() => { this.changeIsEditOpen(row) }}>
                                         <EditIcon style={{ color: "#004d40" }}/>
                                     </Button>
                                     {/* サーバ側の更新メソッドが作られたらコメントアウト */}
-                                    {/* {row.is_edit_open ? <EditNavigation chanegeIsEditOpen={() => { this.chanegeIsEditOpen(row) }} row={row}/>: ""}  */}
+                                    {/* {row.is_edit_open ? <EditNavigation changeIsEditOpen={() => { this.changeIsEditOpen(row) }} row={row}/>: ""}  */}
                                 </TableCell>
                                 <TableCell align="right"><Button onClick={() => { this.deleteNavigation(row) }} className="delete-button"><DeleteForeverIcon/></Button></TableCell>
                             </TableRow>

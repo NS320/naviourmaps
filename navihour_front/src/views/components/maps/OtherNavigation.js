@@ -16,8 +16,8 @@ class OtherNavigation extends React.Component {
         }
     }
 
-    createData = (navigation_id, navigation, navigation_created_time, is_private, start_address, start_lat, start_lng, goal_address, goal_lat, goal_lng) => {
-        return { navigation_id, navigation, navigation_created_time, is_private, start_address, start_lat, start_lng, goal_address, goal_lat, goal_lng};
+    createData = (navigation_id, navigation, navigation_created_time, start_address, start_lat, start_lng, goal_address, goal_lat, goal_lng) => {
+        return { navigation_id, navigation, navigation_created_time, start_address, start_lat, start_lng, goal_address, goal_lat, goal_lng};
     }
     changeIsLoading = () => {
         this.setState({ is_loding: !this.state.is_loding });
@@ -35,7 +35,6 @@ class OtherNavigation extends React.Component {
                     row.navigation_id, 
                     row.navigation_name, 
                     row.navigation_created_time, 
-                    row.is_private,
                     row.start_address,
                     row.start_lat,
                     row.start_lng,
