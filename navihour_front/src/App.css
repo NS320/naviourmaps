@@ -49,8 +49,39 @@
   max-width: 1000px;
 }
 
+.navigation-base {
+  margin: auto;
+  max-width: 1000px;
+}
+
+.side-by-side {
+  display: flex;
+}
+
+.button-size {
+  width: 50%;
+  height: 100%;
+}
+
+.vertically {
+  display: flex;
+  flex-direction: column;
+  min-width: 200px;
+}
+
+.navi-img {
+  display: block;
+  max-height: 100vh;
+  max-width: 100vw;
+  margin: 0 auto;
+}
+
 .navigation-table {
-  max-width: 500px;
+  min-width: 700px;
+}
+
+.other-navigation-table {
+  min-width: 400px;
 }
 
 .margin-right{
@@ -94,12 +125,9 @@
 }
 
 .ramen-list{
-  background: #FFFFEE;
-  list-style: none;
-  line-height: 4;
-  width:500px;
-  border-bottom:outset 3px;
-  border-right:outset 3px;
-  padding-bottom: 10px;
-  border-radius:10px
+  padding-left: 10px;
+  overflow-y:auto;
+  max-height: 380px;
+  min-width: 400px;
 }
+

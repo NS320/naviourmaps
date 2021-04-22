@@ -4,6 +4,7 @@ import Paper from '@material-ui/core/Paper';
 import { postApi } from '../../../utils/Api';
 import LoadingPage from '../../../utils/LoadingPage';
 import Button from '@material-ui/core/Button';
+import OtherNavigationsLogo from '../../icon/OtherNavigations.png'
 import "../../../App.css";
 
 class OtherNavigation extends React.Component {
@@ -60,13 +61,14 @@ class OtherNavigation extends React.Component {
 
     render() {
         return (
-        <div className="navigation-table">
+        <div className="other-navigation-table">
             {this.state.is_loding ? <LoadingPage /> : ""}
+            <img src={OtherNavigationsLogo} width="100%" height="auto"/>
             <TableContainer component={Paper}>
                 <Table aria-label="customized table">
                     <TableHead>
-                        <TableRow>
-                            <TableCell align="right">Route</TableCell>
+                        <TableRow style={{ backgroundColor: "#004d40" }}>
+                            <TableCell style={{ color: "yellow" }} align="right">Route</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -79,9 +81,6 @@ class OtherNavigation extends React.Component {
                                         () => { 
                                             this.props.setStartAddress({address: row.start_address, lat: row.start_lat, lng: row.start_lng}) 
                                             this.props.setGoalAddress({address: row.goal_address, lat: row.goal_lat, lng: row.goal_lng})
-                                            // みつおがHomeにMapを持たせたらコメントアウトを解除。選択時にルートを引くようになる想定。
-                                            // CreateRoute(this.props.Map, this.props.StartAddress, this.props.GoalAddress)
-                                            // this.props.setRouteExist(true)
                                             }
                                         }
                                     >

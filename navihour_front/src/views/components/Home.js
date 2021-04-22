@@ -60,59 +60,65 @@ class Home extends React.Component {
                 <Header
                     App_SetIsLogin={this.props.App_SetIsLogin}
                 />
-                <Map
-                    Map={this.state.map}
-                    setMap={this.setMap.bind(this)}
-                    StartAddress={this.state.start_address}
-                    GoalAddress={this.state.goal_address}
-                    setStartAddress={this.setStartAddress.bind(this)}
-                    setGoalAddress={this.setGoalAddress.bind(this)}
-                    RouteExist={this.state.route_exist}
-                    setRouteExist={this.setRouteExist.bind(this)}
-                />
-                <NavigationSaveButton
-                    App_UserId={this.props.App_UserId}
-                    // NavigationName = {this.state.start_address["address"].slice(0, 20)}
-                    StartAddress={this.state.start_address}
-                    GoalAddress={this.state.goal_address}
-                    setStartAddress={this.setStartAddress.bind(this)}
-                    setGoalAddress={this.setGoalAddress.bind(this)}
-                    reloadMyNavigation={this.reloadMyNavigation.bind(this)}
-                />
-                <BackButtons
-                    StartAddress={this.state.start_address}
-                    GoalAddress={this.state.goal_address}
-                    setStartAddress={this.setStartAddress.bind(this)}
-                    setGoalAddress={this.setGoalAddress.bind(this)}
-                    Restaurants={this.state.restaurants}
-                    setRestaurants={this.setRestaurants.bind(this)}
-                />
-                <ArroundRestaurant
-                    Map={this.state.map}
-                    RouteExist={this.state.route_exist}
-                    StartAddress={this.state.start_address}
-                    GoalAddress={this.state.goal_address}
-                    Restaurants={this.state.restaurants}
-                    setRestaurants={this.setRestaurants.bind(this)}
-                />
-                {/* /ToDo App_UserId の渡し方とかも相談。stateで管理？ */}
-                    自分のルート(仮)
-                <MyNavigation
-                    ref={this.reloadRef}
-                    App_UserId={this.props.App_UserId}
-                    setStartAddress={this.setStartAddress.bind(this)}
-                    setGoalAddress={this.setGoalAddress.bind(this)}
-                    setRouteExist={this.setRouteExist.bind(this)}
-                    Map={this.state.map}
-                />
-                    他人のルート(仮)
-                <OtherNavigation
-                    App_UserId={this.props.App_UserId}
-                    setStartAddress={this.setStartAddress.bind(this)}
-                    setGoalAddress={this.setGoalAddress.bind(this)}
-                    setRouteExist={this.setRouteExist.bind(this)}
-                    Map={this.state.map}
-                />
+                <div className="navigation-base">
+                    <div className="side-by-side">
+                        <Map
+                            Map={this.state.map}
+                            setMap={this.setMap.bind(this)}
+                            StartAddress={this.state.start_address}
+                            GoalAddress={this.state.goal_address}
+                            setStartAddress={this.setStartAddress.bind(this)}
+                            setGoalAddress={this.setGoalAddress.bind(this)}
+                            RouteExist={this.state.route_exist}
+                            setRouteExist={this.setRouteExist.bind(this)}
+                        />
+                        <ArroundRestaurant
+                            Map={this.state.map}
+                            RouteExist={this.state.route_exist}
+                            StartAddress={this.state.start_address}
+                            GoalAddress={this.state.goal_address}
+                            Restaurants={this.state.restaurants}
+                            setRestaurants={this.setRestaurants.bind(this)}
+                        />
+                    </div>
+                    <div className="side-by-side">
+                        <NavigationSaveButton
+                                App_UserId={this.props.App_UserId}
+                                StartAddress={this.state.start_address}
+                                GoalAddress={this.state.goal_address}
+                                setStartAddress={this.setStartAddress.bind(this)}
+                                setGoalAddress={this.setGoalAddress.bind(this)}
+                                reloadMyNavigation={this.reloadMyNavigation.bind(this)}
+                            />
+                        <div className='bottom'>
+                            <BackButtons
+                                StartAddress={this.state.start_address}
+                                GoalAddress={this.state.goal_address}
+                                setStartAddress={this.setStartAddress.bind(this)}
+                                setGoalAddress={this.setGoalAddress.bind(this)}
+                                Restaurants={this.state.restaurants}
+                                setRestaurants={this.setRestaurants.bind(this)}
+                            />
+                        </div>
+                    </div>
+                    <div className="side-by-side">
+                        <MyNavigation
+                            ref={this.reloadRef}
+                            App_UserId={this.props.App_UserId}
+                            setStartAddress={this.setStartAddress.bind(this)}
+                            setGoalAddress={this.setGoalAddress.bind(this)}
+                            setRouteExist={this.setRouteExist.bind(this)}
+                            Map={this.state.map}
+                        />
+                        <OtherNavigation
+                            App_UserId={this.props.App_UserId}
+                            setStartAddress={this.setStartAddress.bind(this)}
+                            setGoalAddress={this.setGoalAddress.bind(this)}
+                            setRouteExist={this.setRouteExist.bind(this)}
+                            Map={this.state.map}
+                        />
+                    </div>
+                </div>
             </div>
         );
     }

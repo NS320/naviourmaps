@@ -118,15 +118,6 @@ class Map extends Component {
                     ref={this.googleMapRef}
                     style={{ width: '700px', height: '500px' }}
                 />
-                <div className="map_state">
-                    選択1：{this.props.StartAddress["address"]} <br />
-                    緯度：{this.props.StartAddress["lat"]} <br />
-                    経度：{this.props.StartAddress["lng"]} <br />
-                    <br />
-                    選択2：{this.props.GoalAddress["address"]} <br />
-                    緯度：{this.props.GoalAddress["lat"]} <br />
-                    経度：{this.props.GoalAddress["lng"]} <br />
-                </div>
             </div>
         )
     }

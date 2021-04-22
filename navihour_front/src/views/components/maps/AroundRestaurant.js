@@ -1,7 +1,15 @@
 import { Component } from 'react';
 import "../../../App.css";
 import { CreateRestaurantMarker } from './map_functions/Marker'
-
+import Button from '@material-ui/core/Button';
+import AroundRamen from '../../icon/AroundRamen.gif'
+import Ramen from '../../icon/ramen.png'
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
 
 class ArroundRestaurant extends Component {
     constructor(props) {
@@ -32,7 +40,7 @@ class ArroundRestaurant extends Component {
         this.placeService = new window.google.maps.places.PlacesService(map);
         var request = {
             location: { lat: lat, lng: lng },//中心地点
-            radius: '1000',//半径〇〇メートル
+            radius: 1000,//半径〇〇メートル
             query: 'ラーメン'
         };
 
@@ -49,18 +57,35 @@ class ArroundRestaurant extends Component {
     }
 
     render() {
-        //const list = this.props.Restaurants.map(item => item.name);
         return (
             <div>
-                {this.props.Restaurants.length && (
-                    this.props.Restaurants.map(item =>
-                        <li className="ramen-list">
-                            <button
-                                onClick={() => this.setRestaurantPosition(item.geometry.location)}
-                            >[ラーメン屋表示ボタン]</button> {item.name}
-                        </li>
-                    )
-                )}
+                <img src={AroundRamen} width="80%" height="auto"/>
+                <TableContainer className='ramen-list'>
+                    <Table>
+                        <TableHead>
+                            <TableRow style={{ backgroundColor: "#004d40" }}>
+                                <TableCell style={{ color: "yellow" }} >Details</TableCell>
+                                <TableCell style={{ color: "yellow" }} >Ramen</TableCell>
+                            </TableRow>
+                        </TableHead>
+                    </Table>
+                </TableContainer>
+                <TableContainer className='ramen-list'>
+                    <Table>
+                        <TableBody >
+                            {this.props.Restaurants.map( (item) => (
+                                <TableRow hover>
+                                    <TableCell>
+                                        <Button onClick={() => this.setRestaurantPosition(item.geometry.location)}><img src={Ramen} width="30px" height="30px"/></Button>
+                                    </TableCell>
+                                    <TableCell>
+                                        {item.name}
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
             </div>
         )
     }
