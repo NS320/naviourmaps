@@ -21,7 +21,7 @@ from .functions.navigations import (
     favorite_navigation_api,
     private_navigation_api,
     delete_navigation_api,
-    put_navigation_api,
+    post_navigations_api,
 )
 
 urlpatterns = [
@@ -43,5 +43,5 @@ urlpatterns = [
     path('favorite_navigation', favorite_navigation_api.FavoriteNavigation.as_view()),
     path('private_navigation', private_navigation_api.PrivateNavigation.as_view()),
     path('delete_navigation', delete_navigation_api.DeleteNavigation.as_view()),
-    path('put_navigation', put_navigation_api.PutNavigation.as_view()),
+    path('post_navigations', post_navigations_api.PostNavigations.as_view()),
 ]
