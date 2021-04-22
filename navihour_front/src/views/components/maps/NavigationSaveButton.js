@@ -2,6 +2,8 @@ import React, { Component, createRef } from 'react'
 import { postApi } from '../../../utils/Api';
 import TextField from '@material-ui/core/TextField';
 import LoadingPage from '../../../utils/LoadingPage';
+import Button from '@material-ui/core/Button';
+import "../../../App.css";
 
 class NavigationSaveButton extends Component {
     constructor(props) {
@@ -46,7 +48,7 @@ class NavigationSaveButton extends Component {
                 this.props.reloadMyNavigation();
                 this.setState({ navigation_name: "" });
             }else{
-                this.setState({ message: "ルートを選択してください。" });
+                this.setState({ message: "Please slect the route!" });
             }
             this.changeIsLoading();
         });
@@ -54,19 +56,28 @@ class NavigationSaveButton extends Component {
 
     render() {
         return (
-            <div>
+            <div className="side-by-side">
                 {this.state.is_loding ? <LoadingPage /> : ""}
-                <TextField
-                    variant="outlined"
-                    margin="normal"
-                    id={"NavigationName"}
-                    label="Enter Navigation Name"
-                    autoComplete={"NavigationName"}
-                    autoFocus
-                    onChange={this.changeNavigationName}
-                />
-                <button onClick={() => {this.postNavigation()}}>ルート保存</button>
-                <br/><font color="red">{this.state.message}</font>
+                <div className='vertically'>
+                    <TextField
+                        variant="outlined"
+                        margin="normal"
+                        id={"NavigationName"}
+                        label="Enter Navigation Name"
+                        autoComplete={"NavigationName"}
+                        autoFocus
+                        onChange={this.changeNavigationName}
+                    />
+                    <br/><font color="red">{this.state.message}</font>
+                </div>
+                <Button 
+                    className="button-size"
+                    onClick={() => {this.postNavigation()}}
+                    variant="contained"
+                    style={{ color: "yellow", backgroundColor: "#004d40" }}
+                >
+                    Save
+                </Button>
             </div>
         )
     }

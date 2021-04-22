@@ -10,7 +10,7 @@ import { postApi } from '../../../utils/Api';
 import LoadingPage from '../../../utils/LoadingPage';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import EditIcon from '@material-ui/icons/Edit';
-import {CreateRoute} from './map_functions/CreateRoute'
+import MyNavigationsLogo from '../../icon/MyNavigations.png'
 import EditNavigation from './EditNavigation';
 import "../../../App.css";
 
@@ -133,17 +133,18 @@ class MyNavigation extends React.Component {
 
     render() {
         return (
-        <div className="navigation-table">
+        <div className="navigation-table margin-right">
             {this.state.is_loding ? <LoadingPage /> : ""}
+            <img src={MyNavigationsLogo} width="50%" height="auto"/>
             <TableContainer component={Paper}>
                 <Table aria-label="customized table">
                     <TableHead>
-                        <TableRow>
-                            <TableCell>Favorite☆</TableCell>
-                            <TableCell align="right">Route</TableCell>
-                            <TableCell align="right">Privete</TableCell>
-                            <TableCell align="right">Edit</TableCell>
-                            <TableCell align="right">Delete</TableCell>
+                        <TableRow style={{ backgroundColor: "#004d40" }}>
+                            <TableCell style={{ color: "yellow" }} >Favorite☆</TableCell>
+                            <TableCell style={{ color: "yellow" }} align="right">Route</TableCell>
+                            <TableCell style={{ color: "yellow" }} align="right">Privete</TableCell>
+                            <TableCell style={{ color: "yellow" }} align="right">Edit</TableCell>
+                            <TableCell style={{ color: "yellow" }} align="right">Delete</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -155,9 +156,6 @@ class MyNavigation extends React.Component {
                                         () => { 
                                             this.props.setStartAddress({address: row.start_address, lat: row.start_lat, lng: row.start_lng}) 
                                             this.props.setGoalAddress({address: row.goal_address, lat: row.goal_lat, lng: row.goal_lng})
-                                            // みつおがHomeにMapを持たせたらコメントアウトを解除。選択時にルートを引くようになる想定。
-                                            // CreateRoute(this.props.Map, this.props.StartAddress, this.props.GoalAddress)
-                                            // this.props.setRouteExist(true)
                                             }
                                         }
                                     >

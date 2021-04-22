@@ -1,4 +1,5 @@
 import React, { Component, createRef } from 'react'
+import Button from '@material-ui/core/Button';
 
 class BackButtons extends Component {
     constructor(props) {
@@ -8,7 +9,8 @@ class BackButtons extends Component {
     render() {
         return (
             <div>
-                <button
+                <Button
+                    className='button-size'
                     onClick={
                         () => {
                             this.props.setStartAddress({ address: "", lat: null, lng: null })
@@ -16,8 +18,10 @@ class BackButtons extends Component {
                             this.props.setRestaurants({ restaurants: []})
                         }
                     }
-                >戻る
-                </button>
+                    variant="contained"
+                    color='default'
+                >Clear
+                </Button>
             </div>
         )
     }
