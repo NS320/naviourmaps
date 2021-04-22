@@ -58,14 +58,14 @@ class MyNavigation extends React.Component {
                     row.navigation_name, 
                     row.navigation_created_time, 
                     row.is_private, 
-                    row.is_edit_open, 
                     row.start_address,
                     row.start_lat,
                     row.start_lng,
                     row.goal_address,
                     row.goal_lat,
                     row.goal_lng,
-                    false);
+                    row.is_edit_open
+                );
                 return_my_navigation.push(data);
             })
             this.setState({ myNavigationList: return_my_navigation });
