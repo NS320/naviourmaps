@@ -44,7 +44,7 @@ class ArroundRestaurant extends Component {
         }.bind(this));
     }
 
-    createRestaurantMarker = (position) => {
+    setRestaurantPosition = (position) => {
         this.restaurant_marker = CreateRestaurantMarker(this.props.Map, position, this.restaurant_marker);
     }
 
@@ -56,7 +56,7 @@ class ArroundRestaurant extends Component {
                     this.props.Restaurants.map(item =>
                         <li className="ramen-list">
                             <button
-                                onClick={() => this.createRestaurantMarker(item.geometry.location)}
+                                onClick={() => this.setRestaurantPosition(item.geometry.location)}
                             >[ラーメン屋表示ボタン]</button> {item.name}
                         </li>
                     )
