@@ -73,7 +73,7 @@ class ArroundRestaurant extends Component {
                 <TableContainer className='ramen-list'>
                     <Table>
                         <TableBody >
-                            {this.props.Restaurants.map( (item) => (
+                            {this.props.Restaurants.length ? this.props.Restaurants.map( (item) => (
                                 <TableRow hover>
                                     <TableCell>
                                         <Button onClick={() => this.setRestaurantPosition(item.geometry.location)}><img src={Ramen} width="30px" height="30px"/></Button>
@@ -82,7 +82,7 @@ class ArroundRestaurant extends Component {
                                         {item.name}
                                     </TableCell>
                                 </TableRow>
-                            ))}
+                            )): ''}
                         </TableBody>
                     </Table>
                 </TableContainer>
