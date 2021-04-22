@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import googleApiJson from '../../../googleAPI.json';
-import {CreateRoute} from './map_functions/CreateRoute'
-import {CreateMarker, DeleteMarker} from './map_functions/Marker'
+import { CreateRoute } from './map_functions/CreateRoute'
+import { CreateMarker, DeleteMarker } from './map_functions/Marker'
 
 class Map extends Component {
     constructor(props) {
         super(props)
         this.state = {}
-        this.map = {};
         this.directionsRenderer = {};
         this.start_marker = null;
         this.goal_marker = null;
@@ -20,67 +19,59 @@ class Map extends Component {
 
         const json = googleApiJson;
         const key = json["googleAPI"];
-        googleMapScript.src = "https://maps.googleapis.com/maps/api/js?key=" + key + " &libraries=places"
+        googleMapScript.src = "https://maps.googleapis.com/maps/api/js?key=" + key + " &libraries=places,geometry"
 
         window.document.body.appendChild(googleMapScript)
-        
+
         googleMapScript.addEventListener('load', () => {
             this.googleMap = this.createGoogleMap()
-            this.marker = this.createMarker()
         })
     }
 
     componentDidUpdate() {
         // ピンの削除
-        if((!this.props.StartAddress["address"]) && this.start_marker){
+        if ((!this.props.StartAddress["address"]) && this.start_marker) {
             this.start_marker = DeleteMarker(this.start_marker);
         }
-        if((!this.props.GoalAddress["address"]) && this.goal_marker){
+        if ((!this.props.GoalAddress["address"]) && this.goal_marker) {
             this.goal_marker = DeleteMarker(this.goal_marker);
         }
 
         //StartAddressのaddressがnull場合ルートを消す処理
         if ((!this.props.StartAddress["address"]) && this.props.RouteExist) {
+            this.props.setRouteExist(false);
             this.directionsRenderer.setMap(null);
             this.directionsRenderer = {};
-            this.props.setRouteExist(false);
         }
         //StartAddressとGoalAddressのaddressが存在する場合ルートを引く処理
         if (this.props.StartAddress["address"] && this.props.GoalAddress["address"] && (!this.props.RouteExist)) {
-            this.directionsRenderer = CreateRoute(this.map, this.props.StartAddress, this.props.GoalAddress);
             this.props.setRouteExist(true);
+            this.directionsRenderer = CreateRoute(this.props.Map, this.props.StartAddress, this.props.GoalAddress);
         }
     }
 
     setStartAddress = (start_address) => {
-        this.setState({ start_address: start_address});
+        this.setState({ start_address: start_address });
     }
 
     setGoalAddress = (goal_address) => {
-        this.setState({ goal_address: goal_address});
+        this.setState({ goal_address: goal_address });
     }
 
     createGoogleMap = () => {
-        this.map = new window.google.maps.Map(this.googleMapRef.current, {
+        this.props.setMap(new window.google.maps.Map(this.googleMapRef.current, {
             zoom: 14,
             center: {
                 lat: 35.68518697509635,
                 lng: 139.75278854370117,
             },
             streetViewControl: false,
-        })
+        }))
 
-        this.map.addListener('click', function (e) {
+        this.props.Map.addListener('click', function (e) {
             //map.panTo(e.latLng); // クリックした場所をマップの中心にする。
             this.getAddress(e.latLng);
         }.bind(this));
-    }
-
-    createMarker = () => {
-        new window.google.maps.Marker({
-            position: { lat: 35.68518697509635, lng: 139.75278854370117 },
-            map: this.googleMap,
-        })
     }
 
     getAddress = (latlng) => {
@@ -105,12 +96,12 @@ class Map extends Component {
     setAddress = (address, latlng) => {
         var isStart = true;
         if (!this.props.StartAddress["address"]) {
-            this.start_marker = CreateMarker(this.map, address, latlng.lat(), latlng.lng(), isStart);
+            this.start_marker = CreateMarker(this.props.Map, address, latlng.lat(), latlng.lng(), isStart);
             this.props.setStartAddress({ address: address, lat: latlng.lat(), lng: latlng.lng() });
         }
         else if (!this.props.GoalAddress["address"]) {
             isStart = false;
-            this.goal_marker = CreateMarker(this.map, address, latlng.lat(), latlng.lng(), isStart);
+            this.goal_marker = CreateMarker(this.props.Map, address, latlng.lat(), latlng.lng(), isStart);
             this.props.setGoalAddress({ address: address, lat: latlng.lat(), lng: latlng.lng() });
         }
         else {
@@ -125,7 +116,7 @@ class Map extends Component {
                 <div className="map"
                     id="google-map"
                     ref={this.googleMapRef}
-                    style={{ width: '800px', height: '500px' }}
+                    style={{ width: '700px', height: '500px' }}
                 />
                 <div className="map_state">
                     選択1：{this.props.StartAddress["address"]} <br />

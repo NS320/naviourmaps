@@ -92,3 +92,14 @@
 .delete-button:hover {
   color: red;
 }
+
+.ramen-list{
+  background: #FFFFEE;
+  list-style: none;
+  line-height: 4;
+  width:500px;
+  border-bottom:outset 3px;
+  border-right:outset 3px;
+  padding-bottom: 10px;
+  border-radius:10px
+}
