@@ -1,9 +1,11 @@
 from Crypto.Cipher import AES
 import base64
+from .crypto_key import crypto_key
 
 class Crypt :
     def decrypt_from_cryptoJS(self,encrypted, iv):
-        key = base64.b64decode("cXH34Fdcu94wun8cauwCAa==")                # Base64でエンコードする 適宜文字列変更 
+        cryptoKey = crypto_key
+        key = base64.b64decode(cryptoKey)                                 # Base64でエンコードする 適宜文字列変更 
         aes = AES.new(key, AES.MODE_CBC, iv)                              # CBCモードを使用する
         encrypted = aes.decrypt(encrypted)                                # デクリプトする
         return encrypted
