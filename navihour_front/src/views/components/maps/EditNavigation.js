@@ -68,7 +68,7 @@ class EditNavigation extends React.Component {
                     this.setMessage("※" + return_json["message"]);
                 }
                 this.changeIsLoading();
-                this.props.chanegeIsEditOpen();
+                this.props.changeIsEditOpen();
             });
     }
 
@@ -125,7 +125,7 @@ class EditNavigation extends React.Component {
                                 </Button>
                                 <Button
                                     color="default"
-                                    onClick={this.props.chanegeIsEditOpen}
+                                    onClick={this.props.changeIsEditOpen}
                                     fullWidth
                                     to="/Home"
                                     className={UseStyles.submit}
