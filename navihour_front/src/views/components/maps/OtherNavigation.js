@@ -20,6 +20,7 @@ class OtherNavigation extends React.Component {
     createData = (navigation_id, navigation, navigation_created_time, start_address, start_lat, start_lng, goal_address, goal_lat, goal_lng) => {
         return { navigation_id, navigation, navigation_created_time, start_address, start_lat, start_lng, goal_address, goal_lat, goal_lng};
     }
+
     changeIsLoading = () => {
         this.setState({ is_loding: !this.state.is_loding });
     };
@@ -55,6 +56,16 @@ class OtherNavigation extends React.Component {
         this.getOtherNavigation();
     }
 
+    selectTable = (row) => {
+        this.props.setRouteExist(false);
+        if(this.props.directionsRenderer !== null){
+            this.props.directionsRenderer.setMap(null);
+        }
+        this.props.setDirectionsRenderer(null);
+        this.props.setStartAddress({address: row.start_address, lat: row.start_lat, lng: row.start_lng}) ;
+        this.props.setGoalAddress({address: row.goal_address, lat: row.goal_lat, lng: row.goal_lng});
+    }
+
     componentDidMount(){
         this.getOtherNavigation();
     }
@@ -79,8 +90,7 @@ class OtherNavigation extends React.Component {
                                 <TableCell align="right">
                                     <Button onClick={
                                         () => { 
-                                            this.props.setStartAddress({address: row.start_address, lat: row.start_lat, lng: row.start_lng}) 
-                                            this.props.setGoalAddress({address: row.goal_address, lat: row.goal_lat, lng: row.goal_lng})
+                                                this.selectTable(row)
                                             }
                                         }
                                     >

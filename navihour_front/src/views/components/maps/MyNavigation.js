@@ -127,6 +127,16 @@ class MyNavigation extends React.Component {
         this.getMyNavigation();
     }
 
+    selectTable = (row) => {
+        this.props.setRouteExist(false);
+        if(this.props.directionsRenderer !== null){
+            this.props.directionsRenderer.setMap(null);
+        }
+        this.props.setDirectionsRenderer(null);
+        this.props.setStartAddress({address: row.start_address, lat: row.start_lat, lng: row.start_lng}) ;
+        this.props.setGoalAddress({address: row.goal_address, lat: row.goal_lat, lng: row.goal_lng});
+    }
+
     componentDidMount(){
         this.getMyNavigation();
     }
@@ -154,8 +164,7 @@ class MyNavigation extends React.Component {
                                 <TableCell align="right">
                                     <Button onClick={
                                         () => { 
-                                            this.props.setStartAddress({address: row.start_address, lat: row.start_lat, lng: row.start_lng}) 
-                                            this.props.setGoalAddress({address: row.goal_address, lat: row.goal_lat, lng: row.goal_lng})
+                                                this.selectTable(row)
                                             }
                                         }
                                     >

@@ -25,6 +25,7 @@ class Home extends React.Component {
             },
             route_exist: false,
             restaurants: [],
+            directionsRenderer: null
         }
         this.reloadRef = React.createRef();
     }
@@ -49,6 +50,10 @@ class Home extends React.Component {
         this.setState({ restaurants: restaurants })
     }
 
+    setDirectionsRenderer = (directionsRenderer) => {
+        this.setState({ directionsRenderer: directionsRenderer })
+    }
+
     reloadMyNavigation() {
         // MyNavigatioonのメソッドを親から叩くための設定
         this.reloadRef.current.reload(); // this.ref名.currentで実体にアクセス
@@ -71,6 +76,8 @@ class Home extends React.Component {
                             setGoalAddress={this.setGoalAddress.bind(this)}
                             RouteExist={this.state.route_exist}
                             setRouteExist={this.setRouteExist.bind(this)}
+                            directionsRenderer={this.state.directionsRenderer}
+                            setDirectionsRenderer={this.setDirectionsRenderer.bind(this)}
                         />
                         <ArroundRestaurant
                             Map={this.state.map}
@@ -92,11 +99,8 @@ class Home extends React.Component {
                             />
                         <div className='bottom'>
                             <BackButtons
-                                StartAddress={this.state.start_address}
-                                GoalAddress={this.state.goal_address}
                                 setStartAddress={this.setStartAddress.bind(this)}
                                 setGoalAddress={this.setGoalAddress.bind(this)}
-                                Restaurants={this.state.restaurants}
                                 setRestaurants={this.setRestaurants.bind(this)}
                             />
                         </div>
@@ -108,6 +112,9 @@ class Home extends React.Component {
                             setStartAddress={this.setStartAddress.bind(this)}
                             setGoalAddress={this.setGoalAddress.bind(this)}
                             setRouteExist={this.setRouteExist.bind(this)}
+                            setRestaurants={this.setRestaurants.bind(this)}
+                            directionsRenderer={this.state.directionsRenderer}
+                            setDirectionsRenderer={this.setDirectionsRenderer.bind(this)}
                             Map={this.state.map}
                         />
                         <OtherNavigation
@@ -115,6 +122,9 @@ class Home extends React.Component {
                             setStartAddress={this.setStartAddress.bind(this)}
                             setGoalAddress={this.setGoalAddress.bind(this)}
                             setRouteExist={this.setRouteExist.bind(this)}
+                            setRestaurants={this.setRestaurants.bind(this)}
+                            directionsRenderer={this.state.directionsRenderer}
+                            setDirectionsRenderer={this.setDirectionsRenderer.bind(this)}
                             Map={this.state.map}
                         />
                     </div>
