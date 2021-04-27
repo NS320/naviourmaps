@@ -132,7 +132,7 @@ class MyNavigation extends React.Component {
         if(this.props.directionsRenderer !== null){
             this.props.directionsRenderer.setMap(null);
         }
-        this.props.setDirectionsRenderer({});
+        this.props.setDirectionsRenderer(null);
         this.props.setStartAddress({address: row.start_address, lat: row.start_lat, lng: row.start_lng}) ;
         this.props.setGoalAddress({address: row.goal_address, lat: row.goal_lat, lng: row.goal_lng});
     }
