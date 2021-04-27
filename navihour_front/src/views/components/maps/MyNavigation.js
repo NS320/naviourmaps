@@ -64,7 +64,7 @@ class MyNavigation extends React.Component {
                     row.goal_address,
                     row.goal_lat,
                     row.goal_lng,
-                    row.is_edit_open
+                    false
                 );
                 return_my_navigation.push(data);
             })
@@ -167,8 +167,7 @@ class MyNavigation extends React.Component {
                                     <Button onClick={() => { this.changeIsEditOpen(row) }}>
                                         <EditIcon style={{ color: "#004d40" }}/>
                                     </Button>
-                                    {/* サーバ側の更新メソッドが作られたらコメントアウト */}
-                                    {/* {row.is_edit_open ? <EditNavigation changeIsEditOpen={() => { this.changeIsEditOpen(row) }} row={row}/>: ""}  */}
+                                    {row.is_edit_open ? <EditNavigation changeIsEditOpen={() => { this.changeIsEditOpen(row) }} row={row}/>: ""} 
                                 </TableCell>
                                 <TableCell align="right"><Button onClick={() => { this.deleteNavigation(row) }} className="delete-button"><DeleteForeverIcon/></Button></TableCell>
                             </TableRow>
