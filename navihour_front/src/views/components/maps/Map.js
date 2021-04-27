@@ -7,7 +7,6 @@ class Map extends Component {
     constructor(props) {
         super(props)
         this.state = {}
-        this.directionsRenderer = {};
         this.start_marker = null;
         this.goal_marker = null;
     }
@@ -40,13 +39,13 @@ class Map extends Component {
         //StartAddressのaddressがnull場合ルートを消す処理
         if ((!this.props.StartAddress["address"]) && this.props.RouteExist) {
             this.props.setRouteExist(false);
-            this.directionsRenderer.setMap(null);
-            this.directionsRenderer = {};
+            this.props.directionsRenderer.setMap(null);
+            this.props.setDirectionsRenderer(null);
         }
         //StartAddressとGoalAddressのaddressが存在する場合ルートを引く処理
         if (this.props.StartAddress["address"] && this.props.GoalAddress["address"] && (!this.props.RouteExist)) {
             this.props.setRouteExist(true);
-            this.directionsRenderer = CreateRoute(this.props.Map, this.props.StartAddress, this.props.GoalAddress);
+            this.props.setDirectionsRenderer(CreateRoute(this.props.Map, this.props.StartAddress, this.props.GoalAddress));
         }
     }
 
