@@ -87,10 +87,10 @@ class Address(models.Model):
 class Navigations(models.Model):
     navigation_id = models.AutoField(primary_key=True)
     navigation_name = models.CharField(max_length=20, unique = False)
-    start_address = models.CharField(max_length=44, unique = False)
+    start_address = models.CharField(max_length=65, unique = False)
     start_lat = models.FloatField(unique = False)
     start_lng = models.FloatField(unique = False)
-    goal_address = models.CharField(max_length=44, unique = False)
+    goal_address = models.CharField(max_length=65, unique = False)
     goal_lat = models.FloatField(unique = False)
     goal_lng = models.FloatField(unique = False)
     is_favorite = models.BooleanField(default=False)
