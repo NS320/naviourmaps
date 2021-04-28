@@ -2,7 +2,7 @@ import { Component } from 'react';
 import "../../../App.css";
 import { CreateRestaurantMarker } from './map_functions/Marker'
 import Button from '@material-ui/core/Button';
-import AroundRamen from '../../icon/AroundRamen.gif'
+import AroundRamen from '../../icon/RamenNearby.png'
 import Ramen from '../../icon/ramen.png'
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
