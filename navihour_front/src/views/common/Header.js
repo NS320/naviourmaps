@@ -16,23 +16,24 @@ class Header extends React.Component {
     render() {
             return (
                 <div>
-                    <AppBar position="static" style={{ color: "#e0f2f1", backgroundColor: "#004d40" }}>
+                    <AppBar className="header-header"  position="static" style={{ color: "#e0f2f1", backgroundColor: "#004d40" }}>
                         <Toolbar>
                             <Typography variant="h6">
                                 <img src={Logo} />
                             </Typography>
-                            <div style={{ flexGrow: 1 }}></div>
-                            <Button 
-                                className="margin-right" 
-                                component={Link} 
-                                to="/Login" 
-                                variant="contained" 
-                                color="primary"
-                                onClick={() => {this.props.App_SetIsLogin(false)}}
-                            >
-                                Logout
-                            </Button>
-                            <Button component={Link} to="/EditUser" variant="contained" style={{ color: "#004d40" }}><SettingsIcon/></Button>
+                            <div className="button-side-by-side">
+                                <Button 
+                                    className="margin-right" 
+                                    component={Link} 
+                                    to="/Login" 
+                                    variant="contained" 
+                                    color="primary"
+                                    onClick={() => {this.props.App_SetIsLogin(false)}}
+                                >
+                                    Logout
+                                </Button>
+                                <Button component={Link} to="/EditUser" variant="contained" style={{ color: "#004d40" }}><SettingsIcon/></Button>
+                            </div>
                         </Toolbar>
                     </AppBar>
                 </div>

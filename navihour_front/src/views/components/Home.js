@@ -67,18 +67,35 @@ class Home extends React.Component {
                 />
                 <div className="navigation-base">
                     <div className="side-by-side">
-                        <Map
-                            Map={this.state.map}
-                            setMap={this.setMap.bind(this)}
-                            StartAddress={this.state.start_address}
-                            GoalAddress={this.state.goal_address}
-                            setStartAddress={this.setStartAddress.bind(this)}
-                            setGoalAddress={this.setGoalAddress.bind(this)}
-                            RouteExist={this.state.route_exist}
-                            setRouteExist={this.setRouteExist.bind(this)}
-                            directionsRenderer={this.state.directionsRenderer}
-                            setDirectionsRenderer={this.setDirectionsRenderer.bind(this)}
-                        />
+                        <div className="map-and-save">
+                            <Map
+                                Map={this.state.map}
+                                setMap={this.setMap.bind(this)}
+                                StartAddress={this.state.start_address}
+                                GoalAddress={this.state.goal_address}
+                                setStartAddress={this.setStartAddress.bind(this)}
+                                setGoalAddress={this.setGoalAddress.bind(this)}
+                                RouteExist={this.state.route_exist}
+                                setRouteExist={this.setRouteExist.bind(this)}
+                                directionsRenderer={this.state.directionsRenderer}
+                                setDirectionsRenderer={this.setDirectionsRenderer.bind(this)}
+                            />
+                            <div className="side-by-side">
+                                <NavigationSaveButton
+                                    App_UserId={this.props.App_UserId}
+                                    StartAddress={this.state.start_address}
+                                    GoalAddress={this.state.goal_address}
+                                    setStartAddress={this.setStartAddress.bind(this)}
+                                    setGoalAddress={this.setGoalAddress.bind(this)}
+                                    reloadMyNavigation={this.reloadMyNavigation.bind(this)}
+                                />
+                                <BackButtons
+                                    setStartAddress={this.setStartAddress.bind(this)}
+                                    setGoalAddress={this.setGoalAddress.bind(this)}
+                                    setRestaurants={this.setRestaurants.bind(this)}
+                                />
+                            </div>
+                        </div>
                         <ArroundRestaurant
                             Map={this.state.map}
                             RouteExist={this.state.route_exist}
@@ -88,24 +105,7 @@ class Home extends React.Component {
                             setRestaurants={this.setRestaurants.bind(this)}
                         />
                     </div>
-                    <div className="side-by-side">
-                        <NavigationSaveButton
-                                App_UserId={this.props.App_UserId}
-                                StartAddress={this.state.start_address}
-                                GoalAddress={this.state.goal_address}
-                                setStartAddress={this.setStartAddress.bind(this)}
-                                setGoalAddress={this.setGoalAddress.bind(this)}
-                                reloadMyNavigation={this.reloadMyNavigation.bind(this)}
-                            />
-                        <div className='bottom'>
-                            <BackButtons
-                                setStartAddress={this.setStartAddress.bind(this)}
-                                setGoalAddress={this.setGoalAddress.bind(this)}
-                                setRestaurants={this.setRestaurants.bind(this)}
-                            />
-                        </div>
-                    </div>
-                    <div className="side-by-side">
+                    <div className="navi-side-by-side">
                         <MyNavigation
                             ref={this.reloadRef}
                             App_UserId={this.props.App_UserId}
