@@ -9,7 +9,7 @@ export const CreateRoute = (map, StartAddress, GoalAddress) => {
     var request = {
         origin: startLatLng, //スタート地点
         destination: goalLatLng, //ゴール地点
-        travelMode: window.google.maps.DirectionsTravelMode.BICYCLING, //移動手段
+        travelMode: window.google.maps.DirectionsTravelMode.WALKING, //移動手段
     };
     directionsService.route(request, function(result, status) {
         if (status === window.google.maps.DirectionsStatus.OK) {
