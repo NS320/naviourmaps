@@ -21,21 +21,21 @@ class Header extends React.Component {
                             <Typography variant="h6">
                                 <img src={Logo} />
                             </Typography>
-                            <div className="button-side-by-side">
-                                <Button 
-                                    className="margin-right" 
-                                    component={Link} 
-                                    to="/Login" 
-                                    variant="contained" 
-                                    color="primary"
-                                    onClick={() => {this.props.App_SetIsLogin(false)}}
-                                >
-                                    Logout
-                                </Button>
-                                <Button component={Link} to="/EditUser" variant="contained" style={{ color: "#004d40" }}><SettingsIcon/></Button>
-                            </div>
                         </Toolbar>
                     </AppBar>
+                    <div className="button-side-by-side">
+                        <Button 
+                            className="margin-right" 
+                            component={Link} 
+                            to="/Login" 
+                            variant="contained" 
+                            color="primary"
+                            onClick={() => {this.props.App_SetIsLogin(false)}}
+                        >
+                            Logout
+                        </Button>
+                        <Button component={Link} to="/EditUser" variant="contained" style={{ color: "#004d40" }}><SettingsIcon/></Button>
+                    </div>
                 </div>
             );
         }
