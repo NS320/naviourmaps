@@ -66,7 +66,10 @@ class EditUser extends React.Component {
         postApi("put_user", json)
             .then((return_json) => {
                 if (return_json["result"] === "OK") {
-                    this.props.history.push('/Home')
+                    this.props.getUser(this.state.user_id);
+                    this.props.App_SetBiography(this.state.biography);
+                    this.props.App_SetUserId(this.state.user_id);
+                    this.props.history.push('/Home');
                 }
                 else {
                     this.setMessage(return_json["message"]);
@@ -98,6 +101,7 @@ class EditUser extends React.Component {
                                     defaultValue={this.state.new_user_id}
                                     label="ユーザーID"
                                     onChange={this.changeNewUserId}
+                                    disabled
                                 />
                             </Grid>
                             <Grid item xs={12}>

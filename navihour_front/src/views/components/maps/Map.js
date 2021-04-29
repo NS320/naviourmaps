@@ -67,6 +67,33 @@ class Map extends Component {
             streetViewControl: false,
         }))
 
+        const input = document.getElementById("google-map-input");
+        const searchBox = new window.google.maps.places.SearchBox(input);
+        this.props.Map.controls[window.google.maps.ControlPosition.TOP_LEFT].push(input);
+        this.props.Map.addListener("bounds_changed", () => {
+            searchBox.setBounds(this.props.Map.getBounds());
+        });
+        searchBox.addListener("places_changed", () => {
+            const places = searchBox.getPlaces();
+            if (places.length == 0) {
+                return;
+            }
+            const bounds = new window.google.maps.LatLngBounds();
+            places.forEach((place) => {
+                if (!place.geometry || !place.geometry.location) {
+                    console.log("Returned place contains no geometry");
+                    return;
+                }
+                if (place.geometry.viewport) {
+                    // Only geocodes have viewport.
+                    bounds.union(place.geometry.viewport);
+                } else {
+                    bounds.extend(place.geometry.location);
+                }
+            });
+            this.props.Map.fitBounds(bounds);
+        });
+        
         this.props.Map.addListener('click', function (e) {
             //map.panTo(e.latLng); // クリックした場所をマップの中心にする。
             this.getAddress(e.latLng);
@@ -112,10 +139,16 @@ class Map extends Component {
     render() {
         return (
             <div className="parent">
-                <div className="map"
+                <input
+                    id="google-map-input"
+                    className="google-map-input"
+                    type="text"
+                    placeholder="Search"
+                />
+                <div 
+                    className="map"
                     id="google-map"
                     ref={this.googleMapRef}
-                    style={{ width: '700px', height: '500px' }}
                 />
             </div>
         )

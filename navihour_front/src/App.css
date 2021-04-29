@@ -13,19 +13,10 @@
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
+.header-header {
+  margin:0 -200%;
+  padding:0 200%;
+  text-align: center;
 }
 
 @keyframes App-logo-spin {
@@ -54,8 +45,35 @@
   max-width: 1000px;
 }
 
+.map-and-save {
+  display: flex;
+  flex-direction: column;
+}
+
+.button-side-by-side {
+  display: flex;
+  position: absolute;
+  right: 3%;
+  top: 30px;
+} 
+
 .side-by-side {
   display: flex;
+}
+
+.navi-side-by-side{ 
+  display: flex;
+}
+
+@media screen and (max-width: 900px){
+  .navi-side-by-side{ 
+    display: flex;
+    flex-direction: column;
+  }
+  .side-by-side {
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 .button-size {
@@ -131,3 +149,20 @@
   min-width: 400px;
 }
 
+.google-map-input{
+  margin-top: 2%;
+  width: 50%;
+  height: 5%;
+}
+
+.map{
+  width: 700px;
+  height: 500px;
+}
+
+@media screen and (max-width: 900px){
+  .map{ 
+    width: 500px;
+    height: 500px;
+  }
+}

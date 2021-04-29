@@ -11,7 +11,6 @@ class OtherNavigation extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            user_id: this.props.App_UserId,
             otherNavigationList: [],
             is_loding: true,
         }
@@ -27,7 +26,7 @@ class OtherNavigation extends React.Component {
 
     getOtherNavigation = () => {
         const json = {
-            user_id: this.state.user_id
+            user_id: localStorage.getItem("user_id")
         };
         postApi("get_others_navigations", json)
         .then((return_json) => {
