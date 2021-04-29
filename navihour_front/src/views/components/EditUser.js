@@ -100,6 +100,7 @@ class EditUser extends React.Component {
                                     defaultValue={this.state.new_user_id}
                                     label="ユーザーID"
                                     onChange={this.changeNewUserId}
+                                    disabled
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -120,6 +121,7 @@ class EditUser extends React.Component {
                                     label="メールアドレス"
                                     defaultValue={this.state.email}
                                     onChange={this.changeMail}
+                                    disabled
                                 />
                             </Grid>
                             <Grid item xs={12}>
