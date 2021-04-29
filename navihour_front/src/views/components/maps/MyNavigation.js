@@ -19,7 +19,6 @@ class MyNavigation extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            user_id: this.props.App_UserId,
             myNavigationList: [],
             is_loding: true,
         }
@@ -46,7 +45,7 @@ class MyNavigation extends React.Component {
 
     getMyNavigation = () => {
         const json = {
-            user_id: this.state.user_id
+            user_id: localStorage.getItem("user_id")
         };
         postApi("get_my_navigations", json)
         .then((return_json) => {
@@ -152,7 +151,7 @@ class MyNavigation extends React.Component {
                         <TableRow style={{ backgroundColor: "#004d40" }}>
                             <TableCell style={{ color: "yellow" }} >Favorite☆</TableCell>
                             <TableCell style={{ color: "yellow" }} align="right">Route</TableCell>
-                            <TableCell style={{ color: "yellow" }} align="right">Privete</TableCell>
+                            <TableCell style={{ color: "yellow" }} align="right">Private</TableCell>
                             <TableCell style={{ color: "yellow" }} align="right">Edit</TableCell>
                             <TableCell style={{ color: "yellow" }} align="right">Delete</TableCell>
                         </TableRow>
