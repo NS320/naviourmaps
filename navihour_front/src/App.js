@@ -112,6 +112,8 @@ class App extends React.Component {
             render={() => {
                 return(this.toBoolean(localStorage.getItem("isLogin")) ?
                   <EditUser
+                  getUser={this.getUser}
+                  App_SetBiography = {this.App_SetBiography}
                   App_UserId = {localStorage.getItem("user_id")}
                   Name = {this.state.name}
                   Email = {this.state.email}

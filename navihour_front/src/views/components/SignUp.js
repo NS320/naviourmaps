@@ -168,7 +168,6 @@ class SignUp extends React.Component {
                   onChange={this.changeMail}
                 />
               </Grid>
-            ※パスワードの再発行時にのみメールアドレスを使用致します。
             <Grid item xs={12}>
                 <TextField
                   variant="outlined"
