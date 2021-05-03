@@ -100,6 +100,30 @@ class Login extends React.Component {
     });
   }
 
+  GuestLogin = () =>{
+    
+    this.changeIsLoading();
+    var encryptEmail = PublicEncrypt("guest@guest.com");
+    var encryptPass = PublicEncrypt("guestguest1");
+
+    const json = {email: encryptEmail,
+      password: encryptPass};
+      
+    postApi("login", json)
+    .then((return_json)=>{
+      if(return_json["result"] === "OK"){
+        this.props.App_SetUserId(return_json["user_id"]);
+        this.props.App_SetBiography(return_json["biography"]);
+        this.props.App_SetIsLogin(true);
+        this.props.history.push('/Home');
+      }
+      else{
+        this.setMessage(return_json["message"]);
+      }
+      this.changeIsLoading();
+    });
+  }
+
   changeIsLoading = () => {
     this.setState({ is_loding: !this.state.is_loding });
   };
@@ -148,6 +172,16 @@ class Login extends React.Component {
             onClick={this.Login}
           >
             ログイン
+          </Button>
+          <p></p>
+          <Button
+            fullWidth
+            variant="contained"
+            color=''
+            className={UseStyles.submit}
+            onClick={this.GuestLogin}
+          >
+            ゲストログイン
           </Button>
           <Grid container>
             <Grid item xs>
