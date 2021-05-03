@@ -73,7 +73,7 @@ class Login extends React.Component {
   }
 
   // ログイン処理
-  Login = (isGuest) =>{ 
+  Login = (isGuest=false) =>{ 
     var encryptEmail;
     var encryptPass;
     if(isGuest){//ゲストのとき
@@ -152,7 +152,7 @@ class Login extends React.Component {
             variant="contained"
             color="primary"
             className={UseStyles.submit}
-            onClick={()=>this.Login(false)}
+            onClick={()=>this.Login()}
           >
             ログイン
           </Button>
