@@ -8,7 +8,8 @@ from django.core.mail import send_mail
 import random, string
 
 
-
+class ThisIsGuestAccount(Exception):
+    pass
 def random_name(n):
     return ''.join(random.choices(string.ascii_letters + string.digits, k=n))
 
@@ -20,6 +21,8 @@ class ForgetPassword(APIView):
         try:
             encrypt_email = request.data["email"]#requestからemailの取り出し
             email = Crypt.decrypt(encrypt_email)#emailの複合化
+            if(email == "guest@guest.com"):
+                raise ThisIsGuestAccount(Exception)                
             request_email = email
             myuser = MyUser.objects.get(email=request_email)#emailが一致するインスタンスの取り出し                      
 
@@ -45,7 +48,9 @@ class ForgetPassword(APIView):
         
         
         except MyUser.DoesNotExist:#見つからない場合
-            return Response({"result": "NG", "message":"email is not found"},status=status.HTTP_400_BAD_REQUEST)            
+            return Response({"result": "NG", "message":"email is not found"},status=status.HTTP_400_BAD_REQUEST)
+        except ThisIsGuestAccount:
+            return Response({"result": "NG", "message": "Cannot change guest account"},status=status.HTTP_400_BAD_REQUEST)       
         except Exception as e:
             print ('=== Error ===')
             print ('type:' + str(type(e)))

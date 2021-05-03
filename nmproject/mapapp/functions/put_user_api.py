@@ -4,6 +4,8 @@ from rest_framework.views import APIView
 from ..models import MyUser, Address
 
 
+class ThisIsGuestAccount(Exception):
+    pass
 
 class PutUser(APIView):
 
@@ -12,6 +14,8 @@ class PutUser(APIView):
 
         try:
             request_user_id = request.data["user_id"]
+            if (request_user_id == "guest"):
+                raise ThisIsGuestAccount(Exception)
             request_new_user_id = request.data["new_user_id"]
             request_new_name = request.data["new_name"]
             request_new_email = request.data["new_email"]
@@ -34,6 +38,8 @@ class PutUser(APIView):
 
         except MyUser.DoesNotExist:#user_idが無い場合
             return Response({"result": "NG", "message": "user_id is not found"},status=status.HTTP_400_BAD_REQUEST)
+        except ThisIsGuestAccount:
+            return Response({"result": "NG", "message": "Guest account cannot change"},status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             print(e)
             return Response({"result": "NG", "message": "Bad request"},status=status.HTTP_400_BAD_REQUEST)

@@ -73,15 +73,21 @@ class Login extends React.Component {
   }
 
   // ログイン処理
-  Login = () =>{
-    if(!this.checkInputValue()){
-      return;
+  Login = (isGuest=false) =>{ 
+    var encryptEmail;
+    var encryptPass;
+    if(isGuest){//ゲストのとき
+      encryptEmail = PublicEncrypt("guest@guest.com");
+      encryptPass = PublicEncrypt("guestguest1");
+    }else{//ゲストじゃないとき
+      if(!this.checkInputValue()){
+        return;
+      }
+      encryptEmail = PublicEncrypt(this.state.email);
+      encryptPass = PublicEncrypt(this.state.password);
     }
-    
-    this.changeIsLoading();
-    var encryptEmail = PublicEncrypt(this.state.email);
-    var encryptPass = PublicEncrypt(this.state.password);
 
+    this.changeIsLoading();
     const json = {email: encryptEmail,
       password: encryptPass};
       
@@ -99,6 +105,7 @@ class Login extends React.Component {
       this.changeIsLoading();
     });
   }
+
 
   changeIsLoading = () => {
     this.setState({ is_loding: !this.state.is_loding });
@@ -145,9 +152,19 @@ class Login extends React.Component {
             variant="contained"
             color="primary"
             className={UseStyles.submit}
-            onClick={this.Login}
+            onClick={()=>this.Login()}
           >
             ログイン
+          </Button>
+          <p></p>
+          <Button
+            fullWidth
+            variant="contained"
+            color=''
+            className={UseStyles.submit}
+            onClick={()=>this.Login(true)}
+          >
+            ゲストログイン
           </Button>
           <Grid container>
             <Grid item xs>
