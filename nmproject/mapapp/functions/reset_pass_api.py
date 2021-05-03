@@ -12,7 +12,8 @@ class RequestNewPasswordShortError(Exception):
     pass
 class RequestPasswordDifferentError(Exception):
     pass
-
+class ThisIsGuestAccount(Exception):
+    pass
 
 class ResetPass(APIView):
 
@@ -22,6 +23,8 @@ class ResetPass(APIView):
 
         try:
             request_user_id = request.data["user_id"]
+            if (request_user_id == "guest"):
+                raise ThisIsGuestAccount(Exception)
             encrypt_password = request.data["password"]
             request_password = Crypt.decrypt(encrypt_password)#passwordの復号化
             encrypt_new_password1 = request.data["new_password1"]
@@ -52,6 +55,8 @@ class ResetPass(APIView):
 
         except MyUser.DoesNotExist:#user_idが無い場合
             return Response({"result": "NG", "message": "user_id is not found"},status=status.HTTP_400_BAD_REQUEST)
+        except ThisIsGuestAccount:
+            return Response({"result": "NG", "message": "Guest account cannot change"},status=status.HTTP_400_BAD_REQUEST)
         except RequestNewPasswordDifferentError:
             return Response({"result":"NG", "message":"new_password1 and new_password2 are not match"})
         except RequestNewPasswordShortError:
