@@ -73,15 +73,21 @@ class Login extends React.Component {
   }
 
   // ログイン処理
-  Login = () =>{
-    if(!this.checkInputValue()){
-      return;
+  Login = (isGuest) =>{ 
+    var encryptEmail;
+    var encryptPass;
+    if(isGuest){//ゲストのとき
+      encryptEmail = PublicEncrypt("guest@guest.com");
+      encryptPass = PublicEncrypt("guestguest1");
+    }else{//ゲストじゃないとき
+      if(!this.checkInputValue()){
+        return;
+      }
+      encryptEmail = PublicEncrypt(this.state.email);
+      encryptPass = PublicEncrypt(this.state.password);
     }
-    
-    this.changeIsLoading();
-    var encryptEmail = PublicEncrypt(this.state.email);
-    var encryptPass = PublicEncrypt(this.state.password);
 
+    this.changeIsLoading();
     const json = {email: encryptEmail,
       password: encryptPass};
       
@@ -100,29 +106,6 @@ class Login extends React.Component {
     });
   }
 
-  GuestLogin = () =>{
-    
-    this.changeIsLoading();
-    var encryptEmail = PublicEncrypt("guest@guest.com");
-    var encryptPass = PublicEncrypt("guestguest1");
-
-    const json = {email: encryptEmail,
-      password: encryptPass};
-      
-    postApi("login", json)
-    .then((return_json)=>{
-      if(return_json["result"] === "OK"){
-        this.props.App_SetUserId(return_json["user_id"]);
-        this.props.App_SetBiography(return_json["biography"]);
-        this.props.App_SetIsLogin(true);
-        this.props.history.push('/Home');
-      }
-      else{
-        this.setMessage(return_json["message"]);
-      }
-      this.changeIsLoading();
-    });
-  }
 
   changeIsLoading = () => {
     this.setState({ is_loding: !this.state.is_loding });
@@ -169,7 +152,7 @@ class Login extends React.Component {
             variant="contained"
             color="primary"
             className={UseStyles.submit}
-            onClick={this.Login}
+            onClick={()=>this.Login(false)}
           >
             ログイン
           </Button>
@@ -179,7 +162,7 @@ class Login extends React.Component {
             variant="contained"
             color=''
             className={UseStyles.submit}
-            onClick={this.GuestLogin}
+            onClick={()=>this.Login(true)}
           >
             ゲストログイン
           </Button>
